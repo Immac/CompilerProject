@@ -1,9 +1,9 @@
 #include "lexer.h"
 using namespace WebPascal::Lexical;
 
-Lexer::Lexer(std::string content) : Content(content)
+Lexer::Lexer(std::string content) : SourceCodeStream(content)
 {
-	_currentSymbol = this->Content.GetNextSymbol();
+	_currentSymbol = this->SourceCodeStream.GetNextSymbol();
 }
 
 TokenRef Lexer::GetNextToken()
@@ -12,14 +12,19 @@ TokenRef Lexer::GetNextToken()
 
 	while(true)
 	{
-		switch(_state)
+		switch(this->_state)
 		{
 			case LexicalState::Initial:
 				if(this->_currentSymbol.Value == '\0')
 				{
-					_state = LexicalState::EndOfFile;
+					this->_state = LexicalState::EndOfFile;
 					this->UpdatePosition();
 					lexeme = "$";
+				}
+				else if ( isspace(this->_currentSymbol.Value) )
+				{
+					this->_state = LexicalState::Initial;
+					this->_currentSymbol = this->SourceCodeStream.GetNextSymbol();
 				}
 				break;
 		case LexicalState::EndOfFile:

@@ -48,31 +48,34 @@ class LexicalAnalysisSteps
 
 SCENARIO( "Lexical Analisys", "[vector]" )
 {
-
 	GIVEN( "An empty source code" )
 	{
-		Steps steps;
-		steps.PrepareContext("");
+		std::string sourceCode = "";
+		LexicalAnalysisSteps steps;
+		steps.PrepareContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
 			THEN( "the result should be" )
 			{
-				steps.AssertTokenValidity(0,TokenClass::EndOfFile,"$",0,0);
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"$",row,column);
 			}
 		}
 	}
 
-	GIVEN( "An empty source code" )
+	GIVEN( "a single whitespace" )
 	{
-		Steps steps;
-		steps.PrepareContext("");
+		std::string sourceCode = " ";
+		LexicalAnalysisSteps steps;
+		steps.PrepareContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
 			THEN( "the result should be" )
 			{
-				steps.AssertTokenValidity(0,TokenClass::EndOfFile,"$",0,0);
+				int index = 0; int row = 0; int column = 1;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"$",row,column);
 			}
 		}
 	}

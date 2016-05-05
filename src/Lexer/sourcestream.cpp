@@ -24,7 +24,7 @@ Symbol SourceStream::GetNextSymbol()
 		return symbol;
 	}
 
-	symbol.Value = _sourceCode[_index];
+	symbol.Value = _sourceCode[_index++];
 	auto isNewLine = symbol.Value == '\n';
 	this->UpdatePosition(isNewLine);
 

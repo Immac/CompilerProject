@@ -13,7 +13,7 @@ namespace WebPascal {
 		{
 			public:
 				Lexer(std::string content);
-				SourceStream Content;
+				SourceStream SourceCodeStream;
 				TokenRef GetNextToken();
 
 				enum class LexicalState
