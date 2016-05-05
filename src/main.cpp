@@ -26,6 +26,7 @@ class LexicalAnalysisSteps
 				_tokenList.push_back(*currentToken);
 				currentToken = _lexer->GetNextToken();
 			} while (currentToken->Type != TokenClass::EndOfFile);
+			_tokenList.push_back(*currentToken);
 		}
 
 		std::vector<Token> GetTokenList() { return this->_tokenList;}
@@ -75,6 +76,42 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			THEN( "the result should be" )
 			{
 				int index = 0; int row = 0; int column = 1;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"$",row,column);
+			}
+		}
+	}
+
+	GIVEN( "a reserved word" )
+	{
+		std::string sourceCode = "array";
+		LexicalAnalysisSteps steps;
+		steps.PrepareContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"array",row,column);
+				index = 1; row = 0; column = 5;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"$",row,column);
+			}
+		}
+	}
+
+	GIVEN( "an id" )
+	{
+		std::string sourceCode = "kanako";
+		LexicalAnalysisSteps steps;
+		steps.PrepareContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::Id,"kanako",row,column);
+				index = 1; row = 0; column = 6;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"$",row,column);
 			}
 		}

@@ -9,7 +9,43 @@ namespace WebPascal {
 
 		enum class TokenClass
 		{
-			EndOfFile
+			EndOfFile,
+			Id,
+			ReservedAnd,
+			ReservedDiv,
+			ReservedFile,
+			ReservedIn,
+			ReservedOf,
+			ReservedRecord,
+			ReservedType,
+			ReservedArray,
+			ReservedDo,
+			ReservedFor,
+			ReservedLabel,
+			ReservedOr,
+			ReservedRepeat,
+			ReservedUntil,
+			ReservedBegin,
+			ReservedDownTo,
+			ReservedFunction,
+			ReservedMod,
+			ReservedPacked,
+			ReservedSet,
+			ReservedVar,
+			ReservedCase,
+			ReservedElse,
+			ReservedGoTo,
+			ReservedNil,
+			ReservedProcedure,
+			ReservedThen,
+			ReservedWhile,
+			ReservedConst,
+			ReservedEnd,
+			ReservedIf,
+			ReservedNot,
+			ReservedProgram,
+			ReservedTo,
+			ReservedWith
 		};
 
 		class Token
