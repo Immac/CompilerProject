@@ -1,6 +1,6 @@
 #include "lexer.h"
 #include "sstream"
-#include "../Util/stringextension.h"
+#include "../Util/utilities.h"
 
 
 using namespace WebPascal::Lexical;
@@ -126,7 +126,7 @@ TokenRef Lexer::GetNextToken()
 		case LexicalState::IntegerLiteralHexadecimalSingle:
 			if(std::find(ValidHexValues.begin(),ValidHexValues.end(),this->_currentSymbol.Value) != ValidHexValues.end())
 			{
-				state = LexicalState::IntegerLiteralHexadecimalPair;
+				state = LexicalState::IntegerLiteralHexadecimalDigits;
 				lexeme += this->_currentSymbol.Value;
 				this->ConsumeSymbol();
 			}
@@ -135,34 +135,18 @@ TokenRef Lexer::GetNextToken()
 				ThrowLexicalError("Expected a hexadecimal digit"); // TODO: got <symbol>, lexeme: lexeme
 			}
 			break;
-		case LexicalState::IntegerLiteralHexadecimalPair:
-			if(std::find(ValidHexValues.begin(),ValidHexValues.end(),this->_currentSymbol.Value) != ValidHexValues.end())
+		case LexicalState::IntegerLiteralHexadecimalDigits:
+			if(Util::Contains<char>(ValidHexValues,this->_currentSymbol.Value))
 			{
-				state = LexicalState::IntegerLiteralHexadecimalImpair;
+				state = LexicalState::IntegerLiteralHexadecimalDigits;
 				lexeme += this->_currentSymbol.Value;
 				this->ConsumeSymbol();
 			}
-			else if (lexeme.length() == unsigned(2))
-			{
-				return std::make_shared<Token>(lexeme, TokenClass::IntegerLiteralHexadecimal, this->_row, this->_column);
-			}
 			else
 			{
-				ThrowLexicalError("Expected a hexadecimal digit"); // TODO: got <symbol>, lexeme: lexeme
+				return std::make_shared<Token>(Util::ToLower(lexeme), TokenClass::IntegerLiteralHexadecimal, this->_row, this->_column);
 			}
 			break;
-		case LexicalState::IntegerLiteralHexadecimalImpair:
-			if(std::find(ValidHexValues.begin(),ValidHexValues.end(),this->_currentSymbol.Value) != ValidHexValues.end())
-			{
-				state = LexicalState::IntegerLiteralHexadecimalPair;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				return std::make_shared<Token>(lexeme, TokenClass::IntegerLiteralHexadecimal, this->_row, this->_column);
-			}
-		break;
 		case LexicalState::IntegerLiteralOctal:
 			if(std::find(ValidOctValues.begin(),ValidOctValues.end(),this->_currentSymbol.Value) != ValidOctValues.end())
 			{

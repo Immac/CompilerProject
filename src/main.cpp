@@ -189,8 +189,25 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			THEN( "the result should be" )
 			{
 				int index = 0; int row = 0; int column = 0;
-				steps.AssertTokenValidity(index,TokenClass::IntegerLiteralHexadecimal,"$9A6B",row,column);
+				steps.AssertTokenValidity(index,TokenClass::IntegerLiteralHexadecimal,"$9a6b",row,column);
 				index = 1; row = 0; column = 5;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
+	GIVEN( "a hexadecimal integer literal $9cd" )
+	{
+		std::string sourceCode = "$9cd";
+		steps.PrepareContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::IntegerLiteralHexadecimal,"$9cd",row,column);
+				index = 1; row = 0; column = 4;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
 		}
@@ -297,10 +314,4 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			}
 		}
 	}
-
-	GIVEN("")
-	{
-		system("pause");
-	}
-
 }
