@@ -104,7 +104,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			THEN( "the result should be" )
 			{
 				int index = 0; int row = 0; int column = 0;
-				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"ArRay",row,column);
+				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"array",row,column);
 				index = 1; row = 0; column = 5;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
@@ -114,6 +114,23 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "an id" )
 	{
 		std::string sourceCode = "kanako";
+		steps.PrepareContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::Id,"kanako",row,column);
+				index = 1; row = 0; column = 6;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
+	GIVEN( "an id" )
+	{
+		std::string sourceCode = "KaNako";
 		steps.PrepareContext(sourceCode);
 		WHEN( "we tokenize" )
 		{

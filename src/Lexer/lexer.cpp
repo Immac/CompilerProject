@@ -97,17 +97,18 @@ TokenRef Lexer::GetNextToken()
 			}
 			else
 			{
+				auto lexemeLowercase = Util::ToLower(lexeme);
 				TokenClass type;
 				try
 				{
-					type = this->ReservedWords.at(Util::ToLower(lexeme));
+					type = this->ReservedWords.at(lexemeLowercase);
 				}
 				catch (const std::out_of_range& oor)
 				{
 					 type = TokenClass::Id;
 				}
 
-				return std::make_shared<Token>( lexeme, type, this->_row, this->_column);
+				return std::make_shared<Token>( lexemeLowercase, type, this->_row, this->_column);
 			}
 			break;
 		case LexicalState::IntegerLiteralDecimal:
