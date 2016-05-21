@@ -94,6 +94,23 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 		}
 	}
 
+	GIVEN( "a reserved word in different case" )
+	{
+		std::string sourceCode = "ArRay";
+		steps.PrepareContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"array",row,column);
+				index = 1; row = 0; column = 5;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
 	GIVEN( "an id" )
 	{
 		std::string sourceCode = "kanako";
@@ -259,23 +276,6 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 				int index = 0; int row = 0; int column = 0;
 				steps.AssertTokenValidity(index,TokenClass::PunctuationRangeExclusive,"..",row,column);
 				index = 1; row = 0; column = 2;
-				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
-			}
-		}
-	}
-
-	GIVEN( "a three character token ..." )
-	{
-		std::string sourceCode = "...";
-		steps.PrepareContext(sourceCode);
-		WHEN( "we tokenize" )
-		{
-			steps.Tokenize();
-			THEN( "the result should be" )
-			{
-				int index = 0; int row = 0; int column = 0;
-				steps.AssertTokenValidity(index,TokenClass::PunctuationRangeInclusive,"...",row,column);
-				index = 1; row = 0; column = 3;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
 		}

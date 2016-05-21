@@ -11,6 +11,6 @@ set(SOURCE_FILES
     Lexer/symbol.h
     Lexer/token.cpp
     Lexer/token.h
-    main.cpp)
+    main.cpp Util/stringextension.cpp Util/stringextension.h)
 
 add_executable(src ${SOURCE_FILES})

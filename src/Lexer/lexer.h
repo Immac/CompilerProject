@@ -101,12 +101,10 @@ namespace WebPascal {
 					'=','+','-',')'
 				};
 
-				std::vector<char> AmbiguosPunctionStartSymbols //TODO: deduce this from Punctuation
+				std::vector<char> AmbiguosPunctuationStartSymbols //TODO: deduce this from Punctuation
 				{
 					'(','*',':','=','.','<','>'
 				};
-
-
 
 				std::vector<char> ValidHexValues
 				{

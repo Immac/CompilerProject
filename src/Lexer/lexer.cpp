@@ -1,5 +1,6 @@
 #include "lexer.h"
 #include "sstream"
+#include "../Util/stringextension.h"
 
 
 using namespace WebPascal::Lexical;
@@ -77,7 +78,7 @@ TokenRef Lexer::GetNextToken()
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
-				else if (Contains<char>(this->AmbiguosPunctionStartSymbols,this->_currentSymbol.Value))
+				else if (Contains<char>(this->AmbiguosPunctuationStartSymbols,this->_currentSymbol.Value))
 				{
 					state = LexicalState::AmbiguousPunctuation;
 					this->UpdatePosition();
@@ -99,13 +100,15 @@ TokenRef Lexer::GetNextToken()
 				TokenClass type;
 				try
 				{
-					type = this->ReservedWords.at(lexeme);
+					auto hola = Util::ToLower(lexeme);
+					type = this->ReservedWords.at(hola);
 				}
 				catch (const std::out_of_range& oor)
 				{
 					 type = TokenClass::Id;
 				}
-				return std::make_shared<Token>(lexeme, type, this->_row, this->_column);
+
+				return std::make_shared<Token>( lexeme, type, this->_row, this->_column);
 			}
 			break;
 		case LexicalState::IntegerLiteralDecimal:
