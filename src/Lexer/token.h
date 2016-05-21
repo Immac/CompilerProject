@@ -45,7 +45,33 @@ namespace WebPascal {
 			ReservedNot,
 			ReservedProgram,
 			ReservedTo,
-			ReservedWith
+			ReservedWith,
+			OperatorAssignOrCompare,
+			OperatorSum,
+			OperatorSubstract,
+			OperatorMultiply,
+			OperatorDifferent,
+			OperatorGreaterThan,
+			OperatorLessThan,
+			OperatorGreaterOrEqualTo,
+			OperatorLessThanOrEqualTo,
+			OperatorTypeDeclaration,
+			OperatorVariableAssign,
+			PunctuationLeftParenthesis,
+			PunctuationRightParenthesis,
+			PunctuationEndOfSentence,
+			PunctuationRangeInclusive,
+			PunctuationRangeExclusive,
+			IntegerLiteralDecimal,
+			IntegerLiteralHexadecimal,
+			IntegerLiteralOctal,
+			StringLiteralDoubleQuote,
+			StringLiteralSingleQuote,
+			CommentOpenBlock,
+			CommentCloseBlock,
+			OperatorTypeAssign,
+			OperatorEnumAssign,
+			OperatorAccessor
 		};
 
 		class Token
@@ -57,11 +83,6 @@ namespace WebPascal {
 				TokenClass Type;
 				int Row;
 				int Column;
-
-				std::map<char,TokenClass> TypeMap =
-				{
-					std::make_pair<char,TokenClass>('\n',TokenClass::EndOfFile)
-				};
 		};
 
 		using TokenRef = std::shared_ptr<Token>;

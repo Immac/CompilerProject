@@ -14,6 +14,7 @@ namespace WebPascal {
 				SourceStream(std::string _sourceCode);
 
 				Symbol GetNextSymbol();
+				Symbol PeekNextSymbol();
 			private:
 				void UpdatePosition(auto doNewLine);
 				std::string _sourceCode;

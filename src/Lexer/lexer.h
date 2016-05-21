@@ -1,7 +1,8 @@
 #ifndef LEXER_H
 #define LEXER_H
 #include <string>
-#include <unordered_map>
+#include <vector>
+#include <algorithm>
 #include "sourcestream.h"
 #include "token.h"
 
@@ -20,10 +21,18 @@ namespace WebPascal {
 					Initial,
 					Id,
 					IntegerLiteralDecimal,
-					IntegerLiteralHexadecimal,
+					IntegerLiteralHexadecimalSingle,
+					IntegerLiteralHexadecimalPair,
+					IntegerLiteralHexadecimalImpair,
 					IntegerLiteralOctal,
 					StringLiteralSingleQuote,
 					StringLiteralDoubleQuote,
+					StringLiteralClosingDoubleQuote,
+					StringLiteralClosingSingleQuote,
+					StringLiteralEscapedDoubleQuote,
+					StringLiteralEscapedSingleQuote,
+					UnanbiguosPunctuation,
+					AmbiguousPunctuation,
 					EndOfFile
 				};
 
@@ -66,12 +75,60 @@ namespace WebPascal {
 					{"with",TokenClass::ReservedWith},
 				};
 
+				std::map<std::string,TokenClass> Punctuation
+				{
+					{"(",TokenClass::PunctuationLeftParenthesis},
+					{")",TokenClass::PunctuationRightParenthesis},
+					{"(*",TokenClass::CommentOpenBlock},
+					{"*)",TokenClass::CommentCloseBlock},
+					{":",TokenClass::OperatorTypeAssign},
+					{":=",TokenClass::OperatorEnumAssign},
+					{"=",TokenClass::OperatorAssignOrCompare},
+					{".",TokenClass::OperatorAccessor},
+					{"..",TokenClass::PunctuationRangeExclusive},
+					{"+",TokenClass::OperatorSum},
+					{"-",TokenClass::OperatorSubstract},
+					{"*",TokenClass::OperatorMultiply},
+					{"<>",TokenClass::OperatorDifferent},
+					{">",TokenClass::OperatorGreaterThan},
+					{"<",TokenClass::OperatorLessThan},
+					{">=",TokenClass::OperatorGreaterOrEqualTo},
+					{"<=",TokenClass::OperatorLessThanOrEqualTo},
+				};
+
+				std::vector<char> UnambiguousPunctuation //TODO: deduce this from Punctuation
+				{
+					'=','+','-',')'
+				};
+
+				std::vector<char> AmbiguosPunctionStartSymbols //TODO: deduce this from Punctuation
+				{
+					'(','*',':','=','.','<','>'
+				};
+
+
+
+				std::vector<char> ValidHexValues
+				{
+					'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','A','B','C','D','E','F'
+				}; // TODO: make case insensitive, have it accept impair number of hex digits
+
+				std::vector<char> ValidOctValues
+				{
+					'0','1','2','3','4','5','6','7','8'
+				};
 			private:
 				Symbol _currentSymbol;
 				int _row = 0;
 				int _column = 0;
 				void UpdatePosition();
 				void ConsumeSymbol();
+				void ThrowLexicalError(std::string what); //TODO: Make a class instead of a function
+
+				template <typename T> bool Contains(std::vector<T> v, T what ) //TODO: Make a class instead of a function
+				{
+					return std::find(v.begin(),v.end(),what) != v.end();
+				}
 		};
 
 		using LexerRef = std::shared_ptr<Lexer>;
