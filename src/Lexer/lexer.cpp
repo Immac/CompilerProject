@@ -100,8 +100,7 @@ TokenRef Lexer::GetNextToken()
 				TokenClass type;
 				try
 				{
-					auto hola = Util::ToLower(lexeme);
-					type = this->ReservedWords.at(hola);
+					type = this->ReservedWords.at(Util::ToLower(lexeme));
 				}
 				catch (const std::out_of_range& oor)
 				{
@@ -233,7 +232,7 @@ TokenRef Lexer::GetNextToken()
 			{
 				ThrowLexicalError("Expected a closing double quote."); // Todo: classes for exceptions
 			}
-
+			break;
 		case LexicalState::StringLiteralSingleQuote:
 			if(this->_currentSymbol.Value == '\'' )
 			{
@@ -249,7 +248,7 @@ TokenRef Lexer::GetNextToken()
 			}
 			else
 			{
-				ThrowLexicalError("Expected a closing Single quote."); // Todo: classes for exceptions
+				ThrowLexicalError("Expected a closing single quote."); // Todo: classes for exceptions
 			}
 
 			break;

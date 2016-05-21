@@ -104,7 +104,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			THEN( "the result should be" )
 			{
 				int index = 0; int row = 0; int column = 0;
-				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"array",row,column);
+				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"ArRay",row,column);
 				index = 1; row = 0; column = 5;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
