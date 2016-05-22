@@ -105,6 +105,10 @@ TokenRef Lexer::PascalToken() {
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
+				else if (this->_currentSymbol.Value == '%')
+				{
+					state = LexicalState::SwitchToHtmlAnalysis;
+				}
 				else if (Contains<char>(this->UnambiguousPunctuation,this->_currentSymbol.Value))
 				{
 					state = LexicalState::UnambiguousPunctuationState;
@@ -312,7 +316,7 @@ TokenRef Lexer::PascalToken() {
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
-				else if(lexeme == OpenCommenParenthesis)
+				else if(lexeme == OpenCommentParenthesis)
 				{
 					state = LexicalState::ParenthesisOpenedCommentBody;
 					lexeme += this->_currentSymbol.Value;
@@ -377,6 +381,20 @@ TokenRef Lexer::PascalToken() {
 					state = LexicalState::UnambiguousPunctuationState;
 				}
 			}
+				break;
+			case LexicalState::SwitchToHtmlAnalysis:
+				this->ConsumeSymbol();
+				if(this->_currentSymbol.Value == '>')
+				{
+					this->SetAnalysisMode(AnalysisMode::Pascal);
+					this->ConsumeSymbol();
+					return std::make_shared<Token>
+							("", TokenClass::PascalCodeClose, this->_row, this->_column);
+				}
+				else
+				{
+					ThrowLexicalError("Expected '>'");
+				}
 				break;
 			case LexicalState::EndOfFile:
 				//Temporary EOF, the actual thing should never end inside the Pascal code

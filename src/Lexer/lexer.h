@@ -36,7 +36,7 @@ namespace WebPascal {
 				EndOfFile,
 				CurlyBraceOpenedCommentBody,
 				ParenthesisOpenedCommentBody,
-				TryForHtml, HtmlContent
+				TryForHtml, HtmlContent, SwitchToHtmlAnalysis
 			};
 
 			Lexer(std::string content);
@@ -44,12 +44,11 @@ namespace WebPascal {
 			TokenRef GetNextToken();
 			void SetAnalysisMode(AnalysisMode mode);
 			const static int nullTerminator = '\0';
-			std::string OpenCommenParenthesis = "(*";
+			std::string OpenCommentParenthesis = "(*";
 			std::string OpenCommentCurlyBrace = "{";
 			std::string CloseCommentParenthesis = "*)";
 			std::string CloseCommentCurlyBrace = "}";
-
-
+			std::string SwitchToHtmlModeSymbol = "%>";
 
 			std::map<std::string,TokenClass> ReservedWords
 					{
@@ -141,7 +140,7 @@ namespace WebPascal {
 			void ConsumeSymbol();
 			void ThrowLexicalError(std::string what); //TODO: Make a class instead of a function
 
-			template <typename T> bool Contains(std::vector<T> v, T what ) //TODO: Make a class instead of a function
+			template <typename T> bool Contains(std::vector<T> v, T what ) //TODO: move to util
 			{
 				return std::find(v.begin(),v.end(),what) != v.end();
 			}

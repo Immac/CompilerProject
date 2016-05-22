@@ -30,25 +30,25 @@
       <content type="file-editors">
         <state>
           <leaf>
-            <file leaf-file-name="lexer.h" pinned="false" current-in-tab="true">
+            <file leaf-file-name="lexer.h" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/Lexer/lexer.h">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="249">
-                    <caret line="127" column="91" selection-start-line="127" selection-start-column="91" selection-end-line="127" selection-end-column="91" />
+                  <state relative-caret-position="323">
+                    <caret line="38" column="40" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="61" />
                     <folding>
                       <element signature="e#209#263#1" expanded="false" />
-                      <element signature="e#4367#4379#0" expanded="true" />
-                      <element signature="e#4358#4530#0" expanded="true" />
+                      <element signature="e#4434#4446#0" expanded="true" />
+                      <element signature="e#4425#4575#0" expanded="true" />
                     </folding>
                   </state>
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="token.h" pinned="false" current-in-tab="false">
+            <file leaf-file-name="token.h" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/Lexer/token.h">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="933">
-                    <caret line="79" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
+                  <state relative-caret-position="361">
+                    <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
                     <folding />
                   </state>
                 </provider>
@@ -90,8 +90,8 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="984">
-              <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
+            <state relative-caret-position="501">
+              <caret line="168" column="9" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
                 <element signature="e#136#156#0" expanded="true" />
@@ -128,8 +128,8 @@
       <file leaf-file-name="lexer.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="196" column="22" selection-start-line="196" selection-start-column="22" selection-end-line="196" selection-end-column="22" />
+            <state relative-caret-position="487">
+              <caret line="398" column="41" selection-start-line="398" selection-start-column="41" selection-end-line="398" selection-end-column="41" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#108#231#0" expanded="true" />
@@ -137,8 +137,8 @@
                 <element signature="e#406#524#0" expanded="true" />
                 <element signature="e#526#621#0" expanded="true" />
                 <element signature="e#623#863#0" expanded="true" />
-                <element signature="e#10926#14377#0" expanded="true" />
-                <element signature="e#14379#14458#0" expanded="true" />
+                <element signature="e#11416#14867#0" expanded="true" />
+                <element signature="e#14869#14948#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -157,9 +157,9 @@
         <option value="$PROJECT_DIR$/Lexer/Parser.h" />
         <option value="$PROJECT_DIR$/Lexer/token.h" />
         <option value="$PROJECT_DIR$/Lexer/sourcestream.h" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Lexer/Parser.cpp" />
         <option value="$PROJECT_DIR$/Lexer/lexer.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Lexer/lexer.cpp" />
       </list>
     </option>
@@ -311,7 +311,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
+    <property name="settings.editor.selected.configurable" value="preferences.intentionPowerPack" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files (x86)\nodejs\node.exe" />
   </component>
@@ -547,8 +547,13 @@
           <line>194</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>164</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="68" />
+      <option name="time" value="72" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -635,8 +640,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10926#14377#0" expanded="true" />
-            <element signature="e#14379#14458#0" expanded="true" />
+            <element signature="e#11416#14867#0" expanded="true" />
+            <element signature="e#14869#14948#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -718,8 +723,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10926#14377#0" expanded="true" />
-            <element signature="e#14379#14458#0" expanded="true" />
+            <element signature="e#11416#14867#0" expanded="true" />
+            <element signature="e#14869#14948#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -787,8 +792,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10926#14377#0" expanded="true" />
-            <element signature="e#14379#14458#0" expanded="true" />
+            <element signature="e#11416#14867#0" expanded="true" />
+            <element signature="e#14869#14948#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -919,14 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lexer/token.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="933">
-          <caret line="79" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/lib/mingw2/lib/gcc/mingw32/4.9.3/include/c++/bits/shared_ptr_base.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -981,10 +978,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Lexer/lexer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="38" column="40" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="61" />
+          <folding>
+            <element signature="e#209#263#1" expanded="false" />
+            <element signature="e#4434#4446#0" expanded="true" />
+            <element signature="e#4425#4575#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lexer/token.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="984">
-          <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
+        <state relative-caret-position="501">
+          <caret line="168" column="9" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
             <element signature="e#136#156#0" expanded="true" />
@@ -996,22 +1013,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lexer/lexer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="127" column="91" selection-start-line="127" selection-start-column="91" selection-end-line="127" selection-end-column="91" />
-          <folding>
-            <element signature="e#209#263#1" expanded="false" />
-            <element signature="e#4367#4379#0" expanded="true" />
-            <element signature="e#4358#4530#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="196" column="22" selection-start-line="196" selection-start-column="22" selection-end-line="196" selection-end-column="22" />
+        <state relative-caret-position="487">
+          <caret line="398" column="41" selection-start-line="398" selection-start-column="41" selection-end-line="398" selection-end-column="41" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#108#231#0" expanded="true" />
@@ -1019,8 +1024,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10926#14377#0" expanded="true" />
-            <element signature="e#14379#14458#0" expanded="true" />
+            <element signature="e#11416#14867#0" expanded="true" />
+            <element signature="e#14869#14948#0" expanded="true" />
           </folding>
         </state>
       </provider>
