@@ -11,14 +11,11 @@ namespace WebPascal {
 		class Lexer
 		{
 		public:
-			Lexer(std::string content);
-			SourceStream SourceCodeStream;
-			TokenRef GetNextToken();
-
-			std::string OpenCommenParenthesis = "(*";
-			std::string OpenCommentCurlyBrace = "{";
-			std::string CloseCommentParenthesis = "*)";
-			std::string CloseCommentCurlyBrace = "}";
+			enum class AnalysisMode
+			{
+				Html,
+				Pascal
+			};
 
 			enum class LexicalState
 			{
@@ -34,12 +31,25 @@ namespace WebPascal {
 				StringLiteralClosingSingleQuote,
 				StringLiteralEscapedDoubleQuote,
 				StringLiteralEscapedSingleQuote,
-				UnambiguosPunctuation,
+				UnambiguousPunctuationState,
 				AmbiguousPunctuation,
 				EndOfFile,
 				CurlyBraceOpenedCommentBody,
-				ParenthesisOpenedCommentBody
+				ParenthesisOpenedCommentBody,
+				TryForHtml, HtmlContent
 			};
+
+			Lexer(std::string content);
+			SourceStream SourceCodeStream;
+			TokenRef GetNextToken();
+			void SetAnalysisMode(AnalysisMode mode);
+			const static int nullTerminator = '\0';
+			std::string OpenCommenParenthesis = "(*";
+			std::string OpenCommentCurlyBrace = "{";
+			std::string CloseCommentParenthesis = "*)";
+			std::string CloseCommentCurlyBrace = "}";
+
+
 
 			std::map<std::string,TokenClass> ReservedWords
 					{
@@ -108,7 +118,7 @@ namespace WebPascal {
 							'=','+','-',')','{','}'
 					};
 
-			std::vector<char> AmbiguosPunctuationStartSymbols //TODO: deduce this from Punctuation
+			std::vector<char> AmbiguousPunctuationStartSymbols //TODO: deduce this from Punctuation
 					{
 							'(','*',':','=','.','<','>'
 					};
@@ -116,7 +126,7 @@ namespace WebPascal {
 			std::vector<char> ValidHexValues
 					{
 							'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','A','B','C','D','E','F'
-					}; // TODO: make case insensitive, have it accept impair number of hex digits
+					};
 
 			std::vector<char> ValidOctValues
 					{
@@ -126,6 +136,7 @@ namespace WebPascal {
 			Symbol _currentSymbol;
 			int _row = 0;
 			int _column = 0;
+			AnalysisMode _analysisMode = AnalysisMode::Html;
 			void UpdatePosition();
 			void ConsumeSymbol();
 			void ThrowLexicalError(std::string what); //TODO: Make a class instead of a function
@@ -134,10 +145,15 @@ namespace WebPascal {
 			{
 				return std::find(v.begin(),v.end(),what) != v.end();
 			}
+
+			TokenRef PascalToken();
+
+			TokenRef HtmlToken();
 		};
 
 		using LexerRef = std::shared_ptr<Lexer>;
 	}
+
 }
 
 #endif // LEXER_H

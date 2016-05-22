@@ -10,10 +10,17 @@ class LexicalAnalysisSteps
 {
 	public:
 
-		void PrepareContext(std::string content)
+		void HtmlContext(std::string content)
 		{
 			this->_lexer = std::make_shared<Lexer>(content);
+
 		}
+
+	void PascalContext(std::string content)
+	{
+		this->_lexer = std::make_shared<Lexer>(content);
+		this->_lexer->SetAnalysisMode(Lexer::AnalysisMode::Pascal);
+	}
 
 		void Tokenize()
 		{
@@ -50,7 +57,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	{
 		std::string sourceCode = "";
 
-		steps.PrepareContext(sourceCode);
+		steps.HtmlContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -65,7 +72,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a single whitespace" )
 	{
 		std::string sourceCode = " ";
-		steps.PrepareContext(sourceCode);
+		steps.HtmlContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -77,10 +84,112 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 		}
 	}
 
+	GIVEN( "a an html opening tag " )
+	{
+		std::string sourceCode = "<HTML>";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlOpenTag,"<html>",row,column);
+				index = 1; row = 0; column = 6;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
+	GIVEN( "a an html closing tag " )
+	{
+		std::string sourceCode = "</HTmL>";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlCloseTag,"</html>",row,column);
+				index = 1; row = 0; column = 7;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
+	GIVEN( "html body text " )
+	{
+		std::string sourceCode = "</hola";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"</hola",row,column);
+				index = 1; row = 0; column = 6;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
+	GIVEN( "a  pascal code opening tag" )
+	{
+		std::string sourceCode = "<%";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"",row,column);
+				index = 1; row = 0; column = 2;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
+//	GIVEN( "a  pascal code closing tag" )
+//	{
+//		std::string sourceCode = "%>";
+//		steps.PascalContext(sourceCode);
+//		WHEN( "we tokenize" )
+//		{
+//			steps.Tokenize();
+//			THEN( "the result should be" )
+//			{
+//				int index = 0; int row = 0; int column = 0;
+//				steps.AssertTokenValidity(index,TokenClass::PascalCodeClose,"<%",row,column);
+//				index = 1; row = 0; column = 2;
+//				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+//			}
+//		}
+//	}
+
+	GIVEN( "a an html tag with different lettercase" )
+	{
+		std::string sourceCode = "</HTmL>";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlCloseTag,"</html>",row,column);
+				index = 1; row = 0; column = 7;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
 	GIVEN( "a reserved word" )
 	{
 		std::string sourceCode = "array";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -97,7 +206,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a reserved word in different case" )
 	{
 		std::string sourceCode = "ArRay";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -114,7 +223,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "an id" )
 	{
 		std::string sourceCode = "kanako";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -131,7 +240,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "an id" )
 	{
 		std::string sourceCode = "KaNako";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -148,7 +257,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a decimal integer literal" )
 	{
 		std::string sourceCode = "12";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -165,7 +274,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a hexadecimal integer literal $9" )
 	{
 		std::string sourceCode = "$9";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -182,7 +291,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a hexadecimal integer literal $9A6B" )
 	{
 		std::string sourceCode = "$9A6B";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -199,7 +308,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a hexadecimal integer literal $9cd" )
 	{
 		std::string sourceCode = "$9cd";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -216,7 +325,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "an octal integer literal &30" )
 	{
 		std::string sourceCode = "&30";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -233,7 +342,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a double quoted string literal \"hola\"" )
 	{
 		std::string sourceCode = "\"hola\"";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -250,7 +359,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a double quoted string literal \"hola\"\"\"" )
 	{
 		std::string sourceCode = "\"hola\"\"\"";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -267,7 +376,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a one character token +" )
 	{
 		std::string sourceCode = "+";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -284,7 +393,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a one character token ." )
 	{
 		std::string sourceCode = ".";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -301,7 +410,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a two character token .." )
 	{
 		std::string sourceCode = "..";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -318,7 +427,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 	GIVEN( "a two character token .. with comments before" )
 	{
 		std::string sourceCode = "{Hola}..";
-		steps.PrepareContext(sourceCode);
+		steps.PascalContext(sourceCode);
 		WHEN( "we tokenize" )
 		{
 			steps.Tokenize();
@@ -331,4 +440,6 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			}
 		}
 	}
+
+
 }

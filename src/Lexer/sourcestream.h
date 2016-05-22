@@ -10,17 +10,20 @@ namespace WebPascal {
 
 		class SourceStream
 		{
-			public:
-				SourceStream(std::string _sourceCode);
+		public:
+			SourceStream(std::string _sourceCode);
 
-				Symbol GetNextSymbol();
-				Symbol PeekNextSymbol();
-			private:
-				void UpdatePosition(auto doNewLine);
-				std::string _sourceCode;
-				unsigned _row = 0;
-				unsigned _col = 0;
-				unsigned _index = 0;
+			Symbol GetNextSymbol();
+			Symbol PeekNextSymbol();
+			const std::string & GetSourceCode() const;
+
+		private:
+			std::string _sourceCode;
+			unsigned _row = 0;
+			unsigned _col = 0;
+			unsigned _index = 0;
+
+			void UpdatePosition(auto doNewLine);
 		};
 	}
 }

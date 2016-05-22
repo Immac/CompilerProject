@@ -31,3 +31,6 @@ Symbol SourceStream::GetNextSymbol()
 	return symbol;
 }
 
+const std::string &SourceStream::GetSourceCode() const {
+	return _sourceCode;
+}

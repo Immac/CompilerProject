@@ -5,8 +5,11 @@ BODYHTML -> BLOCKHTML BODYHTML'
 BODYHTML' -> <% LS %> BODYHTML
  					| Ep
 
-BLOCKHTML ->  PlainHTML 
+BLOCKHTML ->  HtmlContentList 
 					|Ep 
+					
+HtmlContentList -> htmlcontent HtmlContentList
+			| Ep
 
 LS -> S LS
    | Ep

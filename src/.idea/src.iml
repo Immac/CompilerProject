@@ -9,10 +9,12 @@
       <sourceFolder url="file://$MODULE_DIR$/Lexer/sourcestream.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/sourcestream.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/lexer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Lexer/Parser.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/token.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/symbol.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/lexer.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/token.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Lexer/Parser.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">

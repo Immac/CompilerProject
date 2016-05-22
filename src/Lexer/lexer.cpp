@@ -12,21 +12,48 @@ Lexer::Lexer(std::string content) : SourceCodeStream(content)
 
 TokenRef Lexer::GetNextToken()
 {
+	switch (_analysisMode)
+	{
+		case AnalysisMode::Html:
+			return HtmlToken();
+		case AnalysisMode ::Pascal:
+			return PascalToken();
+	}
+
+
+}
+
+void Lexer::UpdatePosition()
+{
+	this->_column = this->_currentSymbol.Column;
+	this->_row = this->_currentSymbol.Row;
+}
+
+void Lexer::ConsumeSymbol()
+{
+	this->_currentSymbol = this->SourceCodeStream.GetNextSymbol();
+}
+
+void Lexer::ThrowLexicalError(std::string what)
+{
+	std::stringstream message;
+	std::string errorType = "LexicalException: ";
+	message << errorType << what
+	<< "at col: " << this->_column
+	<< " line: " << this->_row;
+
+	throw message.str();
+}
+
+TokenRef Lexer::PascalToken() {
 	std::string lexeme = "";
 	auto state = LexicalState::Initial;
 	while(true)
 	{
-		const int nullTerminator = '\0';
 		switch(state)
 		{
 			case LexicalState::Initial:
-				if(this->_currentSymbol.Value == nullTerminator)
-				{
-					state = LexicalState::EndOfFile;
-					this->UpdatePosition();
-					lexeme = "@";
-				}
-				else if ( isspace(this->_currentSymbol.Value) )
+				if ( isspace(this->_currentSymbol.Value) )
 				{
 					state = LexicalState::Initial;
 					this->ConsumeSymbol();
@@ -73,12 +100,12 @@ TokenRef Lexer::GetNextToken()
 				}
 				else if (Contains<char>(this->UnambiguousPunctuation,this->_currentSymbol.Value))
 				{
-					state = LexicalState::UnambiguosPunctuation;
+					state = LexicalState::UnambiguousPunctuationState;
 					this->UpdatePosition();
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
-				else if (Contains<char>(this->AmbiguosPunctuationStartSymbols,this->_currentSymbol.Value))
+				else if (Contains<char>(this->AmbiguousPunctuationStartSymbols,this->_currentSymbol.Value))
 				{
 					state = LexicalState::AmbiguousPunctuation;
 					this->UpdatePosition();
@@ -86,8 +113,6 @@ TokenRef Lexer::GetNextToken()
 					this->ConsumeSymbol();
 				}
 				break;
-			case LexicalState::EndOfFile:
-				return std::make_shared<Token>(lexeme, TokenClass::EndOfFile, this->_row, this->_column);
 			case LexicalState::Id:
 				if( isalnum(this->_currentSymbol.Value) )
 				{
@@ -105,7 +130,7 @@ TokenRef Lexer::GetNextToken()
 					}
 					catch (const std::out_of_range& oor)
 					{
-						type = TokenClass::Id;
+						type = TokenClass::Id; // TODO: use find instead of catching exception
 					}
 
 					return std::make_shared<Token>( lexemeLowercase, type, this->_row, this->_column);
@@ -273,7 +298,7 @@ TokenRef Lexer::GetNextToken()
 					ThrowLexicalError("Expected a closing Single quote."); // Todo: classes for exceptions
 				}
 
-			case LexicalState::UnambiguosPunctuation:
+			case LexicalState::UnambiguousPunctuationState:
 				if(lexeme == OpenCommentCurlyBrace)
 				{
 					state = LexicalState::CurlyBraceOpenedCommentBody;
@@ -342,7 +367,7 @@ TokenRef Lexer::GetNextToken()
 				}
 				else
 				{
-					state = LexicalState::UnambiguosPunctuation;
+					state = LexicalState::UnambiguousPunctuationState;
 				}
 			}
 				break;
@@ -350,23 +375,136 @@ TokenRef Lexer::GetNextToken()
 	}
 }
 
-void Lexer::UpdatePosition()
-{
-	this->_column = this->_currentSymbol.Column;
-	this->_row = this->_currentSymbol.Row;
+TokenRef Lexer::HtmlToken() {
+	std::string lexeme = "";
+	auto state = LexicalState::Initial;
+	while(true)
+	{
+		size_t lexemeSize = lexeme.size();
+		size_t lexemeSizeMinusTwo = lexemeSize - 2;
+		std::string lastTwo = lexemeSize >= 2
+							  ? lexeme.substr(lexemeSizeMinusTwo)
+							  : "";
+		switch (state)
+		{
+			case LexicalState ::Initial:
+				if ( isspace(this->_currentSymbol.Value) )
+				{
+					state = LexicalState::Initial;
+					this->ConsumeSymbol();
+				}
+				else if(lastTwo == "<%")
+				{
+					this->SetAnalysisMode(AnalysisMode::Pascal);
+					return std::make_shared<Token>
+							(lexeme.substr(0, lexemeSizeMinusTwo), TokenClass::HtmlContent, this->_row, this->_column);
+				}
+				else if(this->_currentSymbol.Value == nullTerminator)
+				{
+					state = LexicalState::EndOfFile;
+					this->UpdatePosition();
+					lexeme = "@";
+				}
+				else if (lexemeSize == 0 && (this->_currentSymbol.Value == '<'))
+				{
+					this->UpdatePosition();
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+					state = LexicalState::TryForHtml;
+				}
+				else
+				{
+					this->UpdatePosition();
+					state = LexicalState::HtmlContent;
+				}
+				break;
+			case LexicalState::TryForHtml:
+			{
+				lexeme += this->_currentSymbol.Value;
+				bool isClosingTag = false;
+
+				if (tolower(this->_currentSymbol.Value) == '/') {
+					this->ConsumeSymbol();
+					lexeme += this->_currentSymbol.Value;
+					isClosingTag = true;
+				}
+				if (tolower(this->_currentSymbol.Value) != 'h') {
+					this->ConsumeSymbol();
+					state = LexicalState::HtmlContent;
+					break;
+				}
+				this->ConsumeSymbol();
+				lexeme += this->_currentSymbol.Value;
+				if (tolower(this->_currentSymbol.Value) != 't') {
+					this->ConsumeSymbol();
+					state = LexicalState::HtmlContent;
+					break;
+				}
+				this->ConsumeSymbol();
+				lexeme += this->_currentSymbol.Value;
+				if (tolower(this->_currentSymbol.Value) != 'm') {
+					this->ConsumeSymbol();
+					state = LexicalState::HtmlContent;
+					break;
+				}
+				this->ConsumeSymbol();
+				lexeme += this->_currentSymbol.Value;
+				if (tolower(this->_currentSymbol.Value) != 'l') {
+					this->ConsumeSymbol();
+					state = LexicalState::HtmlContent;
+					break;
+				}
+				this->ConsumeSymbol();
+				lexeme += this->_currentSymbol.Value;
+				if (tolower(this->_currentSymbol.Value) != '>') {
+					this->ConsumeSymbol();
+					state = LexicalState::Initial;
+					break;
+				}
+				ConsumeSymbol();
+				if (isClosingTag)
+				{
+					return std::make_shared<Token>(Util::ToLower(lexeme), TokenClass::HtmlCloseTag, this->_row, this->_column);
+				}
+				else
+				{
+					return std::make_shared<Token>(Util::ToLower(lexeme), TokenClass::HtmlOpenTag, this->_row, this->_column);
+				}
+			}
+			case LexicalState::EndOfFile:
+				return std::make_shared<Token>(lexeme, TokenClass::EndOfFile, this->_row, this->_column);
+			case LexicalState::HtmlContent:
+				if (this->_currentSymbol.Value != '<'
+					&& this->_currentSymbol.Value != nullTerminator)
+				{
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if(lastTwo == "<%")
+				{
+					this->SetAnalysisMode(AnalysisMode::Pascal);
+					return std::make_shared<Token>
+							(lexeme.substr(0, lexemeSizeMinusTwo), TokenClass::HtmlContent, this->_row, this->_column);
+				}
+				else
+				{
+					return std::make_shared<Token>(lexeme, TokenClass::HtmlContent, this->_row, this->_column);
+				}
+				break;
+			default:
+				ThrowLexicalError("Symbol was not recognized");
+		}
+	}
 }
 
-void Lexer::ConsumeSymbol()
-{
-	this->_currentSymbol = this->SourceCodeStream.GetNextSymbol();
+void Lexer::SetAnalysisMode(AnalysisMode mode) {
+	this->_analysisMode = mode;
 }
 
-void Lexer::ThrowLexicalError(std::string what)
-{
-	std::stringstream message;
-	message << what
-	<< "at col: " << this->_column
-	<< " line: " << this->_row;
 
-	throw message.str();
-}
+
+
+
+
+
+

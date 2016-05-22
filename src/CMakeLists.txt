@@ -11,6 +11,6 @@ set(SOURCE_FILES
     Lexer/symbol.h
     Lexer/token.cpp
     Lexer/token.h
-    main.cpp Util/utilities.cpp Util/utilities.h)
+    main.cpp Util/utilities.cpp Util/utilities.h Lexer/Parser.cpp Lexer/Parser.h)
 
 add_executable(src ${SOURCE_FILES})

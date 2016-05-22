@@ -71,7 +71,12 @@ namespace WebPascal {
 			CommentCloseBlock,
 			OperatorTypeAssign,
 			OperatorEnumAssign,
-			OperatorAccessor
+			OperatorAccessor,
+			HtmlOpenTag,
+			HtmlCloseTag,
+			HtmlContent,
+			PascalCodeOpen,
+			PascalCodeClose
 		};
 
 		class Token
