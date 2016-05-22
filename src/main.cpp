@@ -314,4 +314,21 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			}
 		}
 	}
+
+	GIVEN( "a two character token .. with comments before" )
+	{
+		std::string sourceCode = "{Hola}..";
+		steps.PrepareContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 6;
+				steps.AssertTokenValidity(index,TokenClass::PunctuationRangeExclusive,"..",row,column);
+				index = 1; row = 0; column = 8;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
 }

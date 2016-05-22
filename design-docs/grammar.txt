@@ -1,0 +1,211 @@
+PROGRAM -> <HTML> BODYHTML <HTML> $
+          
+BODYHTML -> BLOCKHTML BODYHTML'
+
+BODYHTML' -> <% LS %> BODYHTML
+ 					| Ep
+
+BLOCKHTML ->  PlainHTML 
+					|Ep 
+
+LS -> S LS
+   | Ep
+   
+LS_LOOP -> LoopS LS_LOOP
+   			| Ep
+   
+S -> Declaracion ;
+   | IF ;
+   | PREFOR ;
+   | WHILE ;
+   | REPEAT ;
+   | CASE 
+   | DeclareType ;
+   | FUNCTIONDECL ;
+   | PROCEDUREDECL ;
+   | PREID
+
+LoopS -> S
+       | continue ;
+       | break ;
+   
+PREID -> Id IdBody
+
+IdBody -> LLAMRFUNCIONSENTENCIA ;
+   			| AsignarValor ;
+
+// originalmente teniamos    Declaracion -> var ListaId : id AsignarValor  //lo manejamos como tipo luego
+
+Declaracion -> var FactorComunId 
+
+FactorComunId	->	 id Y
+
+Y ->  IdOpcional : id     //Lista de ids no puede ser inicializado, id es un tipo
+	| 	: id AsignarValor   //id es un tipo
+            
+ListaId -> id IdOpcional
+
+IdOpcional -> , ListaId
+	 					| Ep
+
+AsignarValor -> = EXPRESION
+ 							| Ep
+
+DeclareType -> type id = TYPE 
+
+TYPE -> EnumeratedType 
+      | TypeDef
+      | Record
+      | Array 
+
+EnumeratedType -> ( ListaId ) 
+                  
+TypeDef -> id
+
+Record -> record ListaPropiedades end ;
+
+ListaPropiedades -> id : RecordType 
+										| Ep
+                    
+RecordType -> EnumeratedType ;
+							| id ;
+              | Record
+              
+Array -> array [ ListaRangos ] of ArrayTypes
+
+ArrayTypes -> id
+						| Rango
+            | Array
+
+ListaRangos -> Rango ListaRangosOp
+							
+ListaRangosOp -> , ListaRangos
+								| Ep
+                
+Rango -> id
+      | Subrange
+      
+SubRange -> expresion OpRange expresion //expresion debe ser del mismo tipo y constantes
+
+IF -> if EXPRESION Then BlOCK ELSE
+
+BlOCK -> S
+       | Begin LS End 
+       
+ELSE -> else BlOCK
+		  | Ep
+----------------------------------  
+PREFOR -> for id ForBody
+
+ForBody -> FOR
+					| FORIN
+        
+FOR -> := EXPRESION to Expresion do LOOPBLOCK
+
+FORIN ->	in id do LOOPBLOCK
+
+WHILE -> while EXPRESION do LOOPBLOCK
+
+LOOPBLOCK -> LoopS
+					|Begin LS_LOOP End
+          
+REPEAT -> repeat LS_LOOP until EXPRESION
+---------------------------------------
+
+LLAMARFUNCION -> id ( LISTAEXPR )
+
+LLAMRFUNCIONSENTENCIA -> ( LISTAEXPR )
+
+LISTAEXPR -> EXPRESSION  LISTAEXPR_OP
+					|Ep
+          
+LISTAEXPR_OP -> , LISTAEXPR
+					| Ep
+
+//////////////////////////////////////////////
+
+CASE -> case id of CASELIST
+
+CASELIST -> CASELITERAL : BLOCK ; CASELIST
+					| ELSE ;
+          | Ep
+          
+CASELITERAL -> ListaNum
+					| ListaChar
+          | ListaId //solo si son const [semantico]
+          | SubRange 
+          
+ListaNum -> lit_num NumOpcional
+
+NumOpcional -> , ListaNum
+	 					| Ep
+
+ListaChar -> lit_char CharOpcional
+
+CharOpcional -> , ListaChar
+	 					| Ep
+
+
+PROCEDUREDECL -> procedure id PARAMS ; FUNCTIONBlOCK 
+
+FUNCTIONDECL -> function id PARAMS : id ; FUNCTIONBlOCK
+
+PARAMS -> ( LISTADECL )
+
+FUNCTIONBlOCK -> Begin LS End
+
+LISTADECL -> DECLPARAM EXTRADECL
+					| Ep
+
+EXTRADECL -> , LISTADECL
+					| Ep
+          
+DECLPARAM -> id : id  
+					| var ListaId : id
+
+//LE EXPRESSION***
+
+EXPRESION -> RelationalExpresion
+
+RelationalExpresion -> ExpresionAdicion RelationalExpresion'
+
+RelationalExpresion' -> OpRelational ExpresionAdicion RelationalExpresion'
+											| Ep
+             
+ExpresionAdicion -> ExpresionMul ExpresionAdicion'
+                
+ExpresionAdicion' -> OpAdicion ExpresionAdicion'
+									|  Ep
+                  
+ExpresionMul -> ExpresionUnary ExpresionMul'
+              
+ExpresionMul' -> OpMul ExpresionMul'
+							| Ep
+              
+ExpresionUnary -> not Factor
+						| Factor
+          
+Factor ->   id
+          | lit_num
+          | lit_string
+          | lit_char
+          | lit_boolean
+          | LLAMARFUNCION
+          | ( EXPRESION )
+
+OpRelational -> <
+							| >
+              | <=
+              | >= 
+              | <>
+              | =
+
+OpAdicion -> +
+					 | -
+           | Or
+           
+OpMul -> *
+       | / 
+       | div
+       | mod
+       | and

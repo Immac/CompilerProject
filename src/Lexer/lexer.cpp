@@ -73,7 +73,7 @@ TokenRef Lexer::GetNextToken()
 				}
 				else if (Contains<char>(this->UnambiguousPunctuation,this->_currentSymbol.Value))
 				{
-					state = LexicalState::UnanbiguosPunctuation;
+					state = LexicalState::UnambiguosPunctuation;
 					this->UpdatePosition();
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
@@ -86,216 +86,266 @@ TokenRef Lexer::GetNextToken()
 					this->ConsumeSymbol();
 				}
 				break;
-		case LexicalState::EndOfFile:
-			return std::make_shared<Token>(lexeme, TokenClass::EndOfFile, this->_row, this->_column);
-		case LexicalState::Id:
-			if( isalnum(this->_currentSymbol.Value) )
-			{
-				state = LexicalState::Id;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				auto lexemeLowercase = Util::ToLower(lexeme);
-				TokenClass type;
-				try
+			case LexicalState::EndOfFile:
+				return std::make_shared<Token>(lexeme, TokenClass::EndOfFile, this->_row, this->_column);
+			case LexicalState::Id:
+				if( isalnum(this->_currentSymbol.Value) )
 				{
-					type = this->ReservedWords.at(lexemeLowercase);
+					state = LexicalState::Id;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
 				}
-				catch (const std::out_of_range& oor)
+				else
 				{
-					 type = TokenClass::Id;
-				}
+					auto lexemeLowercase = Util::ToLower(lexeme);
+					TokenClass type;
+					try
+					{
+						type = this->ReservedWords.at(lexemeLowercase);
+					}
+					catch (const std::out_of_range& oor)
+					{
+						type = TokenClass::Id;
+					}
 
-				return std::make_shared<Token>( lexemeLowercase, type, this->_row, this->_column);
-			}
-			break;
-		case LexicalState::IntegerLiteralDecimal:
-			if( isdigit(this->_currentSymbol.Value) )
-			{
-				state = LexicalState::IntegerLiteralDecimal;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				return std::make_shared<Token>(lexeme, TokenClass::IntegerLiteralDecimal, this->_row, this->_column);
-			}
-			break;
-		case LexicalState::IntegerLiteralHexadecimalSingle:
-			if(std::find(ValidHexValues.begin(),ValidHexValues.end(),this->_currentSymbol.Value) != ValidHexValues.end())
-			{
-				state = LexicalState::IntegerLiteralHexadecimalDigits;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				ThrowLexicalError("Expected a hexadecimal digit"); // TODO: got <symbol>, lexeme: lexeme
-			}
-			break;
-		case LexicalState::IntegerLiteralHexadecimalDigits:
-			if(Util::Contains<char>(ValidHexValues,this->_currentSymbol.Value))
-			{
-				state = LexicalState::IntegerLiteralHexadecimalDigits;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				return std::make_shared<Token>(Util::ToLower(lexeme), TokenClass::IntegerLiteralHexadecimal, this->_row, this->_column);
-			}
-			break;
-		case LexicalState::IntegerLiteralOctal:
-			if(std::find(ValidOctValues.begin(),ValidOctValues.end(),this->_currentSymbol.Value) != ValidOctValues.end())
-			{
-				state = LexicalState::IntegerLiteralOctal;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else if (lexeme.length() > 1)
-			{
-				return std::make_shared<Token>(lexeme, TokenClass::IntegerLiteralOctal, this->_row, this->_column);
-			}
-			else
-			{
-				ThrowLexicalError("Expected a hexadecimal digit"); // TODO: got <symbol>, lexeme: lexeme
-			}
-			break;
-		case LexicalState::StringLiteralDoubleQuote:
-			if(this->_currentSymbol.Value == '\"' )
+					return std::make_shared<Token>( lexemeLowercase, type, this->_row, this->_column);
+				}
+				break;
+			case LexicalState::IntegerLiteralDecimal:
+				if( isdigit(this->_currentSymbol.Value) )
+				{
+					state = LexicalState::IntegerLiteralDecimal;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					return std::make_shared<Token>(lexeme, TokenClass::IntegerLiteralDecimal, this->_row, this->_column);
+				}
+				break;
+			case LexicalState::IntegerLiteralHexadecimalSingle:
+				if(std::find(ValidHexValues.begin(),ValidHexValues.end(),this->_currentSymbol.Value) != ValidHexValues.end())
+				{
+					state = LexicalState::IntegerLiteralHexadecimalDigits;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					ThrowLexicalError("Expected a hexadecimal digit"); // TODO: got <symbol>, lexeme: lexeme
+				}
+				break;
+			case LexicalState::IntegerLiteralHexadecimalDigits:
+				if(Util::Contains<char>(ValidHexValues,this->_currentSymbol.Value))
+				{
+					state = LexicalState::IntegerLiteralHexadecimalDigits;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					return std::make_shared<Token>(Util::ToLower(lexeme), TokenClass::IntegerLiteralHexadecimal, this->_row, this->_column);
+				}
+				break;
+			case LexicalState::IntegerLiteralOctal:
+				if(std::find(ValidOctValues.begin(),ValidOctValues.end(),this->_currentSymbol.Value) != ValidOctValues.end())
+				{
+					state = LexicalState::IntegerLiteralOctal;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if (lexeme.length() > 1)
+				{
+					return std::make_shared<Token>(lexeme, TokenClass::IntegerLiteralOctal, this->_row, this->_column);
+				}
+				else
+				{
+					ThrowLexicalError("Expected a hexadecimal digit"); // TODO: got <symbol>, lexeme: lexeme
+				}
+				break;
+			case LexicalState::StringLiteralDoubleQuote:
+				if(this->_currentSymbol.Value == '\"' )
 				{
 					state = LexicalState::StringLiteralClosingDoubleQuote;
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
-			}
-			else if(std::isprint(this->_currentSymbol.Value))
-			{
-				state = LexicalState::StringLiteralDoubleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				ThrowLexicalError("Expected a closing double quote."); // Todo: classes for exceptions
-			}
+				}
+				else if(std::isprint(this->_currentSymbol.Value))
+				{
+					state = LexicalState::StringLiteralDoubleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					ThrowLexicalError("Expected a closing double quote."); // Todo: classes for exceptions
+				}
 
-			break;
-		case LexicalState::StringLiteralClosingDoubleQuote:
-			if(this->_currentSymbol.Value == '\"')
-			{
-				state = LexicalState::StringLiteralEscapedDoubleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else if(std::isprint(this->_currentSymbol.Value))
-			{
-				state = LexicalState::StringLiteralDoubleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				return std::make_shared<Token>(lexeme, TokenClass::StringLiteralDoubleQuote, this->_row, this->_column);
-			}
-			break;
-		case LexicalState::StringLiteralEscapedDoubleQuote:
-			if(this->_currentSymbol.Value == '\"')
-			{
-				state = LexicalState::StringLiteralClosingDoubleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else if(std::isprint(this->_currentSymbol.Value))
-			{
-				state = LexicalState::StringLiteralDoubleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				ThrowLexicalError("Expected a closing double quote."); // Todo: classes for exceptions
-			}
-			break;
-		case LexicalState::StringLiteralSingleQuote:
-			if(this->_currentSymbol.Value == '\'' )
-			{
-				state = LexicalState::StringLiteralClosingSingleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else if(std::isprint(this->_currentSymbol.Value))
-			{
-				state = LexicalState::StringLiteralSingleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				ThrowLexicalError("Expected a closing single quote."); // Todo: classes for exceptions
-			}
+				break;
+			case LexicalState::StringLiteralClosingDoubleQuote:
+				if(this->_currentSymbol.Value == '\"')
+				{
+					state = LexicalState::StringLiteralEscapedDoubleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if(std::isprint(this->_currentSymbol.Value))
+				{
+					state = LexicalState::StringLiteralDoubleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					return std::make_shared<Token>(lexeme, TokenClass::StringLiteralDoubleQuote, this->_row, this->_column);
+				}
+				break;
+			case LexicalState::StringLiteralEscapedDoubleQuote:
+				if(this->_currentSymbol.Value == '\"')
+				{
+					state = LexicalState::StringLiteralClosingDoubleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if(std::isprint(this->_currentSymbol.Value))
+				{
+					state = LexicalState::StringLiteralDoubleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					ThrowLexicalError("Expected a closing double quote."); // Todo: classes for exceptions
+				}
+				break;
+			case LexicalState::StringLiteralSingleQuote:
+				if(this->_currentSymbol.Value == '\'' )
+				{
+					state = LexicalState::StringLiteralClosingSingleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if(std::isprint(this->_currentSymbol.Value))
+				{
+					state = LexicalState::StringLiteralSingleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					ThrowLexicalError("Expected a closing single quote."); // Todo: classes for exceptions
+				}
 
-			break;
-		case LexicalState::StringLiteralClosingSingleQuote:
-			if(this->_currentSymbol.Value == '\'')
-			{
-				state = LexicalState::StringLiteralEscapedSingleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else if(std::isprint(this->_currentSymbol.Value))
-			{
-				state = LexicalState::StringLiteralSingleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				return std::make_shared<Token>(lexeme, TokenClass::StringLiteralSingleQuote, this->_row, this->_column);
-			}
-			break;
-		case LexicalState::StringLiteralEscapedSingleQuote:
-			if(this->_currentSymbol.Value == '\'')
-			{
-				state = LexicalState::StringLiteralClosingSingleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else if(std::isprint(this->_currentSymbol.Value))
-			{
-				state = LexicalState::StringLiteralSingleQuote;
-				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
-			}
-			else
-			{
-				ThrowLexicalError("Expected a closing Single quote."); // Todo: classes for exceptions
-			}
-				
-		case LexicalState::UnanbiguosPunctuation:
-			return std::make_shared<Token>(lexeme,Punctuation.at(lexeme),this->_row,this->_column);
-		case LexicalState::AmbiguousPunctuation:
-			auto nextSymbol = this->_currentSymbol;
-			auto nextLexeme = lexeme;
-			auto isEndOfFile = nextSymbol.Value == nullTerminator;
-			if(!isEndOfFile)
-			{
-				nextLexeme += nextSymbol.Value;
-			}
+				break;
+			case LexicalState::StringLiteralClosingSingleQuote:
+				if(this->_currentSymbol.Value == '\'')
+				{
+					state = LexicalState::StringLiteralEscapedSingleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if(std::isprint(this->_currentSymbol.Value))
+				{
+					state = LexicalState::StringLiteralSingleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					return std::make_shared<Token>(lexeme, TokenClass::StringLiteralSingleQuote, this->_row, this->_column);
+				}
+				break;
+			case LexicalState::StringLiteralEscapedSingleQuote:
+				if(this->_currentSymbol.Value == '\'')
+				{
+					state = LexicalState::StringLiteralClosingSingleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if(std::isprint(this->_currentSymbol.Value))
+				{
+					state = LexicalState::StringLiteralSingleQuote;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					ThrowLexicalError("Expected a closing Single quote."); // Todo: classes for exceptions
+				}
 
-			auto nextLexemeIsContained = this->Punctuation.find(nextLexeme) != this->Punctuation.end();
-			if (!isEndOfFile && nextLexemeIsContained)
+			case LexicalState::UnambiguosPunctuation:
+				if(lexeme == OpenCommentCurlyBrace)
+				{
+					state = LexicalState::CurlyBraceOpenedCommentBody;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if(lexeme == OpenCommenParenthesis)
+				{
+					state = LexicalState::ParenthesisOpenedCommentBody;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					return std::make_shared<Token>(lexeme,Punctuation.at(lexeme),this->_row,this->_column);
+				}
+				break;
+			case LexicalState ::CurlyBraceOpenedCommentBody:
 			{
-				state = LexicalState::AmbiguousPunctuation;
+				auto size = lexeme.length();
+				auto lastChar = lexeme.substr(size -1);
 				lexeme += this->_currentSymbol.Value;
-				this->ConsumeSymbol();
+				if (lastChar == CloseCommentCurlyBrace)
+				{
+					lexeme = "";
+					state = LexicalState::Initial;
+				}
+				else
+				{
+					this->ConsumeSymbol();
+				}
 			}
-			else
+				break;
+			case LexicalState::ParenthesisOpenedCommentBody:
 			{
-					state = LexicalState::UnanbiguosPunctuation;
+				auto size = lexeme.length();
+				auto lastChar = lexeme.substr(size -2);
+				lexeme += this->_currentSymbol.Value;
+				if (lastChar == CloseCommentParenthesis)
+				{
+					lexeme = "";
+					state = LexicalState::Initial;
+				}
+				else
+				{
+					this->ConsumeSymbol();
+				}
 			}
-			break;
+				break;
+			case LexicalState::AmbiguousPunctuation:
+			{
+				auto nextSymbol = this->_currentSymbol;
+				auto nextLexeme = lexeme;
+				auto isEndOfFile = nextSymbol.Value == nullTerminator;
+				if(!isEndOfFile)
+				{
+					nextLexeme += nextSymbol.Value;
+				}
+
+				auto nextLexemeIsContained = this->Punctuation.find(nextLexeme) != this->Punctuation.end();
+				if (!isEndOfFile && nextLexemeIsContained)
+				{
+					state = LexicalState::AmbiguousPunctuation;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else
+				{
+					state = LexicalState::UnambiguosPunctuation;
+				}
+			}
+				break;
 		}
 	}
 }
@@ -315,8 +365,8 @@ void Lexer::ThrowLexicalError(std::string what)
 {
 	std::stringstream message;
 	message << what
-			  << "at col: " << this->_column
-			  << " line: " << this->_row;
+	<< "at col: " << this->_column
+	<< " line: " << this->_row;
 
 	throw message.str();
 }
