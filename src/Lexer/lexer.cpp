@@ -397,7 +397,7 @@ TokenRef Lexer::PascalToken() {
 				}
 				break;
 			case LexicalState::EndOfFile:
-				//Temporary EOF, the actual thing should never end inside the Pascal code
+				//TODO: Remove Temporary EOF, the actual thing should never end inside the Pascal code
 				return std::make_shared<Token>(lexeme, TokenClass::EndOfFile, this->_row, this->_column);
 		}
 	}

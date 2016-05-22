@@ -169,6 +169,25 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 		}
 	}
 
+	GIVEN( "a  pascal code opening tag and a pascal closing tab" )
+	{
+		std::string sourceCode = "<%%>";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"",row,column);
+				index = 1; row = 0; column = 2;
+				steps.AssertTokenValidity(index,TokenClass::PascalCodeClose,"",row,column);
+				index = 2; row = 0; column = 4;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
 	GIVEN( "a an html tag with different letter casing" )
 	{
 		std::string sourceCode = "</HTmL>";

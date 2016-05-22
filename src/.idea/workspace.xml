@@ -87,11 +87,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="168" column="9" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
+            <state relative-caret-position="634">
+              <caret line="184" column="25" selection-start-line="184" selection-start-column="25" selection-end-line="184" selection-end-column="25" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
                 <element signature="e#136#156#0" expanded="true" />
@@ -125,11 +125,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lexer.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lexer.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="487">
-              <caret line="398" column="41" selection-start-line="398" selection-start-column="41" selection-end-line="398" selection-end-column="41" />
+            <state relative-caret-position="468">
+              <caret line="397" column="22" selection-start-line="397" selection-start-column="22" selection-end-line="397" selection-end-column="22" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#108#231#0" expanded="true" />
@@ -137,8 +137,8 @@
                 <element signature="e#406#524#0" expanded="true" />
                 <element signature="e#526#621#0" expanded="true" />
                 <element signature="e#623#863#0" expanded="true" />
-                <element signature="e#11416#14867#0" expanded="true" />
-                <element signature="e#14869#14948#0" expanded="true" />
+                <element signature="e#11429#14880#0" expanded="true" />
+                <element signature="e#14882#14961#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -159,8 +159,8 @@
         <option value="$PROJECT_DIR$/Lexer/sourcestream.h" />
         <option value="$PROJECT_DIR$/Lexer/Parser.cpp" />
         <option value="$PROJECT_DIR$/Lexer/lexer.h" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Lexer/lexer.cpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -508,7 +508,7 @@
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2446264" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2446264" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -544,7 +544,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>194</line>
+          <line>213</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -640,8 +640,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#11416#14867#0" expanded="true" />
-            <element signature="e#14869#14948#0" expanded="true" />
+            <element signature="e#11429#14880#0" expanded="true" />
+            <element signature="e#14882#14961#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -723,8 +723,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#11416#14867#0" expanded="true" />
-            <element signature="e#14869#14948#0" expanded="true" />
+            <element signature="e#11429#14880#0" expanded="true" />
+            <element signature="e#14882#14961#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -792,8 +792,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#11416#14867#0" expanded="true" />
-            <element signature="e#14869#14948#0" expanded="true" />
+            <element signature="e#11429#14880#0" expanded="true" />
+            <element signature="e#14882#14961#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -998,25 +998,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="168" column="9" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#136#156#0" expanded="true" />
-            <element signature="e#261#359#0" expanded="true" />
-            <element signature="e#362#520#0" expanded="true" />
-            <element signature="e#524#789#0" expanded="true" />
-            <element signature="e#858#1137#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="398" column="41" selection-start-line="398" selection-start-column="41" selection-end-line="398" selection-end-column="41" />
+        <state relative-caret-position="468">
+          <caret line="397" column="22" selection-start-line="397" selection-start-column="22" selection-end-line="397" selection-end-column="22" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#108#231#0" expanded="true" />
@@ -1024,8 +1009,23 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#11416#14867#0" expanded="true" />
-            <element signature="e#14869#14948#0" expanded="true" />
+            <element signature="e#11429#14880#0" expanded="true" />
+            <element signature="e#14882#14961#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="634">
+          <caret line="184" column="25" selection-start-line="184" selection-start-column="25" selection-end-line="184" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#136#156#0" expanded="true" />
+            <element signature="e#261#359#0" expanded="true" />
+            <element signature="e#362#520#0" expanded="true" />
+            <element signature="e#524#789#0" expanded="true" />
+            <element signature="e#858#1137#0" expanded="true" />
           </folding>
         </state>
       </provider>
