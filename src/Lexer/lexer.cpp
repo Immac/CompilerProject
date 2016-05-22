@@ -58,6 +58,12 @@ TokenRef Lexer::PascalToken() {
 					state = LexicalState::Initial;
 					this->ConsumeSymbol();
 				}
+				else if(this->_currentSymbol.Value == nullTerminator)
+				{
+					state = LexicalState::EndOfFile;
+					this->UpdatePosition();
+					lexeme = "@";
+				}
 				else if( isalpha(this->_currentSymbol.Value) )
 				{
 					state = LexicalState::Id;
@@ -371,6 +377,9 @@ TokenRef Lexer::PascalToken() {
 				}
 			}
 				break;
+			case LexicalState::EndOfFile:
+				//Temporary EOF, the actual thing should never end inside the Pascal code
+				return std::make_shared<Token>(lexeme, TokenClass::EndOfFile, this->_row, this->_column);
 		}
 	}
 }
@@ -491,8 +500,6 @@ TokenRef Lexer::HtmlToken() {
 					return std::make_shared<Token>(lexeme, TokenClass::HtmlContent, this->_row, this->_column);
 				}
 				break;
-			default:
-				ThrowLexicalError("Symbol was not recognized");
 		}
 	}
 }
