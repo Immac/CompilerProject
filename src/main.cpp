@@ -186,6 +186,25 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 		}
 	}
 
+	GIVEN( "a change in analysis type and reserved word" )
+	{
+		std::string sourceCode = "<%array";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"",row,column);
+				index = 1; row = 0; column = 2;
+				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"array",row,column);
+				index = 2; row = 0; column = 7;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
 	GIVEN( "a reserved word" )
 	{
 		std::string sourceCode = "array";

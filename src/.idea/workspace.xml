@@ -87,18 +87,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state relative-caret-position="452">
+              <caret line="201" column="47" selection-start-line="201" selection-start-column="47" selection-end-line="201" selection-end-column="47" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
                 <element signature="e#136#156#0" expanded="true" />
                 <element signature="e#261#359#0" expanded="true" />
                 <element signature="e#362#520#0" expanded="true" />
+                <element signature="e#524#789#0" expanded="true" />
                 <element signature="e#858#1137#0" expanded="true" />
-                <element signature="e#1328#11673#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -134,11 +134,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lexer.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lexer.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="77" column="57" selection-start-line="77" selection-start-column="57" selection-end-line="77" selection-end-column="57" />
+            <state relative-caret-position="-4602">
+              <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#108#231#0" expanded="true" />
@@ -146,9 +146,19 @@
                 <element signature="e#406#524#0" expanded="true" />
                 <element signature="e#526#621#0" expanded="true" />
                 <element signature="e#623#863#0" expanded="true" />
-                <element signature="e#10892#14315#0" expanded="true" />
-                <element signature="e#14317#14396#0" expanded="true" />
+                <element signature="e#10917#14368#0" expanded="true" />
+                <element signature="e#14370#14449#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="catch_test_case_registry_impl.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://C:/lib/cpp/catch/include/internal/catch_test_case_registry_impl.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -156,10 +166,11 @@
       <file leaf-file-name="shared_ptr_base.h" pinned="false" current-in-tab="false">
         <entry file="file://C:/lib/mingw2/lib/gcc/mingw32/4.9.3/include/c++/bits/shared_ptr_base.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
+            <state relative-caret-position="236">
               <caret line="1047" column="0" selection-start-line="1047" selection-start-column="0" selection-end-line="1047" selection-end-column="0" />
               <folding>
                 <element signature="e#13649#13969#0" expanded="true" />
+                <element signature="e#28217#28428#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -180,8 +191,8 @@
         <option value="$PROJECT_DIR$/Lexer/token.h" />
         <option value="$PROJECT_DIR$/Lexer/sourcestream.h" />
         <option value="$PROJECT_DIR$/Lexer/lexer.h" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Lexer/lexer.cpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -564,20 +575,16 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Lexer/lexer.cpp</url>
-          <line>396</line>
-          <option name="timeStamp" value="61" />
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>194</line>
+          <option name="timeStamp" value="64" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="62" />
+      <option name="time" value="68" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
-        <watch expression="this-&gt;_currentSymbol.Value" />
-        <watch expression="lexeme" />
-        <watch expression="((WebPascal::Lexical::SourceStream)(((WebPascal::Lexical::Lexer * const)(this))-&gt;SourceCodeStream))._sourceCode" />
-        <watch expression="lastChar" language="ObjectiveC" />
-        <watch expression="lastTwo" />
+        <watch expression="lastTwo" language="ObjectiveC" />
       </configuration>
     </watches-manager>
   </component>
@@ -636,8 +643,8 @@
             <element signature="e#136#156#0" expanded="true" />
             <element signature="e#261#359#0" expanded="true" />
             <element signature="e#362#520#0" expanded="true" />
+            <element signature="e#524#789#0" expanded="true" />
             <element signature="e#858#1137#0" expanded="true" />
-            <element signature="e#1328#11673#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -660,8 +667,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10892#14315#0" expanded="true" />
-            <element signature="e#14317#14396#0" expanded="true" />
+            <element signature="e#10917#14368#0" expanded="true" />
+            <element signature="e#14370#14449#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -719,8 +726,8 @@
             <element signature="e#136#156#0" expanded="true" />
             <element signature="e#261#359#0" expanded="true" />
             <element signature="e#362#520#0" expanded="true" />
+            <element signature="e#524#789#0" expanded="true" />
             <element signature="e#858#1137#0" expanded="true" />
-            <element signature="e#1328#11673#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -743,8 +750,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10892#14315#0" expanded="true" />
-            <element signature="e#14317#14396#0" expanded="true" />
+            <element signature="e#10917#14368#0" expanded="true" />
+            <element signature="e#14370#14449#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -788,8 +795,8 @@
             <element signature="e#136#156#0" expanded="true" />
             <element signature="e#261#359#0" expanded="true" />
             <element signature="e#362#520#0" expanded="true" />
+            <element signature="e#524#789#0" expanded="true" />
             <element signature="e#858#1137#0" expanded="true" />
-            <element signature="e#1328#11673#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -812,8 +819,8 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10892#14315#0" expanded="true" />
-            <element signature="e#14317#14396#0" expanded="true" />
+            <element signature="e#10917#14368#0" expanded="true" />
+            <element signature="e#14370#14449#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -866,14 +873,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
           <caret line="168" column="0" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/lib/cpp/catch/include/internal/catch_test_case_registry_impl.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2204">
-          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1008,33 +1007,27 @@
     </entry>
     <entry file="file://C:/lib/mingw2/lib/gcc/mingw32/4.9.3/include/c++/bits/shared_ptr_base.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
+        <state relative-caret-position="236">
           <caret line="1047" column="0" selection-start-line="1047" selection-start-column="0" selection-end-line="1047" selection-end-column="0" />
           <folding>
             <element signature="e#13649#13969#0" expanded="true" />
+            <element signature="e#28217#28428#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://C:/lib/cpp/catch/include/internal/catch_test_case_registry_impl.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#136#156#0" expanded="true" />
-            <element signature="e#261#359#0" expanded="true" />
-            <element signature="e#362#520#0" expanded="true" />
-            <element signature="e#858#1137#0" expanded="true" />
-            <element signature="e#1328#11673#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="186">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="77" column="57" selection-start-line="77" selection-start-column="57" selection-end-line="77" selection-end-column="57" />
+        <state relative-caret-position="-4602">
+          <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#108#231#0" expanded="true" />
@@ -1042,8 +1035,23 @@
             <element signature="e#406#524#0" expanded="true" />
             <element signature="e#526#621#0" expanded="true" />
             <element signature="e#623#863#0" expanded="true" />
-            <element signature="e#10892#14315#0" expanded="true" />
-            <element signature="e#14317#14396#0" expanded="true" />
+            <element signature="e#10917#14368#0" expanded="true" />
+            <element signature="e#14370#14449#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="201" column="47" selection-start-line="201" selection-start-column="47" selection-end-line="201" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#136#156#0" expanded="true" />
+            <element signature="e#261#359#0" expanded="true" />
+            <element signature="e#362#520#0" expanded="true" />
+            <element signature="e#524#789#0" expanded="true" />
+            <element signature="e#858#1137#0" expanded="true" />
           </folding>
         </state>
       </provider>

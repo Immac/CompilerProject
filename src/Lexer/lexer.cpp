@@ -48,6 +48,7 @@ void Lexer::ThrowLexicalError(std::string what)
 TokenRef Lexer::PascalToken() {
 	std::string lexeme = "";
 	auto state = LexicalState::Initial;
+	this->UpdatePosition();
 	while(true)
 	{
 		switch(state)
@@ -387,6 +388,7 @@ TokenRef Lexer::PascalToken() {
 TokenRef Lexer::HtmlToken() {
 	std::string lexeme = "";
 	auto state = LexicalState::Initial;
+	this->UpdatePosition();
 	while(true)
 	{
 		size_t lexemeSize = lexeme.size();
@@ -483,17 +485,18 @@ TokenRef Lexer::HtmlToken() {
 			case LexicalState::EndOfFile:
 				return std::make_shared<Token>(lexeme, TokenClass::EndOfFile, this->_row, this->_column);
 			case LexicalState::HtmlContent:
-				if (this->_currentSymbol.Value != '<'
-					&& this->_currentSymbol.Value != nullTerminator)
-				{
-					lexeme += this->_currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if(lastTwo == "<%")
+
+				if(lastTwo == "<%")
 				{
 					this->SetAnalysisMode(AnalysisMode::Pascal);
 					return std::make_shared<Token>
 							(lexeme.substr(0, lexemeSizeMinusTwo), TokenClass::HtmlContent, this->_row, this->_column);
+				}
+				else if (this->_currentSymbol.Value != '<'
+						 && this->_currentSymbol.Value != nullTerminator)
+				{
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
 				}
 				else
 				{
