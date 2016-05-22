@@ -19,14 +19,14 @@ void WebPascal::Syntactic::Parser::Program() {
 	ConsumeToken();
 	if(this->_currentToken->Type != Lexical::TokenClass::HtmlOpenTag)
 	{
-		ThrowSyntaxException("Expected HtmlOpenTag"); //TODO: HTML token parsing missing
+		ThrowSyntaxException("Expected HtmlOpenTag");
 	}
 
 	BodyHtml();
 
 	if(this->_currentToken->Type != Lexical::TokenClass::HtmlCloseTag)
 	{
-		ThrowSyntaxException("Expected HtmlOpenTag"); //TODO: HTML token parsing missing
+		ThrowSyntaxException("Expected HtmlOpenTag");
 	}
 }
 

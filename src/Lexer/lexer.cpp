@@ -168,7 +168,7 @@ TokenRef Lexer::PascalToken() {
 				}
 				break;
 			case LexicalState::IntegerLiteralHexadecimalDigits:
-				if(Util::Contains<char>(ValidHexValues,this->_currentSymbol.Value))
+				if(Util::Contains<char>(ValidHexValues,tolower(this->_currentSymbol.Value)))
 				{
 					state = LexicalState::IntegerLiteralHexadecimalDigits;
 					lexeme += this->_currentSymbol.Value;
