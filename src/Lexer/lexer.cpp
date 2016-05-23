@@ -386,7 +386,7 @@ TokenRef Lexer::PascalToken() {
 				this->ConsumeSymbol();
 				if(this->_currentSymbol.Value == '>')
 				{
-					this->SetAnalysisMode(AnalysisMode::Pascal);
+					this->SetAnalysisMode(AnalysisMode::Html);
 					this->ConsumeSymbol();
 					return std::make_shared<Token>
 							("", TokenClass::PascalCodeClose, this->_row, this->_column);
