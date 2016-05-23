@@ -36,7 +36,7 @@ namespace WebPascal {
 				EndOfFile,
 				CurlyBraceOpenedCommentBody,
 				ParenthesisOpenedCommentBody,
-				TryForHtml, HtmlContent, SwitchToHtmlAnalysis
+				TryForHtml, HtmlContent, SwitchToHtmlAnalysis, CharLiteral
 			};
 
 			Lexer(std::string content);
@@ -48,7 +48,6 @@ namespace WebPascal {
 			std::string OpenCommentCurlyBrace = "{";
 			std::string CloseCommentParenthesis = "*)";
 			std::string CloseCommentCurlyBrace = "}";
-			std::string SwitchToHtmlModeSymbol = "%>";
 
 			std::map<std::string,TokenClass> ReservedWords
 					{
@@ -87,6 +86,10 @@ namespace WebPascal {
 							{"program",TokenClass::ReservedProgram},
 							{"to",TokenClass::ReservedTo},
 							{"with",TokenClass::ReservedWith},
+							{"continue",TokenClass::ReservedContinue},
+							{"break",TokenClass::ReservedBreak},
+							{"true",TokenClass::BooleanLiteralTrue},
+							{"false",TokenClass::BooleanLiteralFalse},
 					};
 
 			std::map<std::string,TokenClass> Punctuation
@@ -96,25 +99,30 @@ namespace WebPascal {
 							{"(*",TokenClass::CommentOpenBlock},
 							{"*)",TokenClass::CommentCloseBlock},
 							{":",TokenClass::OperatorTypeAssign},
-							{":=",TokenClass::OperatorEnumAssign},
+							{":=",TokenClass::OperatorAssign},
 							{"=",TokenClass::OperatorAssignOrCompare},
 							{".",TokenClass::OperatorAccessor},
 							{"..",TokenClass::PunctuationRangeExclusive},
 							{"+",TokenClass::OperatorSum},
-							{"-",TokenClass::OperatorSubstract},
+							{"-",TokenClass::OperatorSubtract},
 							{"*",TokenClass::OperatorMultiply},
-							{"<>",TokenClass::OperatorDifferent},
+							{"/",TokenClass::OperatorDivide},
+							{"<>",TokenClass::OperatorDifferentFrom},
 							{">",TokenClass::OperatorGreaterThan},
 							{"<",TokenClass::OperatorLessThan},
 							{">=",TokenClass::OperatorGreaterOrEqualTo},
 							{"<=",TokenClass::OperatorLessThanOrEqualTo},
+							{";", TokenClass::EndOfStatement},
+							{",", TokenClass::PunctuationComma},
+							{"[", TokenClass::PunctuationOpenSquareBracket},
+							{"]", TokenClass::PunctuationCloseSquareBracket},
 					};
 
 
 
 			std::vector<char> UnambiguousPunctuation //TODO: deduce this from Punctuation
 					{
-							'=','+','-',')','{','}'
+							'=','+','-',')','{','}','[',']','/',';'
 					};
 
 			std::vector<char> AmbiguousPunctuationStartSymbols //TODO: deduce this from Punctuation

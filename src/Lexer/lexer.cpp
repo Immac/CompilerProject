@@ -93,6 +93,13 @@ TokenRef Lexer::PascalToken() {
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
+				else if(this->_currentSymbol.Value == '#')
+				{
+					state = LexicalState::CharLiteral;
+					this->UpdatePosition();
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
 				else if (this->_currentSymbol.Value == '\"') {
 					state = LexicalState::StringLiteralDoubleQuote;
 					this->UpdatePosition();
@@ -199,6 +206,26 @@ TokenRef Lexer::PascalToken() {
 					ThrowLexicalError("Expected a hexadecimal digit"); // TODO: got <symbol>, lexeme: lexeme
 				}
 				break;
+			case LexicalState::CharLiteral:
+				if(lexeme.size() > 4)
+				{
+					ThrowLexicalError("Expected length exceeded"); // TODO: got <symbol>, lexeme: lexeme
+				}
+				if(isdigit(_currentSymbol.Value))
+				{
+					state = LexicalState::CharLiteral;
+					lexeme += this->_currentSymbol.Value;
+					this->ConsumeSymbol();
+				}
+				else if (lexeme.length() > 1)
+				{
+					return std::make_shared<Token>(lexeme, TokenClass::CharLiteral, this->_row, this->_column);
+				}
+				else
+				{
+					ThrowLexicalError("Expected a digit"); // TODO: got <symbol>, lexeme: lexeme
+				}
+				break;
 			case LexicalState::StringLiteralDoubleQuote:
 				if(this->_currentSymbol.Value == '\"' )
 				{
@@ -222,12 +249,6 @@ TokenRef Lexer::PascalToken() {
 				if(this->_currentSymbol.Value == '\"')
 				{
 					state = LexicalState::StringLiteralEscapedDoubleQuote;
-					lexeme += this->_currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if(std::isprint(this->_currentSymbol.Value))
-				{
-					state = LexicalState::StringLiteralDoubleQuote;
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
@@ -277,12 +298,6 @@ TokenRef Lexer::PascalToken() {
 				if(this->_currentSymbol.Value == '\'')
 				{
 					state = LexicalState::StringLiteralEscapedSingleQuote;
-					lexeme += this->_currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if(std::isprint(this->_currentSymbol.Value))
-				{
-					state = LexicalState::StringLiteralSingleQuote;
 					lexeme += this->_currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
@@ -386,10 +401,10 @@ TokenRef Lexer::PascalToken() {
 				this->ConsumeSymbol();
 				if(this->_currentSymbol.Value == '>')
 				{
+					//TODO: Ignore this token and return the enxt one immediately
 					this->SetAnalysisMode(AnalysisMode::Html);
 					this->ConsumeSymbol();
-					return std::make_shared<Token>
-							("", TokenClass::PascalCodeClose, this->_row, this->_column);
+					return HtmlToken();
 				}
 				else
 				{
@@ -528,11 +543,3 @@ TokenRef Lexer::HtmlToken() {
 void Lexer::SetAnalysisMode(AnalysisMode mode) {
 	this->_analysisMode = mode;
 }
-
-
-
-
-
-
-
-

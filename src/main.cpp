@@ -161,9 +161,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			steps.Tokenize();
 			THEN( "the result should be" )
 			{
-				int index = 0; int row = 0; int column = 0;
-				steps.AssertTokenValidity(index,TokenClass::PascalCodeClose,"",row,column);
-				index = 1; row = 0; column = 2;
+				int index = 0; int row = 0; int column = 2;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
 		}
@@ -180,9 +178,7 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 			{
 				int index = 0; int row = 0; int column = 0;
 				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"",row,column);
-				index = 1; row = 0; column = 2;
-				steps.AssertTokenValidity(index,TokenClass::PascalCodeClose,"",row,column);
-				index = 2; row = 0; column = 4;
+				index = 1; row = 0; column = 4;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
 		}
@@ -377,6 +373,23 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 		}
 	}
 
+	GIVEN( "an char literal #20" )
+	{
+		std::string sourceCode = "#20";
+		steps.PascalContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::CharLiteral,"#20",row,column);
+				index = 1; row = 0; column = 3;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
 	GIVEN( "a double quoted string literal \"hola\"" )
 	{
 		std::string sourceCode = "\"hola\"";
@@ -406,6 +419,24 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 				int index = 0; int row = 0; int column = 0;
 				steps.AssertTokenValidity(index,TokenClass::StringLiteralDoubleQuote,"\"hola\"\"\"",row,column);
 				index = 1; row = 0; column = 8;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
+
+	GIVEN( "a double single string literal 'abcd'" )
+	{
+		std::string sourceCode = "'abcd'";
+		steps.PascalContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::StringLiteralSingleQuote,"'abcd'",row,column);
+				index = 1; row = 0; column = 6;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
 		}
@@ -511,17 +542,15 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 				steps.AssertTokenValidity(index,TokenClass::HtmlOpenTag,"<html>",row,column);
 				index = 1; row = 0; column = 6;
 				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"",row,column);
-				index = 2; row = 0; column = 8;
-				steps.AssertTokenValidity(index,TokenClass::PascalCodeClose,"",row,column);
-				index = 3; row = 0; column = 10;
+				index = 2; row = 0; column = 10;
 				steps.AssertTokenValidity(index,TokenClass::HtmlCloseTag,"</html>",row,column);
-				index = 4; row = 0; column = 17;
+				index = 3; row = 0; column = 17;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
 		}
 	}
 
-	GIVEN( "an open html tag and a closing html tag with empty pascal code" )
+	GIVEN( "an open html tag and a closing html tag with array pascal code" )
 	{
 		std::string sourceCode = "<html><%array%></html>";
 		steps.HtmlContext(sourceCode);
@@ -536,14 +565,27 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"",row,column);
 				index = 2; row = 0; column = 8;
 				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"array",row,column);
-				index = 3; row = 0; column = 13;
-				steps.AssertTokenValidity(index,TokenClass::PascalCodeClose,"",row,column);
-				index = 4; row = 0; column = 15;
+				index = 3; row = 0; column = 15;
 				steps.AssertTokenValidity(index,TokenClass::HtmlCloseTag,"</html>",row,column);
-				index = 5; row = 0; column = 22;
+				index = 4; row = 0; column = 22;
 				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
 			}
 		}
 	}
+
+	GIVEN( "an simple program" )
+	{
+		std::string sourceCode = "<html><%Write('Hello World!');Readln();%></html>";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				//TODO: Asserts
+			}
+		}
+	}
+
 
 }

@@ -20,7 +20,7 @@ LS_LOOP -> LoopS LS_LOOP
 S -> Declaracion ;
    | IF ;
    | PREFOR ;
-   | WHILE ;
+   | WHILE ;		
    | REPEAT ;
    | CASE 
    | DeclareType ;
@@ -77,18 +77,15 @@ RecordType -> EnumeratedType ;
 Array -> array [ ListaRangos ] of ArrayTypes
 
 ArrayTypes -> id
-						| Rango
+			| Rango
             | Array
 
 ListaRangos -> Rango ListaRangosOp
 							
 ListaRangosOp -> , ListaRangos
-								| Ep
+				| Ep
                 
-Rango -> id
-      | Subrange
-      
-SubRange -> expresion OpRange expresion //expresion debe ser del mismo tipo y constantes
+Rango -> expresion oprange expresion //expresion debe ser del mismo tipo y constantes
 
 IF -> if EXPRESION Then BlOCK ELSE
 
@@ -101,7 +98,7 @@ ELSE -> else BlOCK
 PREFOR -> for id ForBody
 
 ForBody -> FOR
-					| FORIN
+		| FORIN
         
 FOR -> := EXPRESION to Expresion do LOOPBLOCK
 
@@ -130,7 +127,7 @@ LISTAEXPR_OP -> , LISTAEXPR
 CASE -> case id of CASELIST
 
 CASELIST -> CASELITERAL : BLOCK ; CASELIST
-					| ELSE ;
+		| ELSE ;
           | Ep
           
 CASELITERAL -> ListaNum
@@ -164,8 +161,8 @@ EXTRADECL -> , LISTADECL
 					| Ep
           
 DECLPARAM -> id : id  
-					| var ListaId : id
-
+		| var ListaId : id
+//  : id se puede poner enmedio de DECLPARAM y EXTRADECL
 //LE EXPRESSION***
 
 EXPRESION -> RelationalExpresion
@@ -188,24 +185,26 @@ ExpresionMul' -> OpMul ExpresionMul'
 ExpresionUnary -> not Factor
 						| Factor
           
-Factor ->   id
+Factor ->   id X
           | lit_num
           | lit_string
           | lit_char
-          | lit_boolean
-          | LLAMARFUNCION
+          | lit_boolean <- true or false palabras reservadas
           | ( EXPRESION )
 
+X -> LLAMRFUNCIONSENTENCIA
+	| Ep
+		  
 OpRelational -> <
-							| >
-              | <=
-              | >= 
-              | <>
-              | =
+			| >
+			| <=
+			| >= 
+			| <>
+			| =
 
 OpAdicion -> +
-					 | -
-           | Or
+			| -
+			| Or
            
 OpMul -> *
        | / 

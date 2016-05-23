@@ -1,6 +1,5 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
-#include <map>
 namespace WebPascal {
 	namespace Lexical {
 		class Symbol

@@ -19,7 +19,8 @@ Symbol SourceStream::GetNextSymbol()
 {
 
 	Symbol symbol{_row,_col,'\0'};
-	if(_index >= _sourceCode.length())
+	auto sourceCodeLength = _sourceCode.length();
+	if(_index >= sourceCodeLength)
 	{
 		return symbol;
 	}
