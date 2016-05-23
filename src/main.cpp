@@ -521,4 +521,29 @@ SCENARIO( "Lexical Analisys", "[vector]" )
 		}
 	}
 
+	GIVEN( "an open html tag and a closing html tag with empty pascal code" )
+	{
+		std::string sourceCode = "<html><%array%></html>";
+		steps.HtmlContext(sourceCode);
+		WHEN( "we tokenize" )
+		{
+			steps.Tokenize();
+			THEN( "the result should be" )
+			{
+				int index = 0; int row = 0; int column = 0;
+				steps.AssertTokenValidity(index,TokenClass::HtmlOpenTag,"<html>",row,column);
+				index = 1; row = 0; column = 6;
+				steps.AssertTokenValidity(index,TokenClass::HtmlContent,"",row,column);
+				index = 2; row = 0; column = 8;
+				steps.AssertTokenValidity(index,TokenClass::ReservedArray,"array",row,column);
+				index = 3; row = 0; column = 13;
+				steps.AssertTokenValidity(index,TokenClass::PascalCodeClose,"",row,column);
+				index = 4; row = 0; column = 15;
+				steps.AssertTokenValidity(index,TokenClass::HtmlCloseTag,"</html>",row,column);
+				index = 5; row = 0; column = 22;
+				steps.AssertTokenValidity(index,TokenClass::EndOfFile,"@",row,column);
+			}
+		}
+	}
+
 }
