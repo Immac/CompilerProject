@@ -1,13 +1,13 @@
 #include <sstream>
 #include "Parser.h"
-//TODO: fix the iisue with consuming the character when trying to know what to do next
+//TODO: fix the issue with consuming the character when trying to know what to do next
 using namespace WebPascal;
 using namespace Syntactic;
 using namespace Lexical;
-Parser::Parser(WebPascal::Lexical::LexerRef analyzer)
-		: _analyzer(analyzer)
+
+Parser::Parser(WebPascal::Lexical::Lexer analyzer)
+		: _analyzer(analyzer), _currentToken(_analyzer.GetNextToken())
 {
-	_currentToken = _analyzer->GetNextToken();
 }
 
 void WebPascal::Syntactic::Parser::Parse()
@@ -15,25 +15,23 @@ void WebPascal::Syntactic::Parser::Parse()
 	Program();
 }
 
-void WebPascal::Syntactic::Parser::Program() {
-	// <HTML>
-	ConsumeToken();
-	if(this->_currentToken->Type != TokenClass::HtmlOpenTag)
+void WebPascal::Syntactic::Parser::Program()
+{
+	if (this->_currentToken.Type == TokenClass::HtmlOpenTag)
+	{
+		ConsumeToken();
+	}
+	else
 	{
 		ThrowSyntaxException("Expected HtmlOpenTag");
 	}
 
 	BodyHtml();
-
-	if(this->_currentToken->Type != TokenClass::HtmlCloseTag)
-	{
-		ThrowSyntaxException("Expected HtmlOpenTag");
-	}
 }
 
 void Parser::ConsumeToken()
 {
-	_currentToken = _analyzer->GetNextToken();
+	_currentToken = _analyzer.GetNextToken();
 }
 
 void WebPascal::Syntactic::Parser::ThrowSyntaxException(std::string what)
@@ -41,166 +39,219 @@ void WebPascal::Syntactic::Parser::ThrowSyntaxException(std::string what)
 	std::stringstream message;
 	std::string errorType = "Syntax Exception: ";
 	message << errorType << what
-	<< "at col: " << _currentToken->Column
-	<< " line: " << _currentToken->Row;
+	<< "at col: " << _currentToken.Column
+	<< " line: " << _currentToken.Row;
 
 	throw message.str();
 }
 
-void Parser::BodyHtml() {
+void Parser::BodyHtml()
+{
 	BlockHtml();
 	BodyHtmlPrime();
+
 }
 
-void Parser::BlockHtml() {
-	if(_currentToken->Type == TokenClass::HtmlContent)
+void Parser::BlockHtml()
+{
+	if (_currentToken.Type == TokenClass::HtmlContent)
 	{
 		this->ConsumeToken();
 	}
 }
 
-void Parser::BodyHtmlPrime() {
-	if(_currentToken->Type == TokenClass::PascalCodeOpen)
+void Parser::BodyHtmlPrime()
+{
+	if (_currentToken.Type == TokenClass::HtmlCloseTag)
 	{
-		this->ConsumeToken();
+		ConsumeToken();
+	}
+	else
+	{
 		StatementList();
-		if(_currentToken->Type != TokenClass::PascalCodeClose)
-		{
-			ThrowSyntaxException("Expected PascalCodeClose.");
-		}
 		BodyHtml();
 	}
 }
 
-void Parser::StatementList() {
+void Parser::StatementList()
+{
 	Statement();
-	if(_currentToken->Type != TokenClass::PascalCodeClose)
+	if (_currentToken.Type != TokenClass::HtmlContent
+		&& _currentToken.Type != TokenClass::HtmlCloseTag)
 	{
 		StatementList();
 	}
-
 }
 
-void Parser::Statement() {
-	if(_currentToken->Type == TokenClass::ReservedVar)
+void Parser::Statement()
+{
+	if (_currentToken.Type == TokenClass::ReservedVar)
 	{
 		this->ConsumeToken();
 		Declaration();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if (_currentToken->Type == TokenClass::ReservedIf)
+	else if (_currentToken.Type == TokenClass::ReservedIf)
 	{
 		this->ConsumeToken();
 		If();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if(_currentToken->Type == TokenClass::ReservedFor)
+	else if (_currentToken.Type == TokenClass::ReservedFor)
 	{
 		this->ConsumeToken();
 		ForOrForIn();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if(_currentToken->Type == TokenClass::ReservedWhile)
+	else if (_currentToken.Type == TokenClass::ReservedWhile)
 	{
 		this->ConsumeToken();
 		While();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if(_currentToken->Type == TokenClass::ReservedRepeat)
+	else if (_currentToken.Type == TokenClass::ReservedRepeat)
 	{
 		this->ConsumeToken();
 		Repeat();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if(_currentToken->Type == TokenClass::ReservedCase)
+	else if (_currentToken.Type == TokenClass::ReservedCase)
 	{
 		this->ConsumeToken();
 		Case();
 	}
-	else if(_currentToken->Type == TokenClass::ReservedType)
+	else if (_currentToken.Type == TokenClass::ReservedType)
 	{
 		this->ConsumeToken();
 		DeclareType();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if(_currentToken->Type == TokenClass::ReservedFunction)
+	else if (_currentToken.Type == TokenClass::ReservedFunction)
 	{
 		this->ConsumeToken();
 		FunctionDeclaration();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if(_currentToken->Type == TokenClass::ReservedProcedure)
+	else if (_currentToken.Type == TokenClass::ReservedProcedure)
 	{
 		this->ConsumeToken();
 		ProcedureDeclaration();
+		if (_currentToken.Type == TokenClass::EndOfStatement)
+		{
+			this->ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected ;");
+		}
 	}
-	else if(_currentToken->Type == TokenClass::Id)
+	else if (_currentToken.Type == TokenClass::Id)
 	{
 		this->ConsumeToken();
 		StartWithId();
 	}
 }
 
-void Parser::Declaration() {
-	if(_currentToken->Type == TokenClass::Id)
+void Parser::Declaration()
+{
+	if (_currentToken.Type == TokenClass::Id)
 	{
 		this->ConsumeToken();
-		Y();
-		if(_currentToken->Type == TokenClass::EndOfStatement)
+		DeclarationTail();
+	}
+	else
+	{
+		ThrowSyntaxException("Expected id, ',' or :")
+	}
+}
+
+void Parser::DeclarationTail()
+{
+	if (_currentToken.Type == TokenClass::PunctuationComma)
+	{
+		IdOptional();
+		if (_currentToken.Type == TokenClass::OperatorTypeAssign)
 		{
 			ConsumeToken();
 		}
 		else
 		{
-			ThrowSyntaxException("Expected EndOfStatement Token");
+			ThrowSyntaxException("EXpected :");
 		}
-	}
-}
-
-void Parser::Y() {
-	if(_currentToken->Type == TokenClass::Id)
-	{
-		this->ConsumeToken();
-		if(_currentToken->Type == TokenClass::OperatorTypeAssign)
+		if (_currentToken.Type == TokenClass::Id)
 		{
-			this->ConsumeToken();
-			if(_currentToken->Type == TokenClass::Id)
-			{
-				this->ConsumeToken();
-			}
-			else
-			{
-				ThrowSyntaxException("Expected an id");
-			}
+			ConsumeToken();
 		}
 		else
 		{
-			ThrowSyntaxException("Expected OperatorTypeAssign");
+			ThrowSyntaxException("EXpected asn id");
 		}
 	}
-	else if(_currentToken->Type == TokenClass::OperatorTypeAssign)
+	else if (_currentToken.Type == TokenClass::OperatorAssignOrCompare)
 	{
-		this->ConsumeToken();
-		if(_currentToken->Type == TokenClass::Id)
-		{
-			this->ConsumeToken();
-			AssignValue();
-		}
-		else
-		{
-			ThrowSyntaxException("Expected an id");
-		}
+		ConsumeToken();
+		AssignValue();
 	}
 }
 
-void Parser::AssignValue() {
-	if(_currentToken->Type == TokenClass::OperatorAssignOrCompare)
-	{
-		this->ConsumeToken();
-		Expression();
-	}
-	else
-	{
-		//Epsilon
-	}
-}
-
-void Parser::If() {
+void Parser::AssignValue()
+{
 	Expression();
-	if(_currentToken->Type == TokenClass::ReservedThen)
+}
+
+void Parser::If()
+{
+	Expression();
+	if (_currentToken.Type == TokenClass::ReservedThen)
 	{
 		this->ConsumeToken();
 		Block();
@@ -212,12 +263,14 @@ void Parser::If() {
 	}
 }
 
-void Parser::Block() {
-	if(_currentToken->Type == TokenClass::ReservedBegin)
+void Parser::Block()
+{
+	if (_currentToken.Type == TokenClass::ReservedBegin)
 	{
 		this->ConsumeToken();
 		StatementList();
-		if(_currentToken->Type == TokenClass::ReservedEnd) {
+		if (_currentToken.Type == TokenClass::ReservedEnd)
+		{
 			this->ConsumeToken();
 		}
 		else
@@ -231,8 +284,9 @@ void Parser::Block() {
 	}
 }
 
-void Parser::Else() {
-	if(_currentToken->Type == TokenClass::ReservedElse)
+void Parser::Else()
+{
+	if (_currentToken.Type == TokenClass::ReservedElse)
 	{
 		this->ConsumeToken();
 		Block();
@@ -243,13 +297,14 @@ void Parser::Else() {
 	}
 }
 
-void Parser::ForOrForIn() {
-	if(_currentToken->Type == TokenClass::OperatorAssign)
+void Parser::ForOrForIn()
+{
+	if (_currentToken.Type == TokenClass::OperatorAssign)
 	{
 		this->ConsumeToken();
 		For();
 	}
-	else if (_currentToken->Type == TokenClass::ReservedIn)
+	else if (_currentToken.Type == TokenClass::ReservedIn)
 	{
 		this->ConsumeToken();
 		ForIn();
@@ -263,11 +318,12 @@ void Parser::ForOrForIn() {
 void Parser::For()
 {
 	Expression();
-	if(_currentToken->Type == TokenClass::ReservedTo)
+	if (_currentToken.Type == TokenClass::ReservedTo)
 	{
 		this->ConsumeToken();
 		Expression();
-		if(_currentToken->Type == TokenClass::ReservedDo) {
+		if (_currentToken.Type == TokenClass::ReservedDo)
+		{
 			this->ConsumeToken();
 			LoopBlock();
 		}
@@ -282,14 +338,15 @@ void Parser::For()
 	}
 }
 
-void Parser::ForIn() {
-	if(_currentToken->Type == TokenClass::ReservedIn)
+void Parser::ForIn()
+{
+	if (_currentToken.Type == TokenClass::ReservedIn)
 	{
 		this->ConsumeToken();
-		if(_currentToken->Type == TokenClass::Id)
+		if (_currentToken.Type == TokenClass::Id)
 		{
 			this->ConsumeToken();
-			if(_currentToken->Type == TokenClass::ReservedDo)
+			if (_currentToken.Type == TokenClass::ReservedDo)
 			{
 				this->ConsumeToken();
 				LoopBlock();
@@ -311,8 +368,9 @@ void Parser::ForIn() {
 
 }
 
-void Parser::LoopBlock() {
-	if(_currentToken->Type == TokenClass::ReservedBegin)
+void Parser::LoopBlock()
+{
+	if (_currentToken.Type == TokenClass::ReservedBegin)
 	{
 		ConsumeToken();
 		LoopStatement();
@@ -323,12 +381,13 @@ void Parser::LoopBlock() {
 	}
 }
 
-void Parser::LoopStatement() {
-	if(_currentToken->Type == TokenClass::ReservedContinue)
+void Parser::LoopStatement()
+{
+	if (_currentToken.Type == TokenClass::ReservedContinue)
 	{
 		this->ConsumeToken();
 	}
-	else if(_currentToken->Type == TokenClass::ReservedBreak)
+	else if (_currentToken.Type == TokenClass::ReservedBreak)
 	{
 		this->ConsumeToken();
 	}
@@ -341,15 +400,16 @@ void Parser::LoopStatement() {
 void Parser::LoopStatementList()
 {
 	LoopStatement();
-	if(_currentToken->Type != TokenClass::EndOfStatement)
+	if (_currentToken.Type != TokenClass::EndOfStatement)
 	{
 		LoopStatementList();
 	}
 }
 
-void Parser::While() {
+void Parser::While()
+{
 	Expression();
-	if(_currentToken->Type == TokenClass::ReservedDo)
+	if (_currentToken.Type == TokenClass::ReservedDo)
 	{
 		this->ConsumeToken();
 		LoopBlock();
@@ -360,9 +420,10 @@ void Parser::While() {
 	}
 }
 
-void Parser::Repeat() {
+void Parser::Repeat()
+{
 	LoopStatementList();
-	if(_currentToken->Type == TokenClass::ReservedUntil)
+	if (_currentToken.Type == TokenClass::ReservedUntil)
 	{
 		this->ConsumeToken();
 		Expression();
@@ -373,11 +434,12 @@ void Parser::Repeat() {
 	}
 }
 
-void Parser::Case() {
-	if(_currentToken->Type == TokenClass::Id)
+void Parser::Case()
+{
+	if (_currentToken.Type == TokenClass::Id)
 	{
 		this->ConsumeToken();
-		if(_currentToken->Type == TokenClass::ReservedOf)
+		if (_currentToken.Type == TokenClass::ReservedOf)
 		{
 			this->ConsumeToken();
 			CaseList();
@@ -393,82 +455,86 @@ void Parser::Case() {
 	}
 }
 
-void Parser::CaseList() {
+void Parser::CaseList()
+{
 	this->ConsumeToken();
-	if(_currentToken->Type == TokenClass::ReservedElse)
+	if (_currentToken.Type == TokenClass::ReservedElse)
 	{
 		this->ConsumeToken();
 		Else();
 	}
-	else if(_currentToken->Type == TokenClass::IntegerLiteralDecimal)
+	else if (_currentToken.Type == TokenClass::IntegerLiteralDecimal)
 	{
 		this->ConsumeToken();
 		NumberList();
 	}
-	else if(_currentToken->Type == TokenClass::IntegerLiteralHexadecimal)
+	else if (_currentToken.Type == TokenClass::IntegerLiteralHexadecimal)
 	{
 		this->ConsumeToken();
 		NumberList();
 	}
-	else if(_currentToken->Type == TokenClass::IntegerLiteralOctal)
+	else if (_currentToken.Type == TokenClass::IntegerLiteralOctal)
 	{
 		this->ConsumeToken();
 		NumberList();
 	}
-	else if(_currentToken->Type == TokenClass::StringLiteralDoubleQuote)
+	else if (_currentToken.Type == TokenClass::StringLiteralDoubleQuote)
 	{
-		if(!IsCurrentTokenChar())
+		if (!IsCurrentTokenChar())
 		{
 			ThrowSyntaxException("Expected a char literal");
 		}
 		this->ConsumeToken();
 		CharacterList();
 	}
-	else if(_currentToken->Type == TokenClass::StringLiteralSingleQuote)
+	else if (_currentToken.Type == TokenClass::StringLiteralSingleQuote)
 	{
 		this->ConsumeToken();
 		CharacterList();
 	}
-	else if(_currentToken->Type == TokenClass::CharLiteral)
+	else if (_currentToken.Type == TokenClass::CharLiteral)
 	{
 		this->ConsumeToken();
 		CharacterList();
 	}
-	else if(_currentToken->Type == TokenClass::Id)
+	else if (_currentToken.Type == TokenClass::Id)
 	{
 		this->ConsumeToken();
 		IdList();
 	}
 }
 
-bool Parser::IsCurrentTokenChar() {
-	auto size = _currentToken->Lexeme.size();
+bool Parser::IsCurrentTokenChar()
+{
+	auto size = _currentToken.Lexeme.size();
 	return size == 1
-		&& (_currentToken->Type == TokenClass::StringLiteralSingleQuote
-	  		|| _currentToken->Type == TokenClass::StringLiteralSingleQuote)
-			|| _currentToken->Type == TokenClass::CharLiteral;
+		   && (_currentToken.Type == TokenClass::StringLiteralSingleQuote
+			   || _currentToken.Type == TokenClass::StringLiteralDoubleQuote)
+		   || _currentToken.Type == TokenClass::CharLiteral;
 }
 
-void Parser::NumberList() {
+void Parser::NumberList()
+{
 	NumberOptional();
 }
 
-void Parser::NumberOptional() {
+void Parser::NumberOptional()
+{
 
-	if(_currentToken->Type == TokenClass::PunctuationComma)
+	if (_currentToken.Type == TokenClass::PunctuationComma)
 	{
 		this->ConsumeToken();
-		if(_currentToken->Type == TokenClass::IntegerLiteralOctal)
+		if (_currentToken.Type == TokenClass::IntegerLiteralOctal)
 		{
 			this->ConsumeToken();
 
 		}
-		else if(_currentToken->Type == TokenClass::IntegerLiteralHexadecimal)
+		else if (_currentToken.Type == TokenClass::IntegerLiteralHexadecimal)
 		{
 			this->ConsumeToken();
 
 		}
-		else if(_currentToken->Type == TokenClass::IntegerLiteralDecimal)
+		else if (_currentToken.Type == TokenClass::IntegerLiteralDecimal)
 		{
 			this->ConsumeToken();
 		}
@@ -479,25 +545,27 @@ void Parser::NumberOptional() {
 	}
 }
 
-void Parser::CharacterList() {
+void Parser::CharacterList()
+{
 	CharacterOptional();
 }
 
-void Parser::CharacterOptional() {
-	if(_currentToken->Type == TokenClass::PunctuationComma)
+void Parser::CharacterOptional()
+{
+	if (_currentToken.Type == TokenClass::PunctuationComma)
 	{
 		this->ConsumeToken();
-		if(_currentToken->Type == TokenClass::StringLiteralSingleQuote && IsCurrentTokenChar())
+		if (_currentToken.Type == TokenClass::StringLiteralSingleQuote && IsCurrentTokenChar())
 		{
 			this->ConsumeToken();
 			CharacterList();
 		}
-		else if(_currentToken->Type == TokenClass::StringLiteralDoubleQuote && IsCurrentTokenChar())
+		else if (_currentToken.Type == TokenClass::StringLiteralDoubleQuote && IsCurrentTokenChar())
 		{
 			this->ConsumeToken();
 			CharacterList();
 		}
-		else if(_currentToken->Type == TokenClass::CharLiteral)
+		else if (_currentToken.Type == TokenClass::CharLiteral)
 		{
 			this->ConsumeToken();
 			CharacterList();
@@ -509,15 +577,17 @@ void Parser::CharacterOptional() {
 	}
 }
 
-void Parser::IdList() {
+void Parser::IdList()
+{
 	IdOptional();
 }
 
-void Parser::IdOptional() {
-	if(_currentToken->Type == TokenClass::PunctuationComma)
+void Parser::IdOptional()
+{
+	if (_currentToken.Type == TokenClass::PunctuationComma)
 	{
 		this->ConsumeToken();
-		if(_currentToken->Type == TokenClass::Id)
+		if (_currentToken.Type == TokenClass::Id)
 		{
 			this->ConsumeToken();
 			IdList();
@@ -529,26 +599,27 @@ void Parser::IdOptional() {
 	}
 }
 
-void Parser::DeclareType() {
-	if(this->ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedType))
+void Parser::DeclareType()
+{
+	if (this->ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedType))
 	{
-		if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+		if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 		{
-			if(ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
+			if (ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
 			{
-				if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
+				if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
 				{
 					EnumeratedType();
 				}
-				else if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+				else if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 				{
 					// Typedef
 				}
-				else if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedRecord))
+				else if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedRecord))
 				{
 					Record();
 				}
-				else if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedArray))
+				else if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedArray))
 				{
 					Array();
 				}
@@ -573,8 +644,9 @@ void Parser::DeclareType() {
 	}
 }
 
-bool Parser::ConsumeIfCurrentTokenTypeIs(Lexical::TokenClass tokenType) {
-	if(_currentToken->Type == tokenType)
+bool Parser::ConsumeIfCurrentTokenTypeIs(Lexical::TokenClass tokenType)
+{
+	if (_currentToken.Type == tokenType)
 	{
 		this->ConsumeToken();
 		return true;
@@ -582,15 +654,17 @@ bool Parser::ConsumeIfCurrentTokenTypeIs(Lexical::TokenClass tokenType) {
 	return false;
 }
 
-void Parser::EnumeratedType() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id)) {
+void Parser::EnumeratedType()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+	{
 		IdList();
 	}
 	else
 	{
 		ThrowSyntaxException("Expected id");
 	}
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRightParenthesis))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRightParenthesis))
 	{
 		// Empty on purpose
 	}
@@ -600,8 +674,9 @@ void Parser::EnumeratedType() {
 	}
 }
 
-void Parser::Record() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+void Parser::Record()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 	{
 		PropertyList();
 	}
@@ -610,7 +685,7 @@ void Parser::Record() {
 		ThrowSyntaxException("Expected an id");
 	}
 
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedEnd))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedEnd))
 	{
 
 	}
@@ -619,7 +694,7 @@ void Parser::Record() {
 		ThrowSyntaxException("Expected end");
 	}
 
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::EndOfStatement))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::EndOfStatement))
 	{
 
 	}
@@ -630,18 +705,19 @@ void Parser::Record() {
 
 }
 
-void Parser::PropertyList() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
+void Parser::PropertyList()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
 	{
-		if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
+		if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
 		{
 			EnumeratedType();
 		}
-		else if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+		else if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 		{
 			// Typedef
 		}
-		else if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedRecord))
+		else if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedRecord))
 		{
 			Record();
 		}
@@ -656,8 +732,9 @@ void Parser::PropertyList() {
 	}
 }
 
-void Parser::Array() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationOpenSquareBracket))
+void Parser::Array()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationOpenSquareBracket))
 	{
 	}
 	else
@@ -665,14 +742,14 @@ void Parser::Array() {
 		ThrowSyntaxException("Expected [");
 	}
 	RangeList();
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationCloseSquareBracket))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationCloseSquareBracket))
 	{
 	}
 	else
 	{
 		ThrowSyntaxException("Expected ]");
 	}
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedOf))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedOf))
 	{
 	}
 	else
@@ -682,11 +759,12 @@ void Parser::Array() {
 	ArrayTypes();
 }
 
-void Parser::ArrayTypes() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+void Parser::ArrayTypes()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 	{
 	}
-	else if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedArray))
+	else if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedArray))
 	{
 		Array();
 	}
@@ -696,15 +774,17 @@ void Parser::ArrayTypes() {
 	}
 }
 
-void Parser::RangeList() {
+void Parser::RangeList()
+{
 	Range();
 	RangeOptional();
 
 }
 
-void Parser::Range() {
+void Parser::Range()
+{
 	Expression();
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRangeExclusive))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRangeExclusive))
 	{
 	}
 	else
@@ -714,8 +794,9 @@ void Parser::Range() {
 	Expression();
 }
 
-void Parser::RangeOptional() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationComma))
+void Parser::RangeOptional()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationComma))
 	{
 		RangeList();
 	}
@@ -725,8 +806,9 @@ void Parser::RangeOptional() {
 	}
 }
 
-void Parser::FunctionDeclaration() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+void Parser::FunctionDeclaration()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 	{
 	}
 	else
@@ -734,21 +816,21 @@ void Parser::FunctionDeclaration() {
 		ThrowSyntaxException("Expected id");
 	}
 	Params();
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::EndOfStatement))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::EndOfStatement))
 	{
 	}
 	else
 	{
 		ThrowSyntaxException("Expected ;");
 	}
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
 	{
 	}
 	else
 	{
 		ThrowSyntaxException("Expected :");
 	}
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 	{
 	}
 	else
@@ -758,8 +840,9 @@ void Parser::FunctionDeclaration() {
 	FunctionBlock();
 }
 
-void Parser::Params() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
+void Parser::Params()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
 	{
 	}
 	else
@@ -767,7 +850,7 @@ void Parser::Params() {
 		ThrowSyntaxException("Expected (");
 	}
 	ParameterDeclarationList();
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRightParenthesis))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRightParenthesis))
 	{
 	}
 	else
@@ -776,10 +859,11 @@ void Parser::Params() {
 	}
 }
 
-void Parser::ParameterDeclarationList () {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+void Parser::ParameterDeclarationList()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 	{
-		if(ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
+		if (ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
 		{
 
 		}
@@ -787,7 +871,7 @@ void Parser::ParameterDeclarationList () {
 		{
 			ThrowSyntaxException("Expected :");
 		}
-		if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+		if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 		{
 
 		}
@@ -798,9 +882,10 @@ void Parser::ParameterDeclarationList () {
 		ParameterDeclarationOptional();
 
 	}
-	else if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedVar))
+	else if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedVar))
 	{
-		if(_currentToken->Type == TokenClass::Id) {
+		if (_currentToken.Type == TokenClass::Id)
+		{
 			this->ConsumeToken();
 			IdList();
 		}
@@ -808,7 +893,7 @@ void Parser::ParameterDeclarationList () {
 		{
 			ThrowSyntaxException("Expected id or var");
 		}
-		if(ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
+		if (ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorTypeAssign))
 		{
 
 		}
@@ -828,14 +913,15 @@ void Parser::ParameterDeclarationList () {
 
 void Parser::ParameterDeclarationOptional()
 {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationComma))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationComma))
 	{
 		ParameterDeclarationList();
 	}
 }
 
-void Parser::FunctionBlock() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedBegin))
+void Parser::FunctionBlock()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedBegin))
 	{
 	}
 	else
@@ -843,7 +929,7 @@ void Parser::FunctionBlock() {
 		ThrowSyntaxException("Expected begin");
 	}
 	StatementList();
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedEnd))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::ReservedEnd))
 	{
 	}
 	else
@@ -853,10 +939,9 @@ void Parser::FunctionBlock() {
 }
 
 
-
 void Parser::ProcedureDeclaration()
 {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::Id))
 	{
 	}
 	else
@@ -864,7 +949,7 @@ void Parser::ProcedureDeclaration()
 		ThrowSyntaxException("Expected id");
 	}
 	Params();
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::EndOfStatement))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::EndOfStatement))
 	{
 	}
 	else
@@ -874,12 +959,13 @@ void Parser::ProcedureDeclaration()
 	FunctionBlock();
 }
 
-void Parser::StartWithId() {
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
+void Parser::StartWithId()
+{
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
 	{
 		CallFunction();
 	}
-	else if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationLeftParenthesis))
+	else if (ConsumeIfCurrentTokenTypeIs(TokenClass::OperatorAssign))
 	{
 		AssignValue();
 	}
@@ -887,185 +973,272 @@ void Parser::StartWithId() {
 	{
 		ThrowSyntaxException("Expected ( or =");
 	}
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::EndOfStatement))
+	{
+	}
+	else
+	{
+		ThrowSyntaxException("Expected ;");
+	}
 
 }
 
-void Parser::CallFunction() {
+void Parser::CallFunction()
+{
 	ExpressionList();
-	if(ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRightParenthesis))
+	if (ConsumeIfCurrentTokenTypeIs(TokenClass::PunctuationRightParenthesis))
+	{
+	}
+	else
+	{
+		ThrowSyntaxException("Expected )");
+	}
+
+}
+
+void Parser::Expression()
+{
+	RelationalExpression();
+}
+
+void Parser::ExpressionList()
+{
+	Expression();
+	ExpressionListOptional();
+}
+
+
+void Parser::ExpressionListOptional()
+{
+	if (_currentToken.Type == TokenClass::PunctuationComma)
+	{
+		ConsumeToken();
+		ExpressionList();
+	}
+}
+
+void Parser::RelationalExpression()
+{
+	AdditionExpression();
+	RelationalExpressionPrime();
+}
+
+void Parser::RelationalExpressionPrime()
+{
+	RelationalOperator();
+}
+
+void Parser::AdditionExpression()
+{
+	MultiplicationExpression();
+	AdditionExpressionPrime();
+}
+
+void Parser::AdditionExpressionPrime()
+{
+	AdditionOperator();
+}
+
+void Parser::MultiplicationExpression()
+{
+	UnaryExpression();
+	MultiplicationExpressionPrime();
+}
+
+void Parser::MultiplicationExpressionPrime()
+{
+	MultiplicationOperator();
+
+}
+
+void Parser::UnaryExpression()
+{
+	if (_currentToken.Type == TokenClass::ReservedNot)
+	{
+		ConsumeToken();
+		Factor();
+	}
+	else
+	{
+		Factor();
+	}
+}
+
+void Parser::Factor()
+{
+	if (_currentToken.Type == TokenClass::Id)
+	{
+		ConsumeToken();
+		if (_currentToken.Type == TokenClass::PunctuationLeftParenthesis)
 		{
+			ConsumeToken();
+			CallFunction();
+		}
+		else if (_currentToken.Type == TokenClass::OperatorAccessor)
+		{
+			ConsumeToken();
+			if(_currentToken.Type == TokenClass::Id)
+			{
+				AccessorList();
+			}
+			else
+			{
+				ThrowSyntaxException("Expected id");
+			}
+		}
+	}
+	else if (_currentToken.Type == TokenClass::IntegerLiteralDecimal)
+	{
+		ConsumeToken();
+	}
+	else if (_currentToken.Type == TokenClass::IntegerLiteralOctal)
+	{
+		ConsumeToken();
+	}
+	else if (_currentToken.Type == TokenClass::IntegerLiteralHexadecimal)
+	{
+		ConsumeToken();
+	}
+	else if (_currentToken.Type == TokenClass::StringLiteralSingleQuote)
+	{
+		ConsumeToken();
+	}
+	else if (_currentToken.Type == TokenClass::StringLiteralDoubleQuote)
+	{
+		ConsumeToken();
+	}
+	else if (IsCurrentTokenChar()) // Todo: temporary quick fix
+	{
+		ConsumeToken();
+	}
+	else if (_currentToken.Type == TokenClass::BooleanLiteralTrue)
+	{
+		ConsumeToken();
+	}
+	else if (_currentToken.Type == TokenClass::BooleanLiteralFalse)
+	{
+		ConsumeToken();
+	}
+	else if (_currentToken.Type == TokenClass::PunctuationLeftParenthesis)
+	{
+		ConsumeToken();
+		Expression();
+		if (_currentToken.Type == TokenClass::PunctuationRightParenthesis)
+		{
+
 		}
 		else
 		{
 			ThrowSyntaxException("Expected )");
 		}
-}
-
-void Parser::Expression() {
-	RelationalExpression();
-}
-
-void Parser::ExpressionList() {
-
-}
-
-void Parser::RelationalExpression() {
-	AdditionExpression();
-	RelationalExpressionPrime();
-}
-
-void Parser::RelationalExpressionPrime() {
-	RelationalOperator();
-	AdditionExpression();
-	RelationalExpressionPrime();
-}
-
-void Parser::AdditionExpression() {
-	MultiplicationExpression();
-	AdditionExpressionPrime();
-}
-
-void Parser::AdditionExpressionPrime() {
-	AdditionOperator();
-	AdditionExpressionPrime();
-}
-
-void Parser::MultiplicationExpression() {
-	UnaryExpression();
-	MultiplicationExpressionPrime();
-}
-
-void Parser::MultiplicationExpressionPrime() {
-	MultiplicationOperator();
-	MultiplicationExpressionPrime();
-}
-
-void Parser::UnaryExpression() {
-	if(_currentToken->Type == TokenClass::ReservedNot)
-	{
-		ConsumeToken();
-		Factor();
-	}
-	else
-	{
-		Factor();
 	}
 }
 
-void Parser::Factor() {
-	if(_currentToken->Type == TokenClass::Id)
-	{
-		ConsumeToken();
-		if(_currentToken->Type == TokenClass::PunctuationLeftParenthesis)
-		{
-			CallFunction();
-		}
-	}
-	else if(_currentToken->Type == TokenClass::IntegerLiteralDecimal)
-	{
-		ConsumeToken();
-	}
-	else if(_currentToken->Type == TokenClass::IntegerLiteralOctal)
-	{
-		ConsumeToken();
-	}
-	else if(_currentToken->Type == TokenClass::IntegerLiteralHexadecimal)
-	{
-		ConsumeToken();
-	}
-	else if(_currentToken->Type == TokenClass::StringLiteralSingleQuote)
-	{
-		ConsumeToken();
-	}
-	else if(_currentToken->Type == TokenClass::StringLiteralDoubleQuote)
-	{
-		ConsumeToken();
-	}
-	else if(IsCurrentTokenChar()) // Todo: temporary quick fix
-	{
-		ConsumeToken();
-	}
-	else if(_currentToken->Type == TokenClass::BooleanLiteralTrue)
-	{
-		ConsumeToken();
-	}
-	else if(_currentToken->Type == TokenClass::BooleanLiteralFalse)
-	{
-		ConsumeToken();
-	}
-	else if(_currentToken->Type == TokenClass::PunctuationLeftParenthesis)
-	{
-		ConsumeToken();
-	}
-	else
-	{
-		Expression();
-	}
-}
-
-void Parser::MultiplicationOperator() {
-	switch (_currentToken->Type )
+void Parser::MultiplicationOperator()
+{
+	switch (_currentToken.Type)
 	{
 		case TokenClass::OperatorMultiply:
 			ConsumeToken();
+			MultiplicationExpression();
 			break;
 		case TokenClass::OperatorDivide:
 			ConsumeToken();
+			MultiplicationExpression();
 			break;
 		case TokenClass::ReservedDiv:
 			ConsumeToken();
+			MultiplicationExpression();
 			break;
 		case TokenClass::ReservedMod:
 			ConsumeToken();
+			MultiplicationExpression();
 			break;
 		case TokenClass::ReservedAnd:
 			ConsumeToken();
+			MultiplicationExpression();
 			break;
-		default:
-			ThrowSyntaxException("expected a multiplication level operator");
 	}
 }
 
-void Parser::AdditionOperator() {
-	switch (_currentToken->Type)
+void Parser::AdditionOperator()
+{
+	switch (_currentToken.Type)
 	{
 		case TokenClass::OperatorSum:
 			ConsumeToken();
+			AdditionExpression();
 			break;
 		case TokenClass::OperatorSubtract:
 			ConsumeToken();
+			AdditionExpression();
 			break;
 		case TokenClass::ReservedOr:
 			ConsumeToken();
+			AdditionExpression();
 			break;
-		default:
-			ThrowSyntaxException("expected a multiplication level operator");
 	}
 }
 
-void Parser::RelationalOperator() {
-	switch (_currentToken->Type )
+void Parser::RelationalOperator()
+{
+	switch (_currentToken.Type)
 	{
 		case TokenClass::OperatorGreaterThan:
 			ConsumeToken();
+			AdditionExpression();
+			RelationalExpressionPrime();
 			break;
 		case TokenClass::OperatorLessThan:
 			ConsumeToken();
+			AdditionExpression();
+			RelationalExpressionPrime();
 			break;
 		case TokenClass::OperatorGreaterOrEqualTo:
 			ConsumeToken();
+			AdditionExpression();
+			RelationalExpressionPrime();
 			break;
 		case TokenClass::OperatorLessThanOrEqualTo:
 			ConsumeToken();
+			AdditionExpression();
+			RelationalExpressionPrime();
 			break;
 		case TokenClass::OperatorDifferentFrom:
 			ConsumeToken();
+			AdditionExpression();
+			RelationalExpressionPrime();
 			break;
 		case TokenClass::OperatorAssignOrCompare:
 			ConsumeToken();
+			AdditionExpression();
+			RelationalExpressionPrime();
 			break;
-		default:
-			ThrowSyntaxException("expected a multiplication level operator");
 	}
 }
+
+void Parser::AccessorList()
+{
+	if(_currentToken.Type == TokenClass::OperatorAccessor)
+	{
+		ConsumeToken();
+		if(_currentToken.Type == TokenClass::Id)
+		{
+			ConsumeToken();
+		}
+		else
+		{
+			ThrowSyntaxException("Expected id");
+		}
+	}
+	else
+	{
+		//Epsilon
+	}
+}
+
+
+
+
+
 

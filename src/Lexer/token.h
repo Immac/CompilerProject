@@ -71,8 +71,6 @@ namespace WebPascal {
 			HtmlOpenTag,
 			HtmlCloseTag,
 			HtmlContent,
-			PascalCodeOpen,
-			PascalCodeClose,
 			EndOfStatement,
 			ReservedContinue,
 			ReservedBreak,

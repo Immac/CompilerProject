@@ -7,12 +7,14 @@ namespace WebPascal{
 	namespace Syntactic {
 		class Parser {
 		public:
-			Parser(Lexical::LexerRef analyzer);
+
+			Parser(Lexical::Lexer analyzer);
+
 			void Parse();
 
 		private:
-			Lexical::LexerRef _analyzer;
-			Lexical::TokenRef _currentToken;
+			Lexical::Lexer _analyzer;
+			Lexical::Token _currentToken;
 
 			void Program();
 
@@ -32,7 +34,7 @@ namespace WebPascal{
 
 			void Declaration();
 
-			void Y();
+			void DeclarationTail();
 
 			void AssignValue();
 
@@ -139,6 +141,10 @@ namespace WebPascal{
 			void AdditionOperator();
 
 			void RelationalOperator();
+
+			void ExpressionListOptional();
+
+			void AccessorList();
 		};
 
 	}

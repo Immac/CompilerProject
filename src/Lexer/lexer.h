@@ -41,13 +41,14 @@ namespace WebPascal {
 
 			Lexer(std::string content);
 			SourceStream SourceCodeStream;
-			TokenRef GetNextToken();
+			Token GetNextToken();
 			void SetAnalysisMode(AnalysisMode mode);
 			const static int nullTerminator = '\0';
 			std::string OpenCommentParenthesis = "(*";
 			std::string OpenCommentCurlyBrace = "{";
 			std::string CloseCommentParenthesis = "*)";
 			std::string CloseCommentCurlyBrace = "}";
+			std::string OpenPascalCode = "<%";
 
 			std::map<std::string,TokenClass> ReservedWords
 					{
@@ -122,7 +123,7 @@ namespace WebPascal {
 
 			std::vector<char> UnambiguousPunctuation //TODO: deduce this from Punctuation
 					{
-							'=','+','-',')','{','}','[',']','/',';'
+							'=','+','-',')','{','}','[',']','/',';',','
 					};
 
 			std::vector<char> AmbiguousPunctuationStartSymbols //TODO: deduce this from Punctuation
@@ -153,9 +154,9 @@ namespace WebPascal {
 				return std::find(v.begin(),v.end(),what) != v.end();
 			}
 
-			TokenRef PascalToken();
+			Token PascalToken();
 
-			TokenRef HtmlToken();
+			Token HtmlToken();
 		};
 
 		using LexerRef = std::shared_ptr<Lexer>;
