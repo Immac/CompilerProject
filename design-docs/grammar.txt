@@ -2,8 +2,8 @@ PROGRAM -> <HTML> BODYHTML <HTML> $
           
 BODYHTML -> BLOCKHTML BODYHTML'
 
-BODYHTML' -> <% LS %> BODYHTML
- 					| Ep
+BODYHTML' -> LS BODYHTML
+			| Ep
 
 BLOCKHTML ->  HtmlContentList 
 					|Ep 
@@ -37,14 +37,12 @@ PREID -> Id IdBody
 IdBody -> LLAMRFUNCIONSENTENCIA ;
    			| AsignarValor ;
 
-// originalmente teniamos    Declaracion -> var ListaId : id AsignarValor  //lo manejamos como tipo luego
+//lo manejamos como tipo luego
 
-Declaracion -> var FactorComunId 
+Declaracion -> var id Y
 
-FactorComunId	->	 id Y
-
-Y ->  IdOpcional : id     //Lista de ids no puede ser inicializado, id es un tipo
-	| 	: id AsignarValor   //id es un tipo
+Y 	->  	IdOpcional : id     //Lista de ids no puede ser inicializado, id es un tipo
+	|		AsignarValor   //id es un tipo
             
 ListaId -> id IdOpcional
 
@@ -191,9 +189,16 @@ Factor ->   id X
           | lit_char
           | lit_boolean <- true or false palabras reservadas
           | ( EXPRESION )
+		  | 
 
 X -> LLAMRFUNCIONSENTENCIA
+	| .id Y
 	| Ep
+		  
+Y -> .id
+	|e
+	
+	
 		  
 OpRelational -> <
 			| >
@@ -202,9 +207,9 @@ OpRelational -> <
 			| <>
 			| =
 
-OpAdicion -> +
-			| -
-			| Or
+OpAdicion 	-> 	+
+			| 	-
+			|	Or
            
 OpMul -> *
        | / 
