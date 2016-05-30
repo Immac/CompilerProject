@@ -68,8 +68,6 @@ namespace WebPascal{
 
 			void NumberList();
 
-			void NumberOptional();
-
 			void CharacterList();
 
 			void CharacterOptional();
@@ -91,8 +89,6 @@ namespace WebPascal{
 			void Array();
 
 			void ArrayTypes();
-
-			void X();
 
 			void RangeList();
 
@@ -144,7 +140,25 @@ namespace WebPascal{
 
 			void ExpressionListOptional();
 
-			void AccessorList();
+			void Const();
+
+			Lexical::Token ConsumeTerminal(Lexical::TokenClass type);
+
+			void IndexAccess();
+
+			void IntegerLiteral();
+
+			void RealLiteral();
+
+			void StringOrChar();
+
+			void BoolLiteral();
+
+			void IndexAccessOptional();
+
+			void RecordType();
+
+			void TypeDefine();
 		};
 
 	}

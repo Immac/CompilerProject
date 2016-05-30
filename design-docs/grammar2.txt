@@ -1,15 +1,12 @@
-PROGRAM -> <HTML> BODYHTML <HTML> $
+PROGRAM -> <HTML> BODYHTML </HTML> $
           
 BODYHTML -> BLOCKHTML BODYHTML'
 
-BODYHTML' -> LS BODYHTML
-			| Ep
+BODYHTML' -> <% LS %> BODYHTML
+ 					| Ep
 
-BLOCKHTML ->  HtmlContentList 
+BLOCKHTML ->  PlainHTML 
 					|Ep 
-					
-HtmlContentList -> htmlcontent HtmlContentList
-			| Ep
 
 LS -> S LS
    | Ep
@@ -17,42 +14,50 @@ LS -> S LS
 LS_LOOP -> LoopS LS_LOOP
    			| Ep
    
-S -> Declaracion ;
+S -> Declaracion ;    //falta la produccion de variables constantes
    | IF ;
    | PREFOR ;
-   | WHILE ;		
+   | WHILE ;
    | REPEAT ;
+   | CONST ;
    | CASE 
    | DeclareType ;
-   | FUNCTIONDECL ;
+   | FUNCTIONDECL ;k
    | PROCEDUREDECL ;
-   | id ID_BODY
-   | CONST
+   | PREID
    
-CONST -> id ASSIGN_VALUE
+////////////////////////////////////////////////////  
+   
+CONST -> id ConstDecl
 
+ConstDecl -> = expression
+            | : id = expression
+
+/////////////////////////////////////////////////////
 LoopS -> S
        | continue ;
        | break ;
+/////////////////////////////////////////////////////   
+PREID -> Id IdBody
 
-ID_BODY -> CALL_FUNCTION_IN_STATEMENT ;
-   			| ASSIGN_VALUE ;
+IdBody -> LLAMRFUNCIONSENTENCIA ;
+        | := EXPRESION ;
 
-//lo manejamos como tipo luego
+//////////////////////////////////////////////////////
 
-Declaracion -> var id Y
+Declaracion -> var id DeclarationTail
 
-Y 	->  	IdOpcional : id     //Lista de ids no puede ser inicializado, id es un tipo
-	|		ASSIGN_VALUE   //id es un tipo
+DeclarationTail ->  IdOpcional : id     //Lista de ids no puede ser inicializado, id es un tipo
+								| 	: id AsignarValor   //id es un tipo
             
 ListaId -> id IdOpcional
 
 IdOpcional -> , ListaId
 	 					| Ep
 
-ASSIGN_VALUE -> = EXPRESION
+AsignarValor -> = EXPRESION
  							| Ep
-
+//////////////////////////////////////////////////////
 DeclareType -> type id = TYPE 
 
 TYPE -> EnumeratedType 
@@ -66,12 +71,9 @@ TypeDef -> id
 
 Record -> record ListaPropiedades end ;
 
-ListaPropiedades -> propiedad listapropierdades
+ListaPropiedades -> ListaId : RecordType 
 										| Ep
                     
-propiedad -> list_id : RecordType 	;				
-			| id
-			
 RecordType -> EnumeratedType ;
 							| id ;
               | Record
@@ -79,20 +81,23 @@ RecordType -> EnumeratedType ;
 Array -> array [ ListaRangos ] of ArrayTypes
 
 ArrayTypes -> id
-			| Rango
+						| Rango
             | Array
 
 ListaRangos -> Rango ListaRangosOp
 							
 ListaRangosOp -> , ListaRangos
-				| Ep
+								| Ep
                 
-Rango -> expresion oprange expresion //expresion debe ser del mismo tipo y constantes
+Rango -> id 
+      | Subrange
+      
+SubRange -> expresion l expresion //expresion debe ser del mismo tipo y constantes
 
-IF -> if EXPRESION Then BlOCK ELSE
+IF -> if EXPRESION then BlOCK ELSE
 
 BlOCK -> S
-       | begin LS end 
+       | Begin LS End 
        
 ELSE -> else BlOCK
 		  | Ep
@@ -100,7 +105,7 @@ ELSE -> else BlOCK
 PREFOR -> for id ForBody
 
 ForBody -> FOR
-		| FORIN
+					| FORIN
         
 FOR -> := EXPRESION to Expresion do LOOPBLOCK
 
@@ -109,14 +114,14 @@ FORIN ->	in id do LOOPBLOCK
 WHILE -> while EXPRESION do LOOPBLOCK
 
 LOOPBLOCK -> LoopS
-					|begin LS_LOOP end
+			|Begin LS_LOOP End
           
 REPEAT -> repeat LS_LOOP until EXPRESION
 ---------------------------------------
 
 LLAMARFUNCION -> id ( LISTAEXPR )
 
-CALL_FUNCTION_IN_STATEMENT -> ( LISTAEXPR )
+LLAMRFUNCIONSENTENCIA -> ( LISTAEXPR )
 
 LISTAEXPR -> EXPRESSION  LISTAEXPR_OP
 					|Ep
@@ -126,45 +131,32 @@ LISTAEXPR_OP -> , LISTAEXPR
 
 //////////////////////////////////////////////
 
-CASE -> case id of CASELIST
+CASE -> case id index_access of CASELIST end
 
 CASELIST -> CASELITERAL : BLOCK ; CASELIST
-		| ELSE ;
+					| ELSE BLOCK 
           | Ep
           
-CASELITERAL -> ListaNum
-					| ListaChar
-          | ListaId //solo si son const [semantico]
-          | SubRange 
-          
-ListaNum -> lit_num NumOpcional
-
-NumOpcional -> , ListaNum
-	 					| Ep
-
-ListaChar -> lit_char CharOpcional
-
-CharOpcional -> , ListaChar
-	 					| Ep
-
-
+CASELITERAL -> ListaRangos //1+100..4+100, 100+6..100+7 : s := 'lowercase letter (a-z)';
+          | LISTAEXPRE //400+2, 400+3, 1000 div 5: s := 'fuck';
+  
 PROCEDUREDECL -> procedure id PARAMS ; FUNCTIONBlOCK 
 
 FUNCTIONDECL -> function id PARAMS : id ; FUNCTIONBlOCK
 
 PARAMS -> ( LISTADECL )
 
-FUNCTIONBlOCK -> begin LS end
+FUNCTIONBlOCK -> Begin LS End
 
 LISTADECL -> DECLPARAM EXTRADECL
 					| Ep
 
-EXTRADECL -> , LISTADECL
+EXTRADECL -> ; LISTADECL
 					| Ep
           
-DECLPARAM -> id : id  
-		| var ListaId : id
-//  : id se puede poner enmedio de DECLPARAM y EXTRADECL
+DECLPARAM -> ListaId : id  
+					| var ListaId : id
+
 //LE EXPRESSION***
 
 EXPRESION -> RelationalExpresion
@@ -176,44 +168,40 @@ RelationalExpresion' -> OpRelational ExpresionAdicion RelationalExpresion'
              
 ExpresionAdicion -> ExpresionMul ExpresionAdicion'
                 
-ExpresionAdicion' -> OpAdicion ExpresionAdicion'
+ExpresionAdicion' -> OpAdicion ExpresionMul ExpresionAdicion'
 									|  Ep
-                  
+                   
 ExpresionMul -> ExpresionUnary ExpresionMul'
               
-ExpresionMul' -> OpMul ExpresionMul'
+ExpresionMul' -> OpMul ExpresionUnary ExpresionMul'
 							| Ep
               
 ExpresionUnary -> not Factor
 						| Factor
           
-Factor ->   id X
+Factor ->   id index_access
           | lit_num
           | lit_string
           | lit_char
-          | lit_boolean <- true or false palabras reservadas
+          | lit_boolean
+          | lit_real
+          | LLAMARFUNCION
           | ( EXPRESION )
-		  | 
 
-X -> CALL_FUNCTION_IN_STATEMENT
-	| .id Y
-	| Ep
-		  
-Y -> .id
-	|e
-	
-	
-		  
+index_access -> [EXPRESSION] index_access
+								| . id index_access
+                | Ep
+
 OpRelational -> <
-			| >
-			| <=
-			| >= 
-			| <>
-			| =
+							| >
+              | <=
+              | >= 
+              | <>
+              | =
 
-OpAdicion 	-> 	+
-			| 	-
-			|	Or
+OpAdicion -> +
+					 | -
+           | Or
            
 OpMul -> *
        | / 

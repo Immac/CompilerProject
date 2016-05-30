@@ -9,7 +9,6 @@ set(SOURCE_FILES
     Lexer/sourcestream.cpp
     Lexer/sourcestream.h
     Lexer/symbol.h
-    Lexer/token.cpp
     Lexer/token.h
     main.cpp Util/utilities.cpp Util/utilities.h Lexer/Parser.cpp Lexer/Parser.h)
 
