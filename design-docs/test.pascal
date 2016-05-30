@@ -9,9 +9,9 @@
             else
                 writeln('None of the values is matching' );
 			writeln('Exact value of a is: ', a );
-            type TMember = record
-		        {firstname, lastname : string;}
-		        {address: array [1 .. 3] of string;}
+            type TMember = record 
+		        firstname, lastname : string;
+		        address: array [1 .. 3] of string;
 		        phone: string;
 		        birthdate: TDateTime;
 		        paidCurrentSubscription: boolean;
