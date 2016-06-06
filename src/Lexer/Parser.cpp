@@ -1,6 +1,17 @@
 #include <sstream>
+#include <list>
 #include "Parser.h"
-//TODO: fix the issue with consuming the character when trying to know what to do next
+#include "../Tree/ExpressionNode.h"
+#include "../Tree/IntegerNode.h"
+#include "../Tree/RealNode.h"
+#include "../Tree/StringNode.h"
+#include "../Semantic/SemanticException.h"
+#include "../Tree/BoolNode.h"
+#include "../Tree/CharNode.h"
+#include "../Tree/IndexAccessor.h"
+#include "../Tree/IdNode.h"
+#include "../Tree/MemberAccessor.h"
+
 using namespace WebPascal;
 using namespace Syntactic;
 using namespace Lexical;
@@ -121,7 +132,7 @@ void Parser::Statement()
 
 void Parser::Declaration()
 {
-	if(_currentToken.Type == TokenClass::ReservedVar)
+	if (_currentToken.Type == TokenClass::ReservedVar)
 	{
 		ConsumeToken();
 	}
@@ -243,7 +254,6 @@ void Parser::ForOrForIn()
 }
 
 
-
 void Parser::For()
 {
 	ConsumeTerminal(TokenClass::OperatorAssign);
@@ -330,7 +340,7 @@ void Parser::Repeat()
 void Parser::Case()
 {
 	ConsumeTerminal(TokenClass::ReservedCase);
-	IndexAccessOptional();
+	AccessorOptional();
 	ConsumeTerminal(TokenClass::ReservedOf);
 	CaseList();
 	ConsumeTerminal(TokenClass::ReservedEnd);
@@ -339,20 +349,20 @@ void Parser::Case()
 
 void Parser::CaseList()
 {
-	if(_currentToken.Type == TokenClass::ReservedElse)
+	if (_currentToken.Type == TokenClass::ReservedElse)
 	{
 		Else();
 	}
 	else
 	{
 		Expression();
-		if(_currentToken.Type == TokenClass::PunctuationRangeExclusive)
+		if (_currentToken.Type == TokenClass::PunctuationRangeExclusive)
 		{
 			ConsumeTerminal(TokenClass::PunctuationRangeExclusive);
 			Expression();
 			RangeOptional();
 		}
-		else if(_currentToken.Type == TokenClass::PunctuationComma)
+		else if (_currentToken.Type == TokenClass::PunctuationComma)
 		{
 			ConsumeTerminal(TokenClass::PunctuationComma);
 			Expression();
@@ -360,7 +370,7 @@ void Parser::CaseList()
 		}
 		ConsumeTerminal(TokenClass::OperatorTypeAssign);
 		Block();
-		if(_currentToken.Type == TokenClass::ReservedEnd)
+		if (_currentToken.Type == TokenClass::ReservedEnd)
 		{
 		}
 		else
@@ -394,7 +404,8 @@ void Parser::DeclareType()
 	ConsumeTerminal(TokenClass::EndOfStatement);
 }
 
-void Parser::TypeDefine() {
+void Parser::TypeDefine()
+{
 	switch (_currentToken.Type)
 	{
 		case TokenClass::PunctuationLeftParenthesis:
@@ -452,7 +463,7 @@ void Parser::PropertyList()
 	{
 		//Epsilon
 	}
-	if(_currentToken.Type == TokenClass::ReservedEnd)
+	if (_currentToken.Type == TokenClass::ReservedEnd)
 	{
 	}
 	else
@@ -587,7 +598,7 @@ void Parser::ProcedureDeclaration()
 
 void Parser::StartWithId()
 {
-	IndexAccessOptional();
+	AccessorOptional();
 	if (_currentToken.Type == TokenClass::PunctuationLeftParenthesis)
 	{
 		CallFunction();
@@ -605,19 +616,20 @@ void Parser::StartWithId()
 	}
 }
 
-void Parser::CallFunction()
+
+Semantic::ExpressionNode *Parser::CallFunction()
 {
 	ConsumeTerminal(TokenClass::PunctuationLeftParenthesis);
 	ExpressionList();
 	ConsumeTerminal(TokenClass::PunctuationRightParenthesis);
 }
 
-void Parser::Expression()
+Semantic::ExpressionNode *Parser::Expression()
 {
 	RelationalExpression();
 }
 
-void Parser::ExpressionList()
+Semantic::ExpressionNode *Parser::ExpressionList()
 {
 	Expression();
 	ExpressionListOptional();
@@ -680,59 +692,49 @@ void Parser::UnaryExpression()
 	}
 }
 
-void Parser::Factor()
+Semantic::ExpressionNode *Parser::Factor()
 {
 	switch (_currentToken.Type)
 	{
 		case TokenClass::Id:
-			ConsumeTerminal(TokenClass::Id);
-			switch (_currentToken.Type){
+		{
+			auto output = Id();
+			switch (_currentToken.Type)
+			{
 				case TokenClass::PunctuationLeftParenthesis:
-					CallFunction();
-					break;
-				case TokenClass::PunctuationOpenSquareBracket:
-					ConsumeTerminal(TokenClass::PunctuationOpenSquareBracket);
-					Expression();
-					ConsumeTerminal(TokenClass::PunctuationCloseSquareBracket);
-					IndexAccess();
-					break;
-				case TokenClass::OperatorAccessor:
-					ConsumeTerminal(TokenClass::OperatorAccessor);
-					ConsumeTerminal(TokenClass::Id);
-					IndexAccess();
-					break;
+					//Todo: Alimentar call function con output?
+					return CallFunction();
 				default:
-					//Epsilon
-					break;
+					return output;
 			}
-			break;
+		}
 		case TokenClass::IntegerLiteralDecimal:
 		case TokenClass::IntegerLiteralHexadecimal:
 		case TokenClass::IntegerLiteralOctal:
-			IntegerLiteral();
-			break;
+			return IntegerLiteral();
 		case TokenClass::RealLiteral:
-			RealLiteral();
-			break;
+			return RealLiteral();
 		case TokenClass::StringLiteralDoubleQuote:
 		case TokenClass::StringLiteralSingleQuote:
-		case TokenClass ::CharLiteral:
-			StringOrChar();
-			break;
+			return StringLiteral();
+		case TokenClass::CharLiteral:
+			return CharLiteral();
 		case TokenClass::BooleanLiteralTrue:
 		case TokenClass::BooleanLiteralFalse:
-			BoolLiteral();
-			break;
+			return BoolLiteral();
 		case TokenClass::PunctuationLeftParenthesis:
+		{
 			ConsumeTerminal(TokenClass::PunctuationLeftParenthesis);
-			Expression();
+			auto output = Expression();
 			ConsumeTerminal(TokenClass::PunctuationRightParenthesis);
-			break;
+			return output;
+		}
 		default:
 			//Epsilon
 			break;
 	}
 }
+
 
 void Parser::MultiplicationOperator()
 {
@@ -829,7 +831,7 @@ void WebPascal::Syntactic::Parser::ThrowSyntaxException(std::string what)
 	message << errorType << what << std::endl
 	<< "at col: " << _currentToken.Column << " line: " << _currentToken.Row + 1 << std::endl
 	<< "Last lexeme was: " << _currentToken.Lexeme << " of Type  "
-	<< TokenClassNames.at(static_cast<unsigned int>(_currentToken.Type)) << std::endl;
+	<< Token::GetName(_currentToken.Type) << std::endl;
 	throw message.str();
 }
 
@@ -860,8 +862,9 @@ void Parser::Const()
 	ConsumeTerminal(TokenClass::EndOfStatement);
 }
 
-Token Parser::ConsumeTerminal(TokenClass type) {
-	if(_currentToken.Type == type)
+Token Parser::ConsumeTerminal(TokenClass type)
+{
+	if (_currentToken.Type == type)
 	{
 		auto token = _currentToken;
 		this->ConsumeToken();
@@ -870,77 +873,162 @@ Token Parser::ConsumeTerminal(TokenClass type) {
 	else
 	{
 		std::string what = "Expected \" ";
-		what.append(TokenClassNames[static_cast<int>(type)]);
+		what.append(Token::GetName(type));
 		what.append("\"");
 		ThrowSyntaxException(what);
 	}
 }
 
-void Parser::IndexAccess()
+
+Semantic::ExpressionNode *Parser::IntegerLiteral()
+{
+	switch (_currentToken.Type)
+	{
+		case TokenClass::IntegerLiteralDecimal:
+		{
+			auto token = ConsumeTerminal(TokenClass::IntegerLiteralDecimal);
+			return new Semantic::IntegerNode(token.Lexeme);
+		}
+		case TokenClass::IntegerLiteralOctal:
+		{
+			auto token = ConsumeTerminal(TokenClass::IntegerLiteralOctal);
+			return new Semantic::IntegerNode(token.Lexeme);
+		}
+		case TokenClass::IntegerLiteralHexadecimal:
+		{
+			auto token = ConsumeTerminal(TokenClass::IntegerLiteralHexadecimal);
+			return new Semantic::IntegerNode(token.Lexeme);
+		}
+		default:
+			std::stringstream what;
+			what << "Expected " << Token::GetName(TokenClass::IntegerLiteralDecimal) << std::endl
+			<< Token::GetName(TokenClass::IntegerLiteralOctal) << std::endl
+			<< "or " << Token::GetName(TokenClass::IntegerLiteralHexadecimal) << std::endl;
+			throw Semantic::SemanticException(what.str());
+	}
+}
+
+Semantic::ExpressionNode *Parser::RealLiteral()
+{
+	auto token = ConsumeTerminal(TokenClass::RealLiteral);
+	return new Semantic::RealNode(token.Lexeme);
+}
+
+Semantic::ExpressionNode *Parser::StringLiteral()
+{
+	switch (_currentToken.Type)
+	{
+		case TokenClass::StringLiteralDoubleQuote:
+		{
+			auto token = ConsumeTerminal(TokenClass::StringLiteralDoubleQuote);
+			return new Semantic::StringNode(token.Lexeme);
+		}
+		case TokenClass::StringLiteralSingleQuote:
+		{
+			auto token = ConsumeTerminal(TokenClass::StringLiteralSingleQuote);
+			return new Semantic::StringNode(token.Lexeme);
+		}
+		default:
+			std::stringstream what;
+			what << "Expected " << TokenClassNames[(int) TokenClass::StringLiteralSingleQuote] << std::endl
+			<< "or " << TokenClassNames[(int) TokenClass::StringLiteralDoubleQuote] << std::endl;
+			throw Semantic::SemanticException(what.str());
+	}
+
+}
+
+Semantic::ExpressionNode *Parser::BoolLiteral()
+{
+	switch (_currentToken.Type)
+	{
+		case TokenClass::BooleanLiteralFalse:
+		{
+			auto token = ConsumeTerminal(TokenClass::BooleanLiteralFalse);
+			return new Semantic::BoolNode(token.Lexeme);
+		}
+		case TokenClass::BooleanLiteralTrue:
+		{
+			auto token = ConsumeTerminal(TokenClass::BooleanLiteralTrue);
+			return new Semantic::BoolNode(token.Lexeme);
+		}
+		default:
+			std::stringstream what;
+			what << "Expected " << Token::GetName(TokenClass::BooleanLiteralTrue) << std::endl
+			<< "or " << Token::GetName(TokenClass::BooleanLiteralFalse) << std::endl;
+			Semantic::SemanticException(what.str()).Throw();
+	}
+}
+
+Semantic::ExpressionNode *Parser::CharLiteral()
+{
+	auto token = ConsumeTerminal(TokenClass::CharLiteral);
+	return new Semantic::CharNode(token.Lexeme);
+}
+
+Semantic::ExpressionNode *Parser::Id()
+{
+	auto token = ConsumeTerminal(TokenClass::Id);
+	std::string id = token.Lexeme;
+	auto accessorList = Accessor();
+	return new Semantic::IdNode(id, accessorList);
+}
+
+std::list<Semantic::Accessor *> Parser::Accessor()
 {
 	switch (_currentToken.Type)
 	{
 		case TokenClass::PunctuationOpenSquareBracket:
-			ConsumeTerminal(TokenClass::PunctuationOpenSquareBracket);
-			ExpressionList(); // TODO: In this case Expressions should return something
-			ConsumeTerminal(TokenClass::PunctuationCloseSquareBracket);
-			IndexAccessOptional();
-			break;
+		{
+			return IndexAccessor();
+		}
 		case TokenClass::OperatorAccessor:
-			ConsumeTerminal(TokenClass::OperatorAccessor);
-			IndexAccessOptional();
-
-			break;
+		{
+			auto accessorList = std::list<Semantic::Accessor *>();
+			accessorList.push_back(MemberAccessor());
+			return accessorList;
+		}
 		default:
-			//EPSILON
-			break;
+			return std::list<Semantic::Accessor *>();
 	}
 }
 
-void Parser::IntegerLiteral() {
-	//TODO:: This will come in handy later when creating the tree
-	ConsumeToken();
-}
-
-void Parser::RealLiteral() {
-	//TODO:: This will come in handy later when creating the tree
-	ConsumeToken();
-}
-
-void Parser::StringOrChar() {
-	//TODO: This will come in handy later when creating the tree,
-	// length 1 string literal can be used as char literals.
-	ConsumeToken();
-}
-
-void Parser::BoolLiteral() {
-	//TODO: This will come in handy later when creating the tree,
-	ConsumeToken();
-}
-
-void Parser::IndexAccessOptional() {
-	if(_currentToken.Type == TokenClass::Id)
+std::list<Semantic::Accessor *> Parser::AccessorOptional()
+{
+	if (_currentToken.Type == TokenClass::Id)
 	{
 		ConsumeTerminal(TokenClass::Id);
-		IndexAccess();
+		return Accessor();
 	}
-	else if(_currentToken.Type == TokenClass::PunctuationOpenSquareBracket)
+	else if (_currentToken.Type == TokenClass::PunctuationOpenSquareBracket)
 	{
-		IndexAccess();
+		return Accessor();
 	}
-	else if(_currentToken.Type == TokenClass::OperatorAccessor)
+	else if (_currentToken.Type == TokenClass::OperatorAccessor)
 	{
-		IndexAccess();
+		return Accessor();
 	}
+	return std::list<Semantic::Accessor *>();
 }
 
-void Parser::RecordType() {
+std::list<Semantic::Accessor *> Parser::IndexAccessor()
+{
+	ConsumeTerminal(TokenClass::PunctuationOpenSquareBracket);
+	auto expression = ExpressionList(); // TODO: In this case Expressions should return something ???
+	ConsumeTerminal(TokenClass::PunctuationCloseSquareBracket);
 
+	auto accessor = new Semantic::IndexAccessor(expression);
+	auto accessorList = AccessorOptional();
+	accessorList.insert(accessorList.begin(), accessor);
+	return accessorList;
 }
 
-
-
-
+Semantic::Accessor *Parser::MemberAccessor()
+{
+	auto token = ConsumeTerminal(TokenClass::OperatorAccessor);
+	auto accessorList = AccessorOptional();
+	auto idNode = new Semantic::IdNode(token.Lexeme, accessorList);
+	return new Semantic::MemberAccessor(idNode);
+}
 
 
 

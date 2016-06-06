@@ -50,12 +50,15 @@ namespace WebPascal
 
 					void SetAnalysisMode(AnalysisMode mode);
 
-					const static int nullTerminator = '\0';
+					const static char nullTerminator = '\0';
 					std::string OpenCommentParenthesis = "(*";
 					std::string OpenCommentCurlyBrace = "{";
 					std::string CloseCommentParenthesis = "*)";
 					std::string CloseCommentCurlyBrace = "}";
 					std::string OpenPascalCode = "<%";
+					static const char HexSymbol = '$';
+					static const char OctalSymbol = '&';
+					static const char CharSymbol = '#';
 
 					std::map<std::string, TokenClass> ReservedWords
 							{

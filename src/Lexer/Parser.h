@@ -2,6 +2,9 @@
 #define SRC_WEBPASCALPARSER_H
 
 #include "lexer.h"
+#include "../Tree/ExpressionNode.h"
+#include "../Tree/Accessor.h"
+#include "../Tree/MemberAccessor.h"
 
 namespace WebPascal{
 	namespace Syntactic {
@@ -110,9 +113,9 @@ namespace WebPascal{
 
 			void StartWithId();
 
-			void Expression();
+			Semantic::ExpressionNode * Expression();
 
-			void ExpressionList();
+			Semantic::ExpressionNode * ExpressionList();
 
 			void RelationalExpression();
 
@@ -128,9 +131,9 @@ namespace WebPascal{
 
 			void UnaryExpression();
 
-			void Factor();
+			Semantic::ExpressionNode * Factor();
 
-			void CallFunction();
+			Semantic::ExpressionNode * CallFunction();
 
 			void MultiplicationOperator();
 
@@ -144,21 +147,28 @@ namespace WebPascal{
 
 			Lexical::Token ConsumeTerminal(Lexical::TokenClass type);
 
-			void IndexAccess();
+			std::list<Semantic::Accessor *> Accessor();
 
-			void IntegerLiteral();
+			WebPascal::Semantic::ExpressionNode * IntegerLiteral();
 
-			void RealLiteral();
+			Semantic::ExpressionNode * RealLiteral();
 
-			void StringOrChar();
+			Semantic::ExpressionNode * StringLiteral();
 
-			void BoolLiteral();
+			Semantic::ExpressionNode * BoolLiteral();
 
-			void IndexAccessOptional();
-
-			void RecordType();
+			std::list<Semantic::Accessor *> AccessorOptional();
 
 			void TypeDefine();
+
+			Semantic::ExpressionNode * CharLiteral();
+
+			Semantic::ExpressionNode *Id();
+
+
+			std::list<Semantic::Accessor *> IndexAccessor();
+
+			Semantic::Accessor * MemberAccessor();
 		};
 
 	}

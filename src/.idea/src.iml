@@ -2,10 +2,9 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/Util/utilities.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Util/utilities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Semantic/SemanticException.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Semantic/SemanticException.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/sourcestream.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/sourcestream.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/lexer.cpp" isTestSource="false" />
@@ -14,6 +13,37 @@
       <sourceFolder url="file://$MODULE_DIR$/Lexer/symbol.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/lexer.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lexer/Parser.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Util/utilities.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Util/utilities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/IntegerNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/MemberAccessor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/StringNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/Accessor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/IdNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/MultiplicationNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/UnaryOperatorNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/CharNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/ExpressionNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/ExpressionNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/BinaryOperatornode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/AdditionNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/RealNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/UnaryOperatorNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/BinaryOperatornode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/MultiplicationNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/IntegerNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/Accessor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/CharNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/MemberAccessor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/IndexAccessor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/RealNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/AdditionNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/BoolNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/IndexAccessor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/StringNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/IdNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree/BoolNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">

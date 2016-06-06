@@ -68,58 +68,62 @@ Token Lexer::GetPascalToken()
 					lexeme += _currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
-				else if (_currentSymbol.Value == '&')
+				else if (_currentSymbol.Value == OctalSymbol)
 				{
 					state = LexicalState::IntegerLiteralOctal;
 					this->UpdatePosition();
 					lexeme += _currentSymbol.Value;
 					this->ConsumeSymbol();
 				}
-				else if (_currentSymbol.Value == '$')
+				else
 				{
-					state = LexicalState::IntegerLiteralHexadecimalSingle;
-					this->UpdatePosition();
-					lexeme += _currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if (_currentSymbol.Value == '#')
-				{
-					state = LexicalState::CharLiteral;
-					this->UpdatePosition();
-					lexeme += _currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if (_currentSymbol.Value == '\"')
-				{
-					state = LexicalState::StringLiteralDoubleQuote;
-					this->UpdatePosition();
-					lexeme += _currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if (_currentSymbol.Value == '\'')
-				{
-					state = LexicalState::StringLiteralSingleQuote;
-					this->UpdatePosition();
-					lexeme += _currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if (_currentSymbol.Value == '%')
-				{
-					state = LexicalState::SwitchToHtmlAnalysis;
-				}
-				else if (Util::Vector::Contains<char>(this->UnambiguousPunctuation, _currentSymbol.Value))
-				{
-					state = LexicalState::UnambiguousPunctuationState;
-					this->UpdatePosition();
-					lexeme += _currentSymbol.Value;
-					this->ConsumeSymbol();
-				}
-				else if (Util::Vector::Contains<char>(this->AmbiguousPunctuationStartSymbols, _currentSymbol.Value))
-				{
-					state = LexicalState::AmbiguousPunctuation;
-					this->UpdatePosition();
-					lexeme += _currentSymbol.Value;
-					this->ConsumeSymbol();
+
+					if (_currentSymbol.Value == HexSymbol)
+								{
+									state = LexicalState::IntegerLiteralHexadecimalSingle;
+									this->UpdatePosition();
+									lexeme += _currentSymbol.Value;
+									this->ConsumeSymbol();
+								}
+								else if (_currentSymbol.Value == CharSymbol)
+								{
+									state = LexicalState::CharLiteral;
+									this->UpdatePosition();
+									lexeme += _currentSymbol.Value;
+									this->ConsumeSymbol();
+								}
+								else if (_currentSymbol.Value == '\"')
+								{
+									state = LexicalState::StringLiteralDoubleQuote;
+									this->UpdatePosition();
+									lexeme += _currentSymbol.Value;
+									this->ConsumeSymbol();
+								}
+								else if (_currentSymbol.Value == '\'')
+								{
+									state = LexicalState::StringLiteralSingleQuote;
+									this->UpdatePosition();
+									lexeme += _currentSymbol.Value;
+									this->ConsumeSymbol();
+								}
+								else if (_currentSymbol.Value == '%')
+								{
+									state = LexicalState::SwitchToHtmlAnalysis;
+								}
+								else if (Util::Vector::Contains<char>(this->UnambiguousPunctuation, _currentSymbol.Value))
+								{
+									state = LexicalState::UnambiguousPunctuationState;
+									this->UpdatePosition();
+									lexeme += _currentSymbol.Value;
+									this->ConsumeSymbol();
+								}
+								else if (Util::Vector::Contains<char>(this->AmbiguousPunctuationStartSymbols, _currentSymbol.Value))
+								{
+									state = LexicalState::AmbiguousPunctuation;
+									this->UpdatePosition();
+									lexeme += _currentSymbol.Value;
+									this->ConsumeSymbol();
+								}
 				}
 			}
 				break;
