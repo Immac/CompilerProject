@@ -5,8 +5,8 @@
 #include "IndexAccessor.h"
 using namespace WebPascal::Semantic;
 
-IndexAccessor::IndexAccessor(ExpressionNode *expressionNode)
+IndexAccessor::IndexAccessor(ExpressionNode &expressionNode)
+:Expression(expressionNode)
 {
-	this->Expression.reset(expressionNode);
 }
 

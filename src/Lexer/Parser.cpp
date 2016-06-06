@@ -617,19 +617,19 @@ void Parser::StartWithId()
 }
 
 
-Semantic::ExpressionNode *Parser::CallFunction()
+Semantic::ExpressionNode &Parser::CallFunction()
 {
 	ConsumeTerminal(TokenClass::PunctuationLeftParenthesis);
 	ExpressionList();
 	ConsumeTerminal(TokenClass::PunctuationRightParenthesis);
 }
 
-Semantic::ExpressionNode *Parser::Expression()
+Semantic::ExpressionNode &Parser::Expression()
 {
 	RelationalExpression();
 }
 
-Semantic::ExpressionNode *Parser::ExpressionList()
+Semantic::ExpressionNode &Parser::ExpressionList()
 {
 	Expression();
 	ExpressionListOptional();
@@ -692,20 +692,20 @@ void Parser::UnaryExpression()
 	}
 }
 
-Semantic::ExpressionNode *Parser::Factor()
+Semantic::ExpressionNode &Parser::Factor()
 {
 	switch (_currentToken.Type)
 	{
 		case TokenClass::Id:
 		{
-			auto output = Id();
+			auto output = &Id();
 			switch (_currentToken.Type)
 			{
 				case TokenClass::PunctuationLeftParenthesis:
 					//Todo: Alimentar call function con output?
 					return CallFunction();
 				default:
-					return output;
+					return *output;
 			}
 		}
 		case TokenClass::IntegerLiteralDecimal:
@@ -725,9 +725,9 @@ Semantic::ExpressionNode *Parser::Factor()
 		case TokenClass::PunctuationLeftParenthesis:
 		{
 			ConsumeTerminal(TokenClass::PunctuationLeftParenthesis);
-			auto output = Expression();
+			auto output = &Expression();
 			ConsumeTerminal(TokenClass::PunctuationRightParenthesis);
-			return output;
+			return *output;
 		}
 		default:
 			//Epsilon
@@ -880,24 +880,24 @@ Token Parser::ConsumeTerminal(TokenClass type)
 }
 
 
-Semantic::ExpressionNode *Parser::IntegerLiteral()
+Semantic::ExpressionNode &Parser::IntegerLiteral()
 {
 	switch (_currentToken.Type)
 	{
 		case TokenClass::IntegerLiteralDecimal:
 		{
 			auto token = ConsumeTerminal(TokenClass::IntegerLiteralDecimal);
-			return new Semantic::IntegerNode(token.Lexeme);
+			return *new Semantic::IntegerNode(token.Lexeme);
 		}
 		case TokenClass::IntegerLiteralOctal:
 		{
 			auto token = ConsumeTerminal(TokenClass::IntegerLiteralOctal);
-			return new Semantic::IntegerNode(token.Lexeme);
+			return *new Semantic::IntegerNode(token.Lexeme);
 		}
 		case TokenClass::IntegerLiteralHexadecimal:
 		{
 			auto token = ConsumeTerminal(TokenClass::IntegerLiteralHexadecimal);
-			return new Semantic::IntegerNode(token.Lexeme);
+			return *new Semantic::IntegerNode(token.Lexeme);
 		}
 		default:
 			std::stringstream what;
@@ -908,25 +908,25 @@ Semantic::ExpressionNode *Parser::IntegerLiteral()
 	}
 }
 
-Semantic::ExpressionNode *Parser::RealLiteral()
+Semantic::ExpressionNode &Parser::RealLiteral()
 {
 	auto token = ConsumeTerminal(TokenClass::RealLiteral);
-	return new Semantic::RealNode(token.Lexeme);
+	return *new Semantic::RealNode(token.Lexeme);
 }
 
-Semantic::ExpressionNode *Parser::StringLiteral()
+Semantic::ExpressionNode &Parser::StringLiteral()
 {
 	switch (_currentToken.Type)
 	{
 		case TokenClass::StringLiteralDoubleQuote:
 		{
 			auto token = ConsumeTerminal(TokenClass::StringLiteralDoubleQuote);
-			return new Semantic::StringNode(token.Lexeme);
+			return *new Semantic::StringNode(token.Lexeme);
 		}
 		case TokenClass::StringLiteralSingleQuote:
 		{
 			auto token = ConsumeTerminal(TokenClass::StringLiteralSingleQuote);
-			return new Semantic::StringNode(token.Lexeme);
+			return *new Semantic::StringNode(token.Lexeme);
 		}
 		default:
 			std::stringstream what;
@@ -937,19 +937,19 @@ Semantic::ExpressionNode *Parser::StringLiteral()
 
 }
 
-Semantic::ExpressionNode *Parser::BoolLiteral()
+Semantic::ExpressionNode &Parser::BoolLiteral()
 {
 	switch (_currentToken.Type)
 	{
 		case TokenClass::BooleanLiteralFalse:
 		{
 			auto token = ConsumeTerminal(TokenClass::BooleanLiteralFalse);
-			return new Semantic::BoolNode(token.Lexeme);
+			return *new Semantic::BoolNode(token.Lexeme);
 		}
 		case TokenClass::BooleanLiteralTrue:
 		{
 			auto token = ConsumeTerminal(TokenClass::BooleanLiteralTrue);
-			return new Semantic::BoolNode(token.Lexeme);
+			return *new Semantic::BoolNode(token.Lexeme);
 		}
 		default:
 			std::stringstream what;
@@ -959,21 +959,21 @@ Semantic::ExpressionNode *Parser::BoolLiteral()
 	}
 }
 
-Semantic::ExpressionNode *Parser::CharLiteral()
+Semantic::ExpressionNode &Parser::CharLiteral()
 {
 	auto token = ConsumeTerminal(TokenClass::CharLiteral);
-	return new Semantic::CharNode(token.Lexeme);
+	return *new Semantic::CharNode(token.Lexeme);
 }
 
-Semantic::ExpressionNode *Parser::Id()
+Semantic::ExpressionNode &Parser::Id()
 {
 	auto token = ConsumeTerminal(TokenClass::Id);
 	std::string id = token.Lexeme;
 	auto accessorList = Accessor();
-	return new Semantic::IdNode(id, accessorList);
+	return *new Semantic::IdNode(id, accessorList);
 }
 
-std::list<Semantic::Accessor *> Parser::Accessor()
+std::list<Semantic::Accessor *> &Parser::Accessor()
 {
 	switch (_currentToken.Type)
 	{
@@ -983,23 +983,23 @@ std::list<Semantic::Accessor *> Parser::Accessor()
 		}
 		case TokenClass::OperatorAccessor:
 		{
-			auto accessorList = std::list<Semantic::Accessor *>();
-			accessorList.push_back(MemberAccessor());
+			std::list<Semantic::Accessor *> &accessorList = *(new std::list<Semantic::Accessor *>());
+			accessorList.push_back(&MemberAccessorA());
 			return accessorList;
 		}
 		default:
-			return std::list<Semantic::Accessor *>();
+			return *new std::list<Semantic::Accessor *>(); // TODO: ????
 	}
 }
 
-std::list<Semantic::Accessor *> Parser::AccessorOptional()
+std::list<Semantic::Accessor *> &Parser::AccessorOptional()
 {
-	if (_currentToken.Type == TokenClass::Id)
+	/*if (_currentToken.Type == TokenClass::Id)
 	{
 		ConsumeTerminal(TokenClass::Id);
 		return Accessor();
 	}
-	else if (_currentToken.Type == TokenClass::PunctuationOpenSquareBracket)
+	else */if (_currentToken.Type == TokenClass::PunctuationOpenSquareBracket)
 	{
 		return Accessor();
 	}
@@ -1007,27 +1007,29 @@ std::list<Semantic::Accessor *> Parser::AccessorOptional()
 	{
 		return Accessor();
 	}
-	return std::list<Semantic::Accessor *>();
+	return *new std::list<Semantic::Accessor *>();
 }
 
-std::list<Semantic::Accessor *> Parser::IndexAccessor()
+std::list<Semantic::Accessor *> &Parser::IndexAccessor()
 {
 	ConsumeTerminal(TokenClass::PunctuationOpenSquareBracket);
-	auto expression = ExpressionList(); // TODO: In this case Expressions should return something ???
+	Semantic::ExpressionNode &expression = ExpressionList(); // TODO: In this case Expressions should return something ???
 	ConsumeTerminal(TokenClass::PunctuationCloseSquareBracket);
 
-	auto accessor = new Semantic::IndexAccessor(expression);
-	auto accessorList = AccessorOptional();
-	accessorList.insert(accessorList.begin(), accessor);
+	auto accessor = *new Semantic::IndexAccessor(expression);
+	std::list<Semantic::Accessor *> &accessorList = AccessorOptional();
+
+	accessorList.insert(accessorList.begin(), &accessor);
 	return accessorList;
 }
 
-Semantic::Accessor *Parser::MemberAccessor()
+Semantic::Accessor &Parser::MemberAccessorA()
 {
-	auto token = ConsumeTerminal(TokenClass::OperatorAccessor);
-	auto accessorList = AccessorOptional();
+	ConsumeTerminal(TokenClass::OperatorAccessor);
+	auto token = ConsumeTerminal(TokenClass::Id);
+	auto accessorList = Accessor();
 	auto idNode = new Semantic::IdNode(token.Lexeme, accessorList);
-	return new Semantic::MemberAccessor(idNode);
+	return *new Semantic::MemberAccessor(idNode);
 }
 
 

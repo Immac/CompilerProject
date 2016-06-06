@@ -8,6 +8,6 @@
 WebPascal::Semantic::IdNode::IdNode(std::string basic_string, std::list<Accessor *> list)
 :Value(basic_string)
 {
-	this->AccessorList = std::move(list);
+	this->AccessorList = list;
 }
 

@@ -113,9 +113,9 @@ namespace WebPascal{
 
 			void StartWithId();
 
-			Semantic::ExpressionNode * Expression();
+			Semantic::ExpressionNode & Expression();
 
-			Semantic::ExpressionNode * ExpressionList();
+			Semantic::ExpressionNode & ExpressionList();
 
 			void RelationalExpression();
 
@@ -131,9 +131,9 @@ namespace WebPascal{
 
 			void UnaryExpression();
 
-			Semantic::ExpressionNode * Factor();
+			Semantic::ExpressionNode & Factor();
 
-			Semantic::ExpressionNode * CallFunction();
+			Semantic::ExpressionNode & CallFunction();
 
 			void MultiplicationOperator();
 
@@ -147,28 +147,28 @@ namespace WebPascal{
 
 			Lexical::Token ConsumeTerminal(Lexical::TokenClass type);
 
-			std::list<Semantic::Accessor *> Accessor();
+			std::list<Semantic::Accessor *> & Accessor();
 
-			WebPascal::Semantic::ExpressionNode * IntegerLiteral();
+			Semantic::ExpressionNode & IntegerLiteral();
 
-			Semantic::ExpressionNode * RealLiteral();
+			Semantic::ExpressionNode & RealLiteral();
 
-			Semantic::ExpressionNode * StringLiteral();
+			Semantic::ExpressionNode & StringLiteral();
 
-			Semantic::ExpressionNode * BoolLiteral();
+			Semantic::ExpressionNode & BoolLiteral();
 
-			std::list<Semantic::Accessor *> AccessorOptional();
+			std::list<Semantic::Accessor *> & AccessorOptional();
 
 			void TypeDefine();
 
-			Semantic::ExpressionNode * CharLiteral();
+			Semantic::ExpressionNode & CharLiteral();
 
-			Semantic::ExpressionNode *Id();
+			Semantic::ExpressionNode & Id();
 
 
-			std::list<Semantic::Accessor *> IndexAccessor();
+			std::list<Semantic::Accessor *> & IndexAccessor();
 
-			Semantic::Accessor * MemberAccessor();
+			Semantic::Accessor & MemberAccessorA();
 		};
 
 	}

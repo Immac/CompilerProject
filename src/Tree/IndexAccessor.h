@@ -12,22 +12,16 @@ namespace WebPascal
 {
 	namespace Semantic
 	{
-		class IndexAccessor;
-
-		using IndexAccessorUptr = std::unique_ptr<IndexAccessor>;
-
 		class IndexAccessor : public Accessor
 		{
 		public:
 			virtual ~IndexAccessor() override
 			{ }
 
-			IndexAccessor(ExpressionNode *expressionNode);
+			IndexAccessor(ExpressionNode &expressionNode);
 
-			Semantic::ExpressionNodeUptr Expression;
+			ExpressionNode &Expression;
 		};
-
-
 	}
 }
 
