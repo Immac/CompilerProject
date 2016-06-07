@@ -3,9 +3,6 @@
   <component name="AnalysisUIOptions">
     <option name="SCOPE_TYPE" value="3" />
   </component>
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Lexer/Parser.cpp" line="114" />
-  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" assignedExecutableTargets="true" buildAllGenerated="true">
     <generated>
       <config projectName="src" targetName="src" />
@@ -49,7 +46,7 @@
             <file leaf-file-name="ExpressionNode.h" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/Tree/ExpressionNode.h">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="494">
+                  <state relative-caret-position="532">
                     <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
                     <folding />
                   </state>
@@ -72,9 +69,11 @@
             <file leaf-file-name="lexer.h" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/Lexer/lexer.h">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="114">
-                    <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-                    <folding />
+                  <state relative-caret-position="304">
+                    <caret line="112" column="71" selection-start-line="112" selection-start-column="36" selection-end-line="112" selection-end-column="71" />
+                    <folding>
+                      <element signature="e#33#50#0" expanded="true" />
+                    </folding>
                   </state>
                 </provider>
               </entry>
@@ -95,36 +94,95 @@
       <file leaf-file-name="Parser.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Lexer/Parser.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="1020" column="0" selection-start-line="1020" selection-start-column="0" selection-end-line="1020" selection-end-column="0" />
+            <state relative-caret-position="405">
+              <caret line="645" column="1" selection-start-line="645" selection-start-column="1" selection-end-line="645" selection-end-column="1" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#1265#1607#0" expanded="true" />
-                <element signature="e#1609#2505#0" expanded="true" />
-                <element signature="e#7047#7121#0" expanded="true" />
-                <element signature="e#7123#7276#0" expanded="true" />
-                <element signature="e#8095#8256#0" expanded="true" />
-                <element signature="e#8391#8709#0" expanded="true" />
-                <element signature="e#10003#10490#0" expanded="true" />
-                <element signature="e#11089#11509#0" expanded="true" />
-                <element signature="e#11512#11700#0" expanded="true" />
-                <element signature="e#11702#11777#0" expanded="true" />
-                <element signature="e#11779#11875#0" expanded="true" />
-                <element signature="e#12377#12474#0" expanded="true" />
-                <element signature="e#12554#12726#0" expanded="true" />
-                <element signature="e#12728#13817#0" expanded="true" />
-                <element signature="e#15620#16053#0" expanded="true" />
-                <element signature="e#16898#17194#0" expanded="true" />
-                <element signature="e#17197#18127#0" expanded="true" />
-                <element signature="e#18129#18283#0" expanded="true" />
-                <element signature="e#18285#19000#0" expanded="true" />
-                <element signature="e#19002#19665#0" expanded="true" />
-                <element signature="e#19667#19821#0" expanded="true" />
-                <element signature="e#19823#20026#0" expanded="true" />
-                <element signature="e#20028#20486#0" expanded="true" />
-                <element signature="e#20488#20898#0" expanded="true" />
-                <element signature="e#20551#20665#0" expanded="true" />
-                <element signature="e#21410#21699#0" expanded="true" />
+                <element signature="e#491#549#0" expanded="true" />
+                <element signature="e#551#655#0" expanded="true" />
+                <element signature="e#657#716#0" expanded="true" />
+                <element signature="e#718#980#0" expanded="true" />
+                <element signature="e#1165#1507#0" expanded="true" />
+                <element signature="e#1509#2405#0" expanded="true" />
+                <element signature="e#6096#6314#0" expanded="true" />
+                <element signature="e#6933#7007#0" expanded="true" />
+                <element signature="e#7009#7162#0" expanded="true" />
+                <element signature="e#7981#8142#0" expanded="true" />
+                <element signature="e#8277#8595#0" expanded="true" />
+                <element signature="e#9889#10376#0" expanded="true" />
+                <element signature="e#10975#11398#0" expanded="true" />
+                <element signature="e#11401#11694#0" expanded="true" />
+                <element signature="e#11696#11771#0" expanded="true" />
+                <element signature="e#11773#11869#0" expanded="true" />
+                <element signature="e#11872#12045#0" expanded="true" />
+                <element signature="e#12047#12139#0" expanded="true" />
+                <element signature="e#12141#12208#0" expanded="true" />
+                <element signature="e#12210#12304#0" expanded="true" />
+                <element signature="e#12306#12369#0" expanded="true" />
+                <element signature="e#12371#12468#0" expanded="true" />
+                <element signature="e#12470#12546#0" expanded="true" />
+                <element signature="e#12548#12720#0" expanded="true" />
+                <element signature="e#12722#13770#0" expanded="true" />
+                <element signature="e#13773#14317#0" expanded="true" />
+                <element signature="e#15573#16006#0" expanded="true" />
+                <element signature="e#16851#17147#0" expanded="true" />
+                <element signature="e#17150#18080#0" expanded="true" />
+                <element signature="e#18082#18236#0" expanded="true" />
+                <element signature="e#18238#18953#0" expanded="true" />
+                <element signature="e#18955#19618#0" expanded="true" />
+                <element signature="e#19620#19774#0" expanded="true" />
+                <element signature="e#19776#19971#0" expanded="true" />
+                <element signature="e#19973#20421#0" expanded="true" />
+                <element signature="e#20423#20719#0" expanded="true" />
+                <element signature="e#20721#21229#0" expanded="true" />
+                <element signature="e#21231#21524#0" expanded="true" />
+                <marker date="1465278687390" expanded="false" signature="485:489" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="1011:1163" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="2434:2853" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="2886:3289" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="3318:3450" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="3470:3593" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="3616:3862" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="3884:4026" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="4054:4344" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="4366:4543" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="4566:4701" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="4728:4982" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="5013:5429" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="5464:5751" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="5774:5893" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="5917:6094" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="6340:6931" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="7191:7388" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="7416:7804" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="7878:7979" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="8166:8275" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="8618:8858" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="8886:9072" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="9099:9131" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="9154:9244" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="9275:9387" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="9424:9714" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="9738:9887" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="10422:10587" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="10618:10727" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="10766:10973" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="14351:14651" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="14687:15495" ph="{...}" />
+                <marker date="1465278687390" expanded="false" signature="15525:15571" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lexer.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#593#11709#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -133,72 +191,20 @@
       <file leaf-file-name="Parser.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lexer/Parser.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="664">
+              <caret line="170" column="43" selection-start-line="170" selection-start-column="43" selection-end-line="170" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IndexAccessor.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tree/IndexAccessor.h">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IndexAccessor.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tree/IndexAccessor.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="185">
+              <caret line="875" column="0" selection-start-line="875" selection-start-column="0" selection-end-line="875" selection-end-column="0" />
               <folding>
-                <element signature="e#114#206#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="memory" pinned="false" current-in-tab="false">
-        <entry file="file://C:/lib/mingw2/lib/gcc/mingw32/4.9.3/include/c++/memory">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sourcestream.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Lexer/sourcestream.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MemberAccessor.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tree/MemberAccessor.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MemberAccessor.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tree/MemberAccessor.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
-              <folding>
-                <element signature="e#108#129#0" expanded="true" />
+                <element signature="e#1199#1282#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -207,12 +213,12 @@
       <file leaf-file-name="IdNode.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tree/IdNode.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
+            <state relative-caret-position="190">
+              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
               <folding>
                 <element signature="e#0#2#0" expanded="true" />
                 <element signature="e#49#64#0" expanded="true" />
-                <element signature="e#86#228#0" expanded="true" />
+                <element signature="e#86#220#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -221,10 +227,22 @@
       <file leaf-file-name="IdNode.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tree/IdNode.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+            <state relative-caret-position="437">
+              <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
               <folding>
                 <element signature="e#92#109#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MemberAccessor.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Tree/MemberAccessor.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+              <folding>
+                <element signature="e#108#129#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -240,7 +258,6 @@
         <option value="$PROJECT_DIR$/Lexer/symbol.h" />
         <option value="$PROJECT_DIR$/Lexer/sourcestream.cpp" />
         <option value="$PROJECT_DIR$/Lexer/sourcestream.h" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Tree/ExpressionNode.h" />
         <option value="$PROJECT_DIR$/Tree/ExpressionNode.cpp" />
         <option value="$PROJECT_DIR$/Tree/UnaryOperatorNode.h" />
@@ -268,14 +285,15 @@
         <option value="$PROJECT_DIR$/Lexer/lexer.h" />
         <option value="$PROJECT_DIR$/Tree/Accessor.cpp" />
         <option value="$PROJECT_DIR$/Tree/Accessor.h" />
-        <option value="$PROJECT_DIR$/Lexer/Parser.h" />
         <option value="$PROJECT_DIR$/Tree/MemberAccessor.cpp" />
         <option value="$PROJECT_DIR$/Tree/MemberAccessor.h" />
-        <option value="$PROJECT_DIR$/Tree/IdNode.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/Tree/IdNode.cpp" />
         <option value="$PROJECT_DIR$/Tree/IndexAccessor.cpp" />
         <option value="$PROJECT_DIR$/Tree/IndexAccessor.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/Tree/IdNode.h" />
+        <option value="$PROJECT_DIR$/Tree/IdNode.cpp" />
+        <option value="$PROJECT_DIR$/Lexer/Parser.h" />
         <option value="$PROJECT_DIR$/Lexer/Parser.cpp" />
       </list>
     </option>
@@ -289,7 +307,7 @@
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-7" />
-    <option name="width" value="1241" />
+    <option name="width" value="1247" />
     <option name="height" value="1087" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -387,6 +405,34 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Tree" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lexer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -607,21 +653,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1241" height="1087" extended-state="0" />
+    <frame x="-7" y="0" width="1247" height="1087" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3285568" sideWeight="0.4970906" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23848516" sideWeight="0.6302041" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23848516" sideWeight="0.6302041" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23848516" sideWeight="0.36979592" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32809225" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32753327" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18040816" sideWeight="0.37365592" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17952883" sideWeight="0.36874053" order="0" side_tool="false" content_ui="combo" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32548618" sideWeight="0.4187755" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32548618" sideWeight="0.4187755" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28408164" sideWeight="0.42664874" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18040816" sideWeight="0.6263441" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17952883" sideWeight="0.6312595" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40327534" sideWeight="0.37462908" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -645,49 +691,40 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint enabled="true" log-message="true" suspend="NONE" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <dependency id="0" />
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>875</line>
+          <option name="timeStamp" value="256" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" log-message="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <dependency leave-enabled="true" master-id="0" />
           <url>file://$PROJECT_DIR$/Lexer/Parser.cpp</url>
-          <line>399</line>
-          <option name="timeStamp" value="218" />
+          <line>83</line>
+          <option name="timeStamp" value="259" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" log-message="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <dependency leave-enabled="true" master-id="0" />
+          <url>file://$PROJECT_DIR$/Lexer/Parser.cpp</url>
+          <line>125</line>
+          <option name="timeStamp" value="261" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Lexer/Parser.cpp</url>
-          <line>454</line>
-          <option name="timeStamp" value="219" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Lexer/Parser.cpp</url>
-          <line>1021</line>
-          <option name="timeStamp" value="233" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Lexer/Parser.cpp</url>
-          <line>1019</line>
-          <option name="timeStamp" value="234" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Lexer/Parser.cpp</url>
-          <line>981</line>
-          <option name="timeStamp" value="236" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Lexer/Parser.cpp</url>
-          <line>985</line>
-          <option name="timeStamp" value="238" />
+          <line>337</line>
+          <option name="timeStamp" value="262" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="239" />
+      <option name="time" value="263" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
         <watch expression="((WebPascal::Lexical::Token)(((WebPascal::Syntactic::Parser * const)(this))-&gt;_currentToken)).Lexeme" />
         <watch expression="((WebPascal::Lexical::Token)(((WebPascal::Syntactic::Parser * const)(this))-&gt;_currentToken)).Row" />
-        <watch expression="*accessor" language="ObjectiveC" />
-        <watch expression="accessorList.begin()" language="ObjectiveC" />
-        <watch expression="(MemberAccessor)(*accessorList.front())" language="ObjectiveC" />
+        <watch expression="(Semantic::IndexAccessor)*((Semantic::IdNode)*output).AccessorList.front()" language="ObjectiveC" />
       </configuration>
     </watches-manager>
   </component>
@@ -724,13 +761,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="602">
-          <caret line="936" column="0" selection-start-line="936" selection-start-column="0" selection-end-line="936" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -808,9 +838,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
           <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-          <folding>
-            <element signature="e#100#117#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -819,8 +846,8 @@
         <state relative-caret-position="3344">
           <caret line="176" column="0" selection-start-line="176" selection-start-column="0" selection-end-line="176" selection-end-column="0" />
           <folding>
-            <element signature="e#33#50#0" expanded="true" />
-            <element signature="e#4835#4898#0" expanded="true" />
+            <element signature="e#33#50#0" expanded="false" />
+            <element signature="e#4835#4898#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -829,11 +856,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#49#67#0" expanded="true" />
-            <element signature="e#137#329#0" expanded="true" />
-            <element signature="e#331#381#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -856,16 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1653">
-          <caret line="87" column="75" selection-start-line="87" selection-start-column="75" selection-end-line="87" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tree/IntegerNode.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="722">
@@ -882,7 +894,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -890,10 +901,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="741">
           <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-          <folding>
-            <element signature="e#49#70#0" expanded="true" />
-            <element signature="e#402#739#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -901,9 +908,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
           <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
-          <folding>
-            <element signature="e#96#123#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -911,10 +915,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-          <folding>
-            <element signature="e#74#164#0" expanded="true" />
-            <element signature="e#166#253#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -922,17 +922,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#49#67#0" expanded="true" />
-            <element signature="e#200#390#0" expanded="true" />
-            <element signature="e#392#694#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tree/ExpressionNode.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
+        <state relative-caret-position="532">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding />
         </state>
@@ -958,11 +953,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
           <caret line="677" column="0" selection-start-line="677" selection-start-column="0" selection-end-line="677" selection-end-column="0" />
-          <folding>
-            <element signature="e#18882#19345#0" expanded="false" />
-            <element signature="e#19356#20103#0" expanded="false" />
-            <element signature="e#20107#20408#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -970,7 +960,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
           <caret line="398" column="0" selection-start-line="398" selection-start-column="0" selection-end-line="398" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -978,9 +967,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
           <caret line="312" column="0" selection-start-line="312" selection-start-column="0" selection-end-line="312" selection-end-column="0" />
-          <folding>
-            <element signature="e#10172#12822#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -988,7 +974,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="548" column="0" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -996,7 +981,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="379">
           <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1004,7 +988,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
           <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1013,16 +996,6 @@
         <state relative-caret-position="19">
           <caret line="1" column="45" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tree/IdNode.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-          <folding>
-            <element signature="e#92#109#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1044,38 +1017,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Tree/MemberAccessor.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
+        <state relative-caret-position="114">
           <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tree/MemberAccessor.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
-          <folding>
-            <element signature="e#108#129#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tree/IdNode.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#2#0" expanded="true" />
-            <element signature="e#49#64#0" expanded="true" />
-            <element signature="e#86#228#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Lexer/Parser.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1088,17 +1031,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lexer/lexer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/lib/mingw2/lib/gcc/mingw32/4.9.3/include/c++/memory">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
+        <state relative-caret-position="1520">
           <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding />
         </state>
@@ -1106,7 +1041,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Tree/IndexAccessor.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
+        <state relative-caret-position="228">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="e#114#206#0" expanded="true" />
@@ -1122,38 +1057,155 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lexer/Parser.cpp">
+    <entry file="file://$PROJECT_DIR$/Tree/MemberAccessor.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="1020" column="0" selection-start-line="1020" selection-start-column="0" selection-end-line="1020" selection-end-column="0" />
+        <state relative-caret-position="304">
+          <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+          <folding>
+            <element signature="e#108#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tree/IdNode.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
+          <folding>
+            <element signature="e#92#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tree/IdNode.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#2#0" expanded="true" />
+            <element signature="e#49#64#0" expanded="true" />
+            <element signature="e#86#220#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="875" column="0" selection-start-line="875" selection-start-column="0" selection-end-line="875" selection-end-column="0" />
+          <folding>
+            <element signature="e#1199#1282#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lexer/lexer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="112" column="71" selection-start-line="112" selection-start-column="36" selection-end-line="112" selection-end-column="71" />
+          <folding>
+            <element signature="e#33#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lexer/Parser.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="664">
+          <caret line="170" column="43" selection-start-line="170" selection-start-column="43" selection-end-line="170" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lexer/lexer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#1265#1607#0" expanded="true" />
-            <element signature="e#1609#2505#0" expanded="true" />
-            <element signature="e#7047#7121#0" expanded="true" />
-            <element signature="e#7123#7276#0" expanded="true" />
-            <element signature="e#8095#8256#0" expanded="true" />
-            <element signature="e#8391#8709#0" expanded="true" />
-            <element signature="e#10003#10490#0" expanded="true" />
-            <element signature="e#11089#11509#0" expanded="true" />
-            <element signature="e#11512#11700#0" expanded="true" />
-            <element signature="e#11702#11777#0" expanded="true" />
-            <element signature="e#11779#11875#0" expanded="true" />
-            <element signature="e#12377#12474#0" expanded="true" />
-            <element signature="e#12554#12726#0" expanded="true" />
-            <element signature="e#12728#13817#0" expanded="true" />
-            <element signature="e#15620#16053#0" expanded="true" />
-            <element signature="e#16898#17194#0" expanded="true" />
-            <element signature="e#17197#18127#0" expanded="true" />
-            <element signature="e#18129#18283#0" expanded="true" />
-            <element signature="e#18285#19000#0" expanded="true" />
-            <element signature="e#19002#19665#0" expanded="true" />
-            <element signature="e#19667#19821#0" expanded="true" />
-            <element signature="e#19823#20026#0" expanded="true" />
-            <element signature="e#20028#20486#0" expanded="true" />
-            <element signature="e#20488#20898#0" expanded="true" />
-            <element signature="e#20551#20665#0" expanded="true" />
-            <element signature="e#21410#21699#0" expanded="true" />
+            <element signature="e#593#11709#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lexer/Parser.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="645" column="1" selection-start-line="645" selection-start-column="1" selection-end-line="645" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#491#549#0" expanded="true" />
+            <element signature="e#551#655#0" expanded="true" />
+            <element signature="e#657#716#0" expanded="true" />
+            <element signature="e#718#980#0" expanded="true" />
+            <element signature="e#1165#1507#0" expanded="true" />
+            <element signature="e#1509#2405#0" expanded="true" />
+            <element signature="e#6096#6314#0" expanded="true" />
+            <element signature="e#6933#7007#0" expanded="true" />
+            <element signature="e#7009#7162#0" expanded="true" />
+            <element signature="e#7981#8142#0" expanded="true" />
+            <element signature="e#8277#8595#0" expanded="true" />
+            <element signature="e#9889#10376#0" expanded="true" />
+            <element signature="e#10975#11398#0" expanded="true" />
+            <element signature="e#11401#11694#0" expanded="true" />
+            <element signature="e#11696#11771#0" expanded="true" />
+            <element signature="e#11773#11869#0" expanded="true" />
+            <element signature="e#11872#12045#0" expanded="true" />
+            <element signature="e#12047#12139#0" expanded="true" />
+            <element signature="e#12141#12208#0" expanded="true" />
+            <element signature="e#12210#12304#0" expanded="true" />
+            <element signature="e#12306#12369#0" expanded="true" />
+            <element signature="e#12371#12468#0" expanded="true" />
+            <element signature="e#12470#12546#0" expanded="true" />
+            <element signature="e#12548#12720#0" expanded="true" />
+            <element signature="e#12722#13770#0" expanded="true" />
+            <element signature="e#13773#14317#0" expanded="true" />
+            <element signature="e#15573#16006#0" expanded="true" />
+            <element signature="e#16851#17147#0" expanded="true" />
+            <element signature="e#17150#18080#0" expanded="true" />
+            <element signature="e#18082#18236#0" expanded="true" />
+            <element signature="e#18238#18953#0" expanded="true" />
+            <element signature="e#18955#19618#0" expanded="true" />
+            <element signature="e#19620#19774#0" expanded="true" />
+            <element signature="e#19776#19971#0" expanded="true" />
+            <element signature="e#19973#20421#0" expanded="true" />
+            <element signature="e#20423#20719#0" expanded="true" />
+            <element signature="e#20721#21229#0" expanded="true" />
+            <element signature="e#21231#21524#0" expanded="true" />
+            <marker date="1465278687390" expanded="false" signature="485:489" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="1011:1163" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="2434:2853" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="2886:3289" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="3318:3450" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="3470:3593" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="3616:3862" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="3884:4026" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="4054:4344" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="4366:4543" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="4566:4701" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="4728:4982" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="5013:5429" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="5464:5751" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="5774:5893" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="5917:6094" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="6340:6931" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="7191:7388" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="7416:7804" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="7878:7979" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="8166:8275" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="8618:8858" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="8886:9072" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="9099:9131" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="9154:9244" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="9275:9387" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="9424:9714" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="9738:9887" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="10422:10587" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="10618:10727" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="10766:10973" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="14351:14651" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="14687:15495" ph="{...}" />
+            <marker date="1465278687390" expanded="false" signature="15525:15571" ph="{...}" />
           </folding>
         </state>
       </provider>

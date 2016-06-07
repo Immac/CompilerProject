@@ -133,8 +133,6 @@ namespace WebPascal{
 
 			Semantic::ExpressionNode & Factor();
 
-			Semantic::ExpressionNode & CallFunction();
-
 			void MultiplicationOperator();
 
 			void AdditionOperator();
@@ -163,12 +161,14 @@ namespace WebPascal{
 
 			Semantic::ExpressionNode & CharLiteral();
 
-			Semantic::ExpressionNode & Id();
+			Semantic::IdNode & Id();
 
 
 			std::list<Semantic::Accessor *> & IndexAccessor();
 
-			Semantic::Accessor & MemberAccessorA();
+			Semantic::Accessor & ParseMemberAccessor();
+
+			Semantic::ExpressionNode & CallFunction(Semantic::IdNode &functionId);
 		};
 
 	}

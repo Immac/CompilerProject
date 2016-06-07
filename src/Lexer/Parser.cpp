@@ -1,7 +1,6 @@
 #include <sstream>
 #include <list>
 #include "Parser.h"
-#include "../Tree/ExpressionNode.h"
 #include "../Tree/IntegerNode.h"
 #include "../Tree/RealNode.h"
 #include "../Tree/StringNode.h"
@@ -9,8 +8,6 @@
 #include "../Tree/BoolNode.h"
 #include "../Tree/CharNode.h"
 #include "../Tree/IndexAccessor.h"
-#include "../Tree/IdNode.h"
-#include "../Tree/MemberAccessor.h"
 
 using namespace WebPascal;
 using namespace Syntactic;
@@ -340,7 +337,7 @@ void Parser::Repeat()
 void Parser::Case()
 {
 	ConsumeTerminal(TokenClass::ReservedCase);
-	AccessorOptional();
+	Id();
 	ConsumeTerminal(TokenClass::ReservedOf);
 	CaseList();
 	ConsumeTerminal(TokenClass::ReservedEnd);
@@ -598,10 +595,10 @@ void Parser::ProcedureDeclaration()
 
 void Parser::StartWithId()
 {
-	AccessorOptional();
+	auto item = Id();
 	if (_currentToken.Type == TokenClass::PunctuationLeftParenthesis)
 	{
-		CallFunction();
+		CallFunction(item);
 		ConsumeTerminal(TokenClass::EndOfStatement);
 	}
 	else if (_currentToken.Type == TokenClass::OperatorAssign)
@@ -612,16 +609,19 @@ void Parser::StartWithId()
 	}
 	else
 	{
-		ThrowSyntaxException("Expected ( or =");
+		ThrowSyntaxException("Expected ( or :=");
 	}
 }
 
 
-Semantic::ExpressionNode &Parser::CallFunction()
+Semantic::ExpressionNode &Parser::CallFunction(Semantic::IdNode &functionId)
 {
+	//TODO:: ???????
 	ConsumeTerminal(TokenClass::PunctuationLeftParenthesis);
 	ExpressionList();
 	ConsumeTerminal(TokenClass::PunctuationRightParenthesis);
+
+	return *new Semantic::IntegerNode("0"); //TODO ?????????
 }
 
 Semantic::ExpressionNode &Parser::Expression()
@@ -698,14 +698,13 @@ Semantic::ExpressionNode &Parser::Factor()
 	{
 		case TokenClass::Id:
 		{
-			auto output = &Id();
+			auto *idNode = &Id();
 			switch (_currentToken.Type)
 			{
 				case TokenClass::PunctuationLeftParenthesis:
-					//Todo: Alimentar call function con output?
-					return CallFunction();
+					return CallFunction(*idNode);
 				default:
-					return *output;
+					return *idNode;
 			}
 		}
 		case TokenClass::IntegerLiteralDecimal:
@@ -965,7 +964,7 @@ Semantic::ExpressionNode &Parser::CharLiteral()
 	return *new Semantic::CharNode(token.Lexeme);
 }
 
-Semantic::ExpressionNode &Parser::Id()
+Semantic::IdNode &Parser::Id()
 {
 	auto token = ConsumeTerminal(TokenClass::Id);
 	std::string id = token.Lexeme;
@@ -984,22 +983,17 @@ std::list<Semantic::Accessor *> &Parser::Accessor()
 		case TokenClass::OperatorAccessor:
 		{
 			std::list<Semantic::Accessor *> &accessorList = *(new std::list<Semantic::Accessor *>());
-			accessorList.push_back(&MemberAccessorA());
+			accessorList.push_back(&ParseMemberAccessor());
 			return accessorList;
 		}
 		default:
-			return *new std::list<Semantic::Accessor *>(); // TODO: ????
+			return *new std::list<Semantic::Accessor *>();
 	}
 }
 
 std::list<Semantic::Accessor *> &Parser::AccessorOptional()
 {
-	/*if (_currentToken.Type == TokenClass::Id)
-	{
-		ConsumeTerminal(TokenClass::Id);
-		return Accessor();
-	}
-	else */if (_currentToken.Type == TokenClass::PunctuationOpenSquareBracket)
+	if (_currentToken.Type == TokenClass::PunctuationOpenSquareBracket)
 	{
 		return Accessor();
 	}
@@ -1023,7 +1017,7 @@ std::list<Semantic::Accessor *> &Parser::IndexAccessor()
 	return accessorList;
 }
 
-Semantic::Accessor &Parser::MemberAccessorA()
+Semantic::Accessor &Parser::ParseMemberAccessor()
 {
 	ConsumeTerminal(TokenClass::OperatorAccessor);
 	auto token = ConsumeTerminal(TokenClass::Id);

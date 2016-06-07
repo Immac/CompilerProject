@@ -5,9 +5,8 @@
 #include <list>
 #include "IdNode.h"
 
-WebPascal::Semantic::IdNode::IdNode(std::string basic_string, std::list<Accessor *> list)
-:Value(basic_string)
+WebPascal::Semantic::IdNode::IdNode(std::string basic_string, std::list<Accessor *> &list)
+:Value(basic_string),AccessorList(list)
 {
-	this->AccessorList = list;
 }
 

@@ -20,9 +20,9 @@ namespace WebPascal
 		class IdNode : public ExpressionNode
 		{
 		public:
-			IdNode(std::string basic_string, std::list<Accessor *> list);
+			IdNode(std::string basic_string, std::list<Accessor *> &list);
 
-			std::list<Accessor *> AccessorList;
+			std::list<Accessor *> &AccessorList;
 			std::string Value;
 		};
 	}

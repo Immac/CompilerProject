@@ -10,34 +10,41 @@
 
 using namespace WebPascal::Lexical;
 
-class LexicalAnalysisSteps {
+class LexicalAnalysisSteps
+{
 private:
 	Lexer _lexer = Lexer("");
 	std::vector<Token> _tokenList;
 public:
 
-	void HtmlContext(std::string content) {
+	void HtmlContext(std::string content)
+	{
 		this->_lexer = Lexer(content);
 	}
 
-	void PascalContext(std::string content) {
+	void PascalContext(std::string content)
+	{
 		this->_lexer = Lexer(content);
 		this->_lexer.SetAnalysisMode(Lexer::AnalysisMode::Pascal);
 	}
 
-	void Tokenize() {
+	void Tokenize()
+	{
 		Token currentToken = _lexer.GetNextToken();
 
-		do {
+		do
+		{
 			_tokenList.push_back(currentToken);
 			currentToken = _lexer.GetNextToken();
 		} while (currentToken.Type != TokenClass::EndOfFile);
 		_tokenList.push_back(currentToken);
 	}
 
-	std::vector<Token> GetTokenList() { return this->_tokenList; }
+	std::vector<Token> GetTokenList()
+	{ return this->_tokenList; }
 
-	void AssertTokenValidity(int index, TokenClass type, std::string lexeme, int row, int column) {
+	void AssertTokenValidity(int index, TokenClass type, std::string lexeme, int row, int column)
+	{
 		auto token = this->_tokenList.at(index);
 		REQUIRE(token.Type == type);
 		REQUIRE(token.Lexeme == lexeme);
@@ -45,7 +52,8 @@ public:
 		REQUIRE(token.Column == column);
 	}
 
-	void Parse() {
+	void Parse()
+	{
 		WebPascal::Syntactic::Parser parser(_lexer);
 		parser.Parse();
 	};
@@ -744,191 +752,243 @@ SCENARIO("Lexical Analysis", "[vector]")
 	}
 }
 
-SCENARIO("Syntactic Analysis", "") {
+SCENARIO("Syntactic Analysis", "")
+{
 	LexicalAnalysisSteps steps;
-	GIVEN("other simple program") {
+	GIVEN("other simple program")
+	{
 		std::string sourceCode = "<html><%Write('Hello World!');Readln();%></html>";
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("yet another simple program 2") {
+	GIVEN("yet another simple program 2")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("simple-test-2.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("a simple program 1") {
+	GIVEN("a simple program 1")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("simple-test-1.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("a simple program 3") {
+	GIVEN("a simple program 3")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("simple-test-3.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("a simple program 4") {
+	GIVEN("a simple program 4")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("simple-test-4.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("a simple program with while statements") {
+	GIVEN("a simple program with while statements")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("while-test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("a simple program with repeat statements") {
+	GIVEN("a simple program with repeat statements")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("repeat-test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("a simple program with const declarations") {
+	GIVEN("a simple program with const declarations")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("const-declaration.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("provided the file accessors.pas") {
+	GIVEN("provided the file accessors.pas")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("accessors.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("provided the file case-test.pas ") {
+	GIVEN("provided the file case-test.pas ")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("case-test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("provided the file declare-method-test.pas ") {
+	GIVEN("provided the file declare-method-test.pas ")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("declare-method-test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("provided the file declare-function-test.pas ") {
+	GIVEN("provided the file declare-function-test.pas ")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("declare-function-test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
 
-	GIVEN("yet another simple program") {
+	GIVEN("yet another simple program")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("simple-test-3.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("yet another simple program call-function-test.pas") {
+	GIVEN("yet another simple program call-function-test.pas")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("call-function-test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("yet another simple program typedef-test.pas") {
+	GIVEN("yet another simple program typedef-test.pas")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("typedef-test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("yet another simple program record.pas") {
+	GIVEN("yet another simple program record.pas")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("record.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
 	}
 
-	GIVEN("a complex program test.pas") {
+	GIVEN("a complex program test.pas")
+	{
 		std::string sourceCode = Util::File::LoadTextFile("test.pas");
 		steps.HtmlContext(sourceCode);
-		WHEN("we parse") {
+		WHEN("we parse")
+		{
 			steps.Parse();
-			THEN("it should pass") {
+			THEN("it should pass")
+			{
 				//TODO: Asserts, for now it's ok if it passes
 			}
 		}
